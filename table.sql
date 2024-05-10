@@ -3,7 +3,7 @@
 create table admin(
 	ID_Admin int,
     Name_Admin varchar(100),
-    PhoneNum_Admin varchar(100),
+    PhoneNum_Admin varchar(25),
     Email_Admin varchar(100),
     Password_Admin varchar(15),
     constraint PK_admin primary key(ID_Admin)
@@ -12,7 +12,7 @@ create table admin(
 create table customer(
 	ID_Customer int,
     Name_Customer varchar(100),
-    PhoneNum_Customer varchar(100),
+    PhoneNum_Customer varchar(25),
     Email_Customer varchar(100),
     Password_Customer varchar(15),
     DOB date,
