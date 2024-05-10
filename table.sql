@@ -1,3 +1,5 @@
+-- create database egringotts
+-- run above line first before create table, then select the databse name on shemas, on left 
 create table admin(
 	ID_Admin int,
     Name_Admin varchar(100),
@@ -41,3 +43,4 @@ create table transaction(
     references account(AccountNum)
     on delete cascade
 );
+
