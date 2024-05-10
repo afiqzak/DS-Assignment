@@ -21,7 +21,7 @@ create table customer(
 );
 
 create table account(
-	AccountNum int,
+	AccountNum varchar(19),
     ID_Customer int,
     Balance int,
     Tier varchar(50),
@@ -33,7 +33,7 @@ create table account(
 
 create table transaction(
 	ID_Transaction int,
-    AccountNum int,
+    AccountNum varchar(19),
     Amount int,
     Type varchar(25),
     Date datetime default now(),
