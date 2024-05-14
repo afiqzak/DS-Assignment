@@ -11,8 +11,8 @@ values 	('1234 1233 1234', 10001, 100000, 'Platinum Patronus'),
 	('1245 1233 1312', 10002, 100000, 'Silver Snitch'),
         ('7342 2313 1232', 10003, 100000, 'Golden Galleon')
 
-insert into transaction (ID_Transaction, AccountNum, Amount, Type, Description)
-values 	(1001, '1234 1233 1234', 10, 'entertainment', 'iedciuwb'),
-	(1002, '1245 1233 1312', 102, 'food', 'chrbhieubc'),
-        (1003, '7342 2313 1232', 101, 'essential', 'dceiw')
+insert into transaction (ID_Transaction, Sender, Receipent, Amount, Type, Description)
+values 	(1001, '1234 1233 1234', '7342 2313 1232', 10, 'entertainment', 'iedciuwb'),
+	(1002, '1245 1233 1312', '7342 2313 1232', 102, 'food', 'chrbhieubc'),
+        (1003, '7342 2313 1232', '1245 1233 1312', 101, 'essential', 'dceiw')
         
