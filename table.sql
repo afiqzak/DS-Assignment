@@ -33,13 +33,17 @@ create table account(
 
 create table transaction(
 	ID_Transaction int,
-    AccountNum varchar(19),
+    Sender varchar(19),
+    Receipent varchar(19),
     Amount int,
     Type varchar(25),
     Date datetime default now(),
     Description varchar(100),
     constraint PK_transaction primary key(ID_Transaction),
-    constraint PF_MakeTrans foreign key (AccountNum)
+    constraint PF_MakeTrans foreign key (Sender)
+    references account(AccountNum)
+    on delete cascade,
+    constraint PF_Receiver foreign key (Receipent)
     references account(AccountNum)
     on delete cascade
 );
