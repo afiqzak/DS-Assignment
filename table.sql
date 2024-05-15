@@ -9,33 +9,25 @@ create table admin(
     constraint PK_admin primary key(ID_Admin)
 );
 
-create table customer(
-	ID_Customer int,
-    Name_Customer varchar(100),
+create table account(
+	AccountNum varchar(19),
+    username varchar(50),
     PhoneNum_Customer varchar(25),
     Email_Customer varchar(100),
     Password_Customer varchar(15),
     DOB date,
     Address varchar(100),
-    constraint PK_customer primary key(ID_Customer)
-);
-
-create table account(
-	AccountNum varchar(19),
-    ID_Customer int,
     Balance int,
     Tier varchar(50),
-    constraint PK_account primary key(AccountNum),
-    constraint PF_CustAccount foreign key (ID_Customer)
-    references customer(ID_Customer)
-    on delete cascade
+    constraint PK_account primary key(AccountNum)
 );
 
 create table transaction(
-	ID_Transaction int,
+	ID_Transaction varchar(10),
     Sender varchar(19),
     Receipent varchar(19),
     Amount int,
+    balance int,
     Type varchar(25),
     Date datetime default now(),
     Description varchar(100),
