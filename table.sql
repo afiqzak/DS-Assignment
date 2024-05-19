@@ -6,6 +6,8 @@ create table admin(
     PhoneNum_Admin varchar(25),
     Email_Admin varchar(100),
     Password_Admin varchar(15),
+    DOB date,
+    address varchar(100),
     constraint PK_admin primary key(ID_Admin)
 );
 
@@ -36,6 +38,18 @@ create table transaction(
     references account(AccountNum)
     on delete cascade,
     constraint PF_Receiver foreign key (Receipent)
+    references account(AccountNum)
+    on delete cascade
+);
+
+create table card(
+	cvv int,
+    AccountNum varchar(19),
+    Card_Number varchar(19),
+    Expiration_Date date,
+    Credit_limit int,
+    constraint PK_card primary key(cvv),
+    constraint PF_Holder foreign key (AccountNum)
     references account(AccountNum)
     on delete cascade
 );
