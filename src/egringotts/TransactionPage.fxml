@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,17 +19,18 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane style="-fx-background-color: #E4C3AD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.MainDashboardController">
+
+<StackPane style="-fx-background-color: #E4C3AD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.TransactionPageController">
    <children>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" StackPane.alignment="CENTER">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.60003662109375" minWidth="10.0" prefWidth="170.4000244140625" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="810.7999801635742" minWidth="10.0" prefWidth="730.3999755859375" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints maxHeight="195.59998168945313" minHeight="0.0" prefHeight="57.599996948242186" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="597.6000007748604" minHeight="10.0" prefHeight="542.4000030517578" vgrow="SOMETIMES" />
-        </rowConstraints>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="495.60003662109375" minWidth="10.0" prefWidth="170.4000244140625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="810.7999801635742" minWidth="10.0" prefWidth="730.3999755859375" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="195.59998168945313" minHeight="0.0" prefHeight="57.599996948242186" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="597.6000007748604" minHeight="10.0" prefHeight="542.4000030517578" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
             <AnchorPane prefHeight="54.0" prefWidth="189.0" style="-fx-background-color: #000000;">
                <children>
@@ -37,7 +43,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;" GridPane.columnIndex="1">
                <children>
-                  <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="15.0" prefHeight="24.0" prefWidth="146.0" text="Dashboard" textFill="#e09f3e">
+                  <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="15.0" prefHeight="26.0" prefWidth="152.0" text="Transaction" textFill="#e09f3e">
                      <font>
                         <Font name="GothicI" size="21.0" />
                      </font>
@@ -52,63 +58,71 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="14.0" layoutY="30.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Label layoutX="14.0" layoutY="4.0" prefHeight="26.0" prefWidth="74.0" text="My Cards">
+                  <Label layoutX="14.0" layoutY="8.0" prefHeight="38.0" prefWidth="197.0" text="Transaction History">
                      <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
+                        <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="244.0" layoutY="30.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Hyperlink alignment="CENTER" layoutX="406.0" layoutY="7.0" text="See All">
+                  <TableView layoutX="14.0" layoutY="53.0" prefHeight="222.0" prefWidth="702.0">
+                    <columns>
+                      <TableColumn prefWidth="94.39997673034668" text="Recipient" />
+                      <TableColumn prefWidth="132.79999542236328" text="Description" />
+                        <TableColumn prefWidth="98.39996337890625" text="Type" />
+                        <TableColumn prefWidth="100.7999267578125" text="Method" />
+                        <TableColumn minWidth="6.4000244140625" prefWidth="112.79989624023438" text="Date" />
+                        <TableColumn prefWidth="79.99993896484375" text="Amount" />
+                        <TableColumn minWidth="0.0" prefWidth="84.0" text="Receipt" />
+                    </columns>
+                  </TableView>
+                  <SplitMenuButton layoutX="629.0" layoutY="19.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Filter By">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Amount" />
+                      <MenuItem mnemonicParsing="false" text="Type" />
+                      <MenuItem mnemonicParsing="false" text="Date" />
+                    </items>
+                  </SplitMenuButton>
+                  <Label layoutX="14.0" layoutY="286.0" prefHeight="38.0" prefWidth="114.0" text="My Expenses">
                      <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
-                     </font>
-                  </Hyperlink>
-                  <Label layoutX="493.0" layoutY="4.0" prefHeight="26.0" prefWidth="146.0" text="Recent Transaction">
-                     <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Pane layoutX="493.0" layoutY="30.0" prefHeight="163.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Label layoutX="493.0" layoutY="201.0" prefHeight="26.0" prefWidth="146.0" text="Expense Statistics">
-                     <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Pane layoutX="491.0" layoutY="227.0" prefHeight="150.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
-                     <children>
-                        <PieChart layoutX="11.0" prefHeight="100.0" prefWidth="106.0" />
-                     </children>
-                  </Pane>
-                  <Pane layoutX="14.0" layoutY="182.0" prefHeight="197.0" prefWidth="459.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="74.0" text="BALANCE">
-                           <font>
-                              <Font name="Copperplate Gothic Bold" size="12.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Label layoutX="15.0" layoutY="389.0" prefHeight="26.0" prefWidth="146.0" text="Quick Transfer">
-                     <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
+                        <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="14.0" layoutY="415.0" prefHeight="120.0" prefWidth="286.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Label layoutX="318.0" layoutY="389.0" prefHeight="26.0" prefWidth="146.0" text="Weekly Activity">
+                  <Label layoutX="14.0" layoutY="324.0" prefHeight="26.0" prefWidth="58.0" text="Monthly">
                      <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
+                        <Font name="Copperplate Gothic Bold" size="10.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="318.0" layoutY="415.0" prefHeight="120.0" prefWidth="398.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
+                  <BarChart layoutX="14.0" layoutY="346.0" prefHeight="194.0" prefWidth="296.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+                  <Label layoutX="310.0" layoutY="324.0" prefHeight="26.0" prefWidth="58.0" text="Activity">
+                     <font>
+                        <Font name="Copperplate Gothic Bold" size="10.0" />
+                     </font>
+                  </Label>
+                  <BarChart layoutX="310.0" layoutY="346.0" prefHeight="194.0" prefWidth="418.0">
+                     <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis side="LEFT" />
+                     </yAxis>
+                  </BarChart>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="170.0" text="Dashboard" textFill="#e09f3e">
+                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="170.0" text="Dashboard" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Label>
                   <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="58.0" prefHeight="58.0" prefWidth="170.0" text="Transfer" textFill="#fbf5f3">
                      <font>
@@ -118,12 +132,12 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="116.0" prefHeight="58.0" prefWidth="170.0" text="Transaction" textFill="#fbf5f3">
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="116.0" prefHeight="58.0" prefWidth="170.0" text="Transaction" textFill="#e09f3e">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
                      <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="DEFAULT" />
                      </cursor>
                   </Label>
                   <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="171.0" prefHeight="58.0" prefWidth="170.0" text="Cards" textFill="#fbf5f3">
