@@ -2,7 +2,6 @@ package egringotts;
 
 import java.sql.SQLException;
 
-
 /**
  *
  * @author USER
