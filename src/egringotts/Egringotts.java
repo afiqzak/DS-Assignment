@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXML.java to edit this template
- */
 package egringotts;
 
 import javafx.application.Application;
@@ -18,11 +14,16 @@ public class Egringotts extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("egringotts.fxml"));
+        Parent loginroot = FXMLLoader.load(getClass().getResource("login.fxml"));
+        //Parent signuproot = FXMLLoader.load(getClass().getResource("signup.fxml"));
+        //Parent mainroot = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
         
-        Scene scene = new Scene(root);
+        Scene login = new Scene(loginroot);
+        //Scene signup = new Scene(signuproot);
+        //Scene main = new Scene(mainroot);
         
-        stage.setScene(scene);
+        //stage.setMaximized(true);
+        stage.setScene(login);
         stage.show();
     }
 
