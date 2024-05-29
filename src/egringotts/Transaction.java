@@ -158,5 +158,47 @@ public class Transaction {
     }
     
     
+
     
+    //modification
+     // Method to record a transaction for currency exchange
+    public String recordCurrencyExchange(String sender, String recipient, double amount, double convertedAmount, double processingFee, double senderBalance, double recipientBalance) throws SQLException {
+        String transactionID = null;
+        try {
+            DBConnection dbConnection = new DBConnection();
+            Connection connection = dbConnection.openConn();
+            Statement statement = connection.createStatement();
+
+            // Generate a transaction ID
+            transactionID = getTransactionId();
+
+            // Get current date and time
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(dateFormatter);
+
+            LocalTime currentTime = LocalTime.now();
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String formattedTime = currentTime.format(timeFormatter);
+
+            // Record the currency exchange transaction
+            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
+            + "VALUES ('" + transactionID + "', '" + sender + "', '" + recipient + "', " + amount + ", " + senderBalance + ", 'Currency Exchange', '" + formattedDate + " " + formattedTime + "', 'Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee + "')";
+            statement.executeUpdate(sql);
+//
+//            // Update sender's balance
+//            String updateSenderBalanceQuery = "UPDATE account SET Balance = " + senderBalance + " WHERE AccountNum = '" + sender + "'";
+//            statement.executeUpdate(updateSenderBalanceQuery);
+//
+//            // Update recipient's balance
+//            String updateRecipientBalanceQuery = "UPDATE account SET Balance = " + recipientBalance + " WHERE AccountNum = '" + recipient + "'";
+//            statement.executeUpdate(updateRecipientBalanceQuery);
+
+            statement.close();
+            dbConnection.closeConn();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactionID;
+    }
 }
