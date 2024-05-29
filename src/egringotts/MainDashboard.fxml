@@ -111,7 +111,7 @@
                         <Font name="Century Gothic" size="13.0" />
                      </font>
                   </Button>
-                  <Button layoutY="58.0" mnemonicParsing="false" onMouseClicked="#transferMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transfer" textFill="#fbf5f3">
+                  <Button layoutY="58.0" mnemonicParsing="false" onAction="#transferMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transfer" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -119,7 +119,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="116.0" mnemonicParsing="false" onMouseClicked="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transaction" textFill="#fbf5f3">
+                  <Button layoutY="116.0" mnemonicParsing="false" onAction="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transaction" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -127,7 +127,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="171.0" mnemonicParsing="false" onMouseClicked="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Cards" textFill="#fbf5f3">
+                  <Button layoutY="171.0" mnemonicParsing="false" onAction="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Cards" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -135,7 +135,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="229.0" mnemonicParsing="false" onMouseClicked="#exchangeMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Exchange" textFill="#fbf5f3">
+                  <Button layoutY="229.0" mnemonicParsing="false" onAction="#exchangeMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Exchange" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -143,7 +143,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="287.0" mnemonicParsing="false" onMouseClicked="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Analytics" textFill="#fbf5f3">
+                  <Button layoutY="287.0" mnemonicParsing="false" onAction="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Analytics" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -151,7 +151,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="345.0" mnemonicParsing="false" onMouseClicked="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Account" textFill="#fbf5f3">
+                  <Button layoutY="345.0" mnemonicParsing="false" onAction="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Account" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -159,7 +159,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="403.0" mnemonicParsing="false" onMouseClicked="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Settings" textFill="#fbf5f3">
+                  <Button layoutY="403.0" mnemonicParsing="false" onAction="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Settings" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
