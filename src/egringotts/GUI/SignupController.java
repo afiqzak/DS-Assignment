@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
 
 /**
@@ -28,6 +29,11 @@ public class SignupController implements Initializable {
     private Parent root;
     
     @FXML
+    private ChoiceBox<String> ChoiceBox;
+    
+    private String[] state = {"Hogwarts","Forbidden Forest","Great Lake","Hogsmeade","London","Countryside","Salem"};
+    
+    @FXML
     private void signupButton(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("login.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -40,7 +46,7 @@ public class SignupController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        ChoiceBox.getItems().addAll(state);
     }    
     
 }

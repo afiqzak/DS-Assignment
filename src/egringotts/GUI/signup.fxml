@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #E4C3AD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.SignupController">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #E4C3AD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.SignupController">
    <children>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="539.0" prefWidth="542.0" style="-fx-background-color: #000000;" StackPane.alignment="CENTER">
          <children>
@@ -41,7 +41,7 @@
             <TextField layoutX="41.0" layoutY="288.0" prefHeight="26.0" prefWidth="199.0" promptText="e.g. AbuBurn123" style="-fx-background-color: #FBF5F3;" />
             <Label layoutX="294.0" layoutY="210.0" text="Postal Code" />
             <Label layoutX="387.0" layoutY="210.0" text="State" />
-            <ChoiceBox layoutX="387.0" layoutY="229.0" prefHeight="26.0" prefWidth="108.0" style="-fx-background-color: #FBF5F3;" />
+            <ChoiceBox fx:id="ChoiceBox" layoutX="387.0" layoutY="229.0" prefHeight="26.0" prefWidth="108.0" style="-fx-background-color: #FBF5F3;" />
             <PasswordField layoutX="41.0" layoutY="349.0" prefHeight="26.0" prefWidth="199.0" style="-fx-background-color: #FBF5F3;" AnchorPane.leftAnchor="40.0" />
             <Label layoutX="39.0" layoutY="331.0" text="Set Password" />
             <Label layoutX="39.0" layoutY="389.0" text="Confirm Password" />
