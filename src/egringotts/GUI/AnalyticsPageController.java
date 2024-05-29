@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
+ */
 package egringotts.GUI;
 
 import java.io.IOException;
@@ -17,7 +21,7 @@ import javafx.stage.Stage;
  *
  * @author Asus
  */
-public class ExchangePageController implements Initializable {
+public class AnalyticsPageController implements Initializable {
 
     @FXML
     private Stage stage;
@@ -65,8 +69,8 @@ public class ExchangePageController implements Initializable {
         stage.show();
     }
     @FXML
-    private void analyticsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+    private void exchangeMenu(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         
@@ -95,5 +99,4 @@ public class ExchangePageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     } 
-    
 }
