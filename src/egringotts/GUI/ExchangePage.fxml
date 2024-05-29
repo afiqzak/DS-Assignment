@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane style="-fx-background-color: #E4C3AD;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.ExchangePageController">
+<StackPane style="-fx-background-color: #E4C3AD;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.ExchangePageController">
    <children>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" StackPane.alignment="CENTER">
          <columnConstraints>
@@ -40,7 +40,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;" GridPane.columnIndex="1">
                <children>
-                  <Label alignment="BOTTOM_CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="15.0" prefHeight="26.0" prefWidth="110.0" text="Exchange" textFill="#e09f3e">
+                  <Label alignment="BASELINE_LEFT" contentDisplay="CENTER" layoutX="14.0" layoutY="15.0" prefHeight="26.0" prefWidth="110.0" text="Exchange" textFill="#e09f3e">
                      <font>
                         <Font name="GothicI" size="21.0" />
                      </font>
@@ -107,62 +107,62 @@
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
                <children>
-                  <Button mnemonicParsing="false" onAction="#dashboardMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Dashboard" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Dashboard" textFill="#fbf5f3">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button layoutY="58.0" mnemonicParsing="false" onAction="#transferMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transfer" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" layoutY="58.0" mnemonicParsing="false" onAction="#transferMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Transfer" textFill="#fbf5f3">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button layoutY="116.0" mnemonicParsing="false" onAction="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transaction" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="171.0" mnemonicParsing="false" onAction="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Cards" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" layoutY="116.0" mnemonicParsing="false" onAction="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Transaction" textFill="#fbf5f3">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="229.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Exchange" textFill="#e09f3e">
+                  <Button alignment="BASELINE_LEFT" layoutY="171.0" mnemonicParsing="false" onAction="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Cards" textFill="#fbf5f3">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="287.0" mnemonicParsing="false" onAction="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Analytics" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" layoutY="229.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000; -fx-border-width: 0px 0px 0px 3px; -fx-border-color: #e09f3e;" text="Exchange" textFill="#e09f3e">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="345.0" mnemonicParsing="false" onAction="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Account" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" layoutY="287.0" mnemonicParsing="false" onAction="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Analytics" textFill="#fbf5f3">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="403.0" mnemonicParsing="false" onAction="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Settings" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" layoutY="345.0" mnemonicParsing="false" onAction="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Account" textFill="#fbf5f3">
                      <font>
-                        <Font name="Century Gothic" size="13.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <Button alignment="BASELINE_LEFT" layoutY="403.0" mnemonicParsing="false" onAction="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Settings" textFill="#fbf5f3">
+                     <font>
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />

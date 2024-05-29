@@ -30,6 +30,7 @@ public class Account {
                                         user.getTier() + "')";
                         statement.executeUpdate(SQL_Command);
                     }
+                    return true;
                 }
             catch (SQLException e) {
                done = false;
@@ -53,7 +54,7 @@ public class Account {
 
 
     public static String signIn(String username, String pass) {
-        String user = null;
+        String user = "";
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
             // SQL query command
@@ -81,10 +82,6 @@ public class Account {
         }
         // Return the username of the signed-in user
         return user;
-    }
-    
-    public static void main(String[] args) {
-        System.out.println(signIn("ali","123665"));
     }
 }
 

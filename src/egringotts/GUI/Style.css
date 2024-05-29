@@ -27,3 +27,12 @@
     -fx-text-fill: #66ffff;
 }
 
+.menuItem:hover{
+    -fx-text-fill: #CECECE;
+    -fx-border-color: #CECECE;
+    -fx-border-width: 0px 0px 0px 3px;
+}
+
+.menuItem{
+    -fx-text-fill: #ffffff;
+}

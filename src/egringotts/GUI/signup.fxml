@@ -23,7 +23,7 @@
             </ImageView>
             <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="14.0" style="-fx-font-weight: bold, 70;" text="Sign up">
                <font>
-                  <Font name="GothicE" size="30.0" />
+                  <Font size="30.0" />
                </font>
             </Label>
             <TextField fx:id="nameField" layoutX="41.0" layoutY="106.0" prefHeight="26.0" prefWidth="199.0" promptText="e.g. Abu Burn" style="-fx-background-color: #FBF5F3;" />
