@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,7 +16,7 @@ import javafx.stage.Stage;
  *
  * @author Asus
  */
-public class MainDashboardController {
+public class MainDashboardController implements Initializable{
     @FXML
     private Stage stage;
     
@@ -25,7 +26,7 @@ public class MainDashboardController {
     @FXML
     private Parent root;
     
-    /*@FXML
+    @FXML
     private void transferMenu(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -87,8 +88,9 @@ public class MainDashboardController {
     
     stage.setScene(scene);
     stage.show();
-    }*/
-    //@Override
+    }
+
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
     }    

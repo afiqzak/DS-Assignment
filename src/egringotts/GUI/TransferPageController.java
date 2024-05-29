@@ -18,7 +18,7 @@ import javafx.stage.Stage;
  * @author Asus
  */
 public class TransferPageController implements Initializable {
-    /*    @FXML
+    @FXML
     private Stage stage;
     
     @FXML
@@ -89,7 +89,8 @@ public class TransferPageController implements Initializable {
     
     stage.setScene(scene);
     stage.show();
-    }*/
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

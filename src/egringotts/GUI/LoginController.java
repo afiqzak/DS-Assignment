@@ -27,7 +27,7 @@ public class LoginController implements Initializable {
     @FXML
     private Parent root;
     
-    /*@FXML
+    @FXML
     private void loginAction(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -47,7 +47,7 @@ public class LoginController implements Initializable {
     stage.setScene(scene);
     //stage.setMaximized(true);
     stage.show();
-    }*/
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

@@ -32,7 +32,7 @@ public class AnalyticsPageController implements Initializable {
     @FXML
     private Parent root;
     
-    /*@FXML
+    @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -94,7 +94,7 @@ public class AnalyticsPageController implements Initializable {
     
     stage.setScene(scene);
     stage.show();
-    }*/
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO

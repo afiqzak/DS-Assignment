@@ -128,7 +128,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="171.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Cards" textFill="#fbf5f3">
+                  <Button layoutY="171.0" mnemonicParsing="false" onAction="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Cards" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
@@ -136,7 +136,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </Button>
-                  <Button layoutY="229.0" mnemonicParsing="false" onAction="#exchangeMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Exchange" textFill="#e09f3e">
+                  <Button layoutY="229.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Exchange" textFill="#e09f3e">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>

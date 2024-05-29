@@ -33,7 +33,7 @@ public class SignupController implements Initializable {
     
     private String[] state = {"Hogwarts","Forbidden Forest","Great Lake","Hogsmeade","London","Countryside","Salem"};
     
-    /*@FXML
+    @FXML
     private void signupButton(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("login.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -42,7 +42,7 @@ public class SignupController implements Initializable {
     stage.setScene(scene);
     //stage.setMaximized(true);
     stage.show();
-    }*/
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
