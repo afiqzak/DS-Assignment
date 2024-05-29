@@ -10,6 +10,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -17,34 +21,71 @@ import javafx.stage.Stage;
  * @author afiqz
  */
 public class LoginController implements Initializable {
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Button login;
+
+    @FXML
+    private PasswordField passField;
+
+    @FXML
+    private Button signup;
+
+    @FXML
+    private TextField usernameField;
     
     @FXML
     private Stage stage;
     
     @FXML
-    private Scene scene;
+    private Scene mainDashboard;
     
     @FXML
     private Parent root;
     
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        String user = egringotts.Account.signIn(usernameField.getText(), passField.getText());
+        System.out.println(user);
         
-        stage.setScene(scene);
-        //stage.setMaximized(true);
+        if(!user.isEmpty()){
+            if(user.equalsIgnoreCase("admin")) {
+                egringotts.Admin admin = new egringotts.Admin(usernameField.getText(), passField.getText());
+            }else{
+                egringotts.Customer cust = new egringotts.Customer(usernameField.getText(), passField.getText());
+            } 
+            root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            mainDashboard = new Scene(root);
+
+            stage.setScene(mainDashboard);
+            //stage.setMaximized(true);
         stage.show();
+        }else{
+            errorLabel.setText("incorrect username or password");
+        }
+        
+        /*switch(user){
+        case "admin":
+        egringotts.Admin admin = new egringotts.Admin(usernameField.getText(), passField.getText());
+        break;
+        case "customer":
+        egringotts.Customer cust = new egringotts.Customer(usernameField.getText(), passField.getText());
+        break;
+        case null:
+        errorLabel.setText("incorrect username or password");
+        }*/
     }
     
     @FXML
     private void signupAction(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signup.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        mainDashboard = new Scene(root);
         
-        stage.setScene(scene);
+        stage.setScene(mainDashboard);
         //stage.setMaximized(true);
         stage.show();
     }
