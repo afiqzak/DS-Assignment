@@ -16,8 +16,9 @@ import java.util.Vector;
  */
 public class Transaction {
 
-    private String transactionID, sender, receipent, type, date, description;
+    private String transactionID, sender, receipent, type, description;
     private int amount, sbalance, rbalance;
+    private LocalDate date;
 
     public Transaction() {
     }
@@ -56,7 +57,7 @@ public class Transaction {
 }
 
     
-    public String recordTransaction() throws SQLException {
+    public String recordTransaction(String userPin) throws SQLException {
         String transactionID = null;
         
         try (Connection con = DBConnection.openConn();
@@ -139,6 +140,23 @@ public class Transaction {
         }
         return transactionRecords;
     }
+    
+    public int getAmount() {
+        return amount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+    
     
     
 }
