@@ -70,7 +70,7 @@ public class MainDashboardController {
     }
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AccountsPage.fxml"));
+        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         
