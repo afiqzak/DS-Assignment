@@ -4,12 +4,12 @@
  */
 package egringotts;
 
-/*import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.ui.ApplicationFrame;*/
+import org.jfree.ui.ApplicationFrame;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -59,7 +59,7 @@ public class ExpenseManager {
     }
 
 
-    /*public void displayPieChart() {
+    public void displayPieChart() {
     Map<String, Double> categoryPercentages = calculateCategoryPercentages();
     
     DefaultPieDataset dataset = new DefaultPieDataset();
@@ -77,7 +77,7 @@ public class ExpenseManager {
     chartFrame.setContentPane(chartPanel);
     chartFrame.pack();
     chartFrame.setVisible(true);
-    }*/
+    }
     
     public static void main(String[] args) throws Exception {
         ExpenseManager manager = new ExpenseManager();

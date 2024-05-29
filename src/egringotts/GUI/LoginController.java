@@ -27,27 +27,27 @@ public class LoginController implements Initializable {
     @FXML
     private Parent root;
     
-    @FXML
+    /*@FXML
     private void loginAction(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        
-        stage.setScene(scene);
-        //stage.setMaximized(true);
-        stage.show();
+    root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    
+    stage.setScene(scene);
+    //stage.setMaximized(true);
+    stage.show();
     }
     
     @FXML
     private void signupAction(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("signup.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        
-        stage.setScene(scene);
-        //stage.setMaximized(true);
-        stage.show();
-    }
+    root = FXMLLoader.load(getClass().getResource("signup.fxml"));
+    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    
+    stage.setScene(scene);
+    //stage.setMaximized(true);
+    stage.show();
+    }*/
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {

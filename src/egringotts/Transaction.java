@@ -195,7 +195,7 @@ public class Transaction {
 //            statement.executeUpdate(updateRecipientBalanceQuery);
 
             statement.close();
-            dbConnection.closeConn();
+            DBConnection.closeConn();
         } catch (SQLException e) {
             e.printStackTrace();
         }
