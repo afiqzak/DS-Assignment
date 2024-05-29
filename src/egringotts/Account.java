@@ -22,7 +22,7 @@ public class Account<T extends User> {
         boolean done = !user.getUsername().equals("") && !user.getPassword().equals("");
         if (user instanceof Customer) {
             Customer customer = (Customer) user;
-            done = !customer.getAddress().equals("") && done && !customer.getName().equals("") && !customer.getPhoneNum().equals("") && !customer.getEmail().equals("") && !customer.getDOB().equals("") && customer.getBalance()!=0;
+            done = !customer.getAddress().equals("") && done && !customer.getName().equals("") && !customer.getPhoneNum().equals("") && !customer.getEmail().equals("") && !customer.getDOB().equals("") && (customer.getBalance("Knut")!=0 || customer.getBalance("Sickle")!=0 || customer.getBalance("Galleon")!= 0);
         }
         else if (user instanceof Admin) {
             Admin admin = (Admin) user;
@@ -41,10 +41,14 @@ public class Account<T extends User> {
                     if (done) {
                         // Save the user details based on the type
                         if (user instanceof Customer) {
-                            Customer customer = (Customer) user;
-                            SQL_Command = "INSERT INTO account(AccountNum, username, Name_Customer, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Balance, Tier) " +
-                                          "VALUES ('"+customer.getAccountNum()+ "','"+customer.getUsername()+ "','"+customer.getName()+ "','"+customer.getPhoneNum()+ "','"+customer.getEmail()+ "','"+customer.getPassword()+ "','"+customer.getDOB()+ "','"+customer.getAddress()+ "','"+customer.getBalance()+ "','"+customer.getTier()+ "')"; 
-                        } else if (user instanceof Admin) {
+                        Customer customer = (Customer) user;
+                           SQL_Command = "INSERT INTO account(AccountNum, Username, Name_Customer, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, KnutBalance, SickleBalance, GalleonBalance, Tier) " +
+                                        "VALUES ('" + customer.getAccountNum() + "','" + customer.getUsername() + "','" + customer.getName() + "','" + customer.getPhoneNum() + "','" +
+                                        customer.getEmail() + "','" + customer.getPassword() + "','" + customer.getDOB() + "','" + customer.getAddress() + "','" +
+                                        customer.getBalance("Knut") + "','" + customer.getBalance("Sickle") + "','" + customer.getBalance("Galleon") + "','" + 
+                                        customer.getTier() + "')";
+
+                    } else if (user instanceof Admin) {
                             Admin admin = (Admin) user;
                             SQL_Command = "INSERT INTO admin(ID_Admin, username, Name_Admin, PhoneNum_Admin, Email_Admin, Password_Admin, DOB, Address) VALUES ('"+admin.getUserId()+ "','"+admin.getUsername()+  "','"+admin.getName()+ "','"+admin.getPhoneNum()+ "','"+admin.getEmail()+ "','"+admin.getPassword()+ "','"+admin.getDOB()+ "','"+admin.getAddress()+ "')"; 
                         }
@@ -116,7 +120,58 @@ public class Account<T extends User> {
     // Return the username of the signed-in user
     return done ? user.getName() : null;
 }
+    //modification
+    // Method to get the current balance
+    public int getBalance() throws SQLException {
+        int balance = 0;
+        try {
+            DBConnection ToDB = new DBConnection();
+            Connection DBConn = ToDB.openConn();
+            Statement Stmt = DBConn.createStatement();
+            String SQL_Command = "SELECT Balance FROM account WHERE username ='" + user.getUsername() + "'";
+            ResultSet Rslt = Stmt.executeQuery(SQL_Command);
+            if (Rslt.next()) {
+                balance = Rslt.getInt("Balance");
+            }
+            Stmt.close();
+            ToDB.closeConn();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return balance;
+    }
 
+    //get the current balance in Knuts
+    public int getKnutBalance(Connection connection, String accountNum) throws SQLException {
+        return getCurrencyBalance(connection, "KnutBalance", accountNum);
+    }
+
+    // get the current balance in Sickles
+    public int getSickleBalance(Connection connection, String accountNum) throws SQLException {
+        return getCurrencyBalance(connection, "SickleBalance", accountNum);
+    }
+
+    // Method to get the current balance in Galleons
+    public int getGalleonBalance(Connection connection, String accountNum) throws SQLException {
+        return getCurrencyBalance(connection, "GalleonBalance", accountNum);
+}   
+
+    // retrieve balance for specific currency
+    private int getCurrencyBalance(Connection connection, String currencyColumn, String accountNum) throws SQLException {
+        int balance = 0;
+        String SQL_Query = "SELECT " + currencyColumn + " FROM account WHERE AccountNum = ?";
+    
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_Query)) {
+            preparedStatement.setString(1, accountNum);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                balance = resultSet.getInt(currencyColumn);
+                }
+            }
+        }   
+
+        return balance;
+    }
 }
 
 
