@@ -112,7 +112,7 @@ public class Customer implements User{
 }
 
 
-    public void updateBalanceSender(int newBalance, String currency) throws SQLException {
+    public void updateBalanceSender(double newBalance, String currency) throws SQLException {
         DBConnection ToDB = new DBConnection();
         Connection DBConn = ToDB.openConn();
         PreparedStatement pstmt = null;
@@ -125,7 +125,7 @@ public class Customer implements User{
         
             String SQL_Command = "UPDATE account SET " + currency + "Balance = ? WHERE AccountNum = ?";
             pstmt = DBConn.prepareStatement(SQL_Command);
-            pstmt.setInt(1, newBalance);
+            pstmt.setDouble(1, newBalance);
             pstmt.setString(2, accountNum);
         
             int rowsAffected = pstmt.executeUpdate();
@@ -148,20 +148,14 @@ public class Customer implements User{
         }
     }
     
-    public void updateBalanceRecipient(int newBalance, String currency, String accountNum) throws SQLException {
+    public void updateBalanceRecipient(double newBalance, String currency, String accountNum) throws SQLException {
         DBConnection ToDB = new DBConnection();
         Connection DBConn = ToDB.openConn();
         PreparedStatement pstmt = null;
     
-//        try {
-//            String accountNum = getAccountN();
-//            if (accountNum == null) {
-//                throw new SQLException("Account number is null");
-//            }
-        
             String SQL_Command = "UPDATE account SET " + currency + "Balance = ? WHERE AccountNum = ?";
             pstmt = DBConn.prepareStatement(SQL_Command);
-            pstmt.setInt(1, newBalance);
+            pstmt.setDouble(1, newBalance);
             pstmt.setString(2, accountNum);
         
             int rowsAffected = pstmt.executeUpdate();
@@ -170,18 +164,6 @@ public class Customer implements User{
             }
         
             System.out.println("Balance updated successfully for account: " + accountNum);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        } finally {
-//            if (pstmt != null) {
-//                try {
-//                    pstmt.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            ToDB.closeConn();
-//        }
     }
     
 

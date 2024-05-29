@@ -27,7 +27,7 @@ public class CurrencyExchangeService {
         double newBalanceSender = currentBalanceSender - (amount + totalFee);
 
         // Update sender's balance
-        sender.updateBalanceSender((int) newBalanceSender, fromCurrency);
+        sender.updateBalanceSender((double) newBalanceSender, fromCurrency);
 
         // Fetch recipient's customer account
         Customer recipient = CustomerDatabase.getCustomerByAccountNumber(recipientAccountNum);
@@ -35,7 +35,7 @@ public class CurrencyExchangeService {
 
         // Update recipient's balance
         double newBalanceRecipient = currentBalanceRecipient + convertedAmount;
-        recipient.updateBalanceRecipient((int) newBalanceRecipient, toCurrency, recipient.getAccountN());
+        recipient.updateBalanceRecipient((double) newBalanceRecipient, toCurrency, recipient.getAccountN());
 
         // Record transaction
         Transaction transaction = new Transaction();
