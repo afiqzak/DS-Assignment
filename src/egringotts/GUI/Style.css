@@ -1,0 +1,29 @@
+/* 
+    Created on : 28 May 2024, 5:00:54 pm
+    Author     : Asus
+*/
+.LoginButton{
+    -fx-background-color: #E09F3E;
+    -fx-background-radius: 8;
+}
+
+.LoginButton:hover{
+    -fx-background-color: #FBF5F3;
+    -fx-background-radius: 8;
+    -fx-border-radius: 7;
+    -fx-border-width: 3;
+    -fx-border-color: #E09F3E;
+}
+
+.SignupButton{
+    -fx-background-color:  #343C6A;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+}
+
+.SignupButton:hover{
+    -fx-background-color:  #000000;
+    -fx-background-radius: 8;
+    -fx-text-fill: #66ffff;
+}
+
