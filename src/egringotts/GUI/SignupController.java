@@ -35,7 +35,7 @@ public class SignupController implements Initializable {
     
     @FXML
     private void signupButton(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         
