@@ -8,29 +8,11 @@ import java.sql.*;
  *
  * @author USER
  */
-public class Account<T extends User> {
-    
-    private T user;
-    
-    public Account(T user) {
-        this.user = user;
-    }
-   
-    
+public class Account {
+ 
+    public static boolean signUp(Customer user) {
+        boolean done = !user.getUsername().equals("") && !user.getPassword().equals("") && !user.getAddress().equals("") && !user.getName().equals("") && !user.getPhoneNum().equals("") && !user.getEmail().equals("") && !user.getDOB().equals("") && (user.getBalance("Knut")!=0 || user.getBalance("Sickle")!=0 || user.getBalance("Galleon")!= 0);
 
-    
-    public boolean signUp() {
-        boolean done = !user.getUsername().equals("") && !user.getPassword().equals("");
-        if (user instanceof Customer) {
-            Customer customer = (Customer) user;
-            done = !customer.getAddress().equals("") && done && !customer.getName().equals("") && !customer.getPhoneNum().equals("") && !customer.getEmail().equals("") && !customer.getDOB().equals("") && (customer.getBalance("Knut")!=0 || customer.getBalance("Sickle")!=0 || customer.getBalance("Galleon")!= 0);
-        }
-        else if (user instanceof Admin) {
-            Admin admin = (Admin) user;
-            done = done && !admin.getName().equals("") && !admin.getPhoneNum().equals("") && !admin.getEmail().equals("") && !admin.getDOB().equals("") && !admin.getAddress().equals("");
-        }
-        
-        
             if (done) {
                 try (Connection con = DBConnection.openConn();
                     Statement statement = con.createStatement()){
@@ -40,19 +22,12 @@ public class Account<T extends User> {
                     ResultSet Rslt = statement.executeQuery(SQL_Command); 
                     done = done && !Rslt.next();
                     if (done) {
-                        // Save the user details based on the type
-                        if (user instanceof Customer) {
-                        Customer customer = (Customer) user;
+                        // Save the user details
                            SQL_Command = "INSERT INTO account(AccountNum, Username, Name_Customer, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, KnutBalance, SickleBalance, GalleonBalance, Tier) " +
-                                        "VALUES ('" + customer.getAccountNum() + "','" + customer.getUsername() + "','" + customer.getName() + "','" + customer.getPhoneNum() + "','" +
-                                        customer.getEmail() + "','" + customer.getPassword() + "','" + customer.getDOB() + "','" + customer.getAddress() + "','" +
-                                        customer.getBalance("Knut") + "','" + customer.getBalance("Sickle") + "','" + customer.getBalance("Galleon") + "','" + 
-                                        customer.getTier() + "')";
-
-                    } else if (user instanceof Admin) {
-                            Admin admin = (Admin) user;
-                            SQL_Command = "INSERT INTO admin(ID_Admin, username, Name_Admin, PhoneNum_Admin, Email_Admin, Password_Admin, DOB, Address) VALUES ('"+admin.getUserId()+ "','"+admin.getUsername()+  "','"+admin.getName()+ "','"+admin.getPhoneNum()+ "','"+admin.getEmail()+ "','"+admin.getPassword()+ "','"+admin.getDOB()+ "','"+admin.getAddress()+ "')"; 
-                        }
+                                        "VALUES ('" + user.getAccountNum() + "','" + user.getUsername() + "','" + user.getName() + "','" + user.getPhoneNum() + "','" +
+                                        user.getEmail() + "','" + user.getPassword() + "','" + user.getDOB() + "','" + user.getAddress() + "','" +
+                                        user.getBalance("Knut") + "','" + user.getBalance("Sickle") + "','" + user.getBalance("Galleon") + "','" + 
+                                        user.getTier() + "')";
                         statement.executeUpdate(SQL_Command);
                     }
                 }
@@ -77,49 +52,39 @@ public class Account<T extends User> {
     }
 
 
-    public String signIn() {
-    boolean done = !user.getUsername().equals("") && !user.getPassword().equals("");
-    try (Connection con = DBConnection.openConn();
-        Statement statement = con.createStatement()){
-        if (done) {
+    public static String signIn(String username, String pass) {
+        String user = null;
+        try (Connection con = DBConnection.openConn();
+            Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            if (user instanceof Customer) {
-                Customer customer = (Customer) user;
-                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + customer.getUsername() + "' AND Password_Customer ='" + customer.getPassword() + "'";
-            } else if (user instanceof Admin) {
-                Admin admin = (Admin) user;
-                SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + admin.getUsername() + "' AND Password_Admin ='" + admin.getPassword() + "'";
-            } else {
-                return null; // Unsupported user type
+            SQL_Command = "SELECT Name_Admin FROM admin WHERE Name_Admin ='" + username + "' AND Password_Admin ='" + pass + "'";
+            ResultSet Rslt = statement.executeQuery(SQL_Command);
+            if(Rslt.next()) user = "admin";
+            else {
+                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + username + "' AND Password_Customer ='" + pass + "'";
+                Rslt = statement.executeQuery(SQL_Command);
+                if(Rslt.next()) user = "customer";
             }
-            // Inquire if the username and password exist.
-            ResultSet Rslt = statement.executeQuery(SQL_Command); 
-            done = done && Rslt.next();
-            if (done) {
-                // Retrieve the username from the result set
-                String name = Rslt.getString(1);
-                // Set the username in the user object
-                user.setName(name);
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e);
+            while (e != null) {
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("Message: " + e.getMessage());
+                System.out.println("Vendor: " + e.getErrorCode());
+                e = e.getNextException();
+                System.out.println("");
             }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+            e.printStackTrace();
         }
-    } catch (SQLException e) {
-        done = false;
-        System.out.println("SQLException: " + e);
-        while (e != null) {
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("Message: " + e.getMessage());
-            System.out.println("Vendor: " + e.getErrorCode());
-            e = e.getNextException();
-            System.out.println("");
-        }
-    } catch (Exception e) {
-        done = false;
-        System.out.println("Exception: " + e);
-        e.printStackTrace();
+        // Return the username of the signed-in user
+        return user;
     }
-    // Return the username of the signed-in user
-    return done ? user.getName() : null;
+    
+    public static void main(String[] args) {
+        System.out.println(signIn("ali","123665"));
     }
 }
 
