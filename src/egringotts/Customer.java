@@ -1,11 +1,15 @@
 package egringotts;
 
 import java.util.Random;
-
+import java.sql.*;
+import java.lang.*;
 /**
  *
  * @author USER
  */
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 public class Customer implements User{
     
     private int userId;
@@ -16,18 +20,16 @@ public class Customer implements User{
     private String password;
     private String DOB;
     private String address;
-    private int balance;
+    private Map<String, Double> balances;
     private String tier;
-
+    
+    
     public Customer(String username, String password) {
         this.username = username;
         this.password = password;
     }
     
-    
-
-    // Constructor
-    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address, int balance) {
+    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address, Map<String,Double> balances){
         this.username = username;
         this.name = name;
         this.phoneNum = phoneNum;
@@ -35,10 +37,18 @@ public class Customer implements User{
         this.password = password;
         this.DOB = DOB;
         this.address = address;
-        this.balance = balance;
+        this.balances = balances;
     }
-
-    // Implement User interface methods
+    
+    public Map<String,Double> getBalances(){
+        return balances;
+    }
+    
+    public void setBalances(Map<String, Double> balances){
+        this.balances = balances;
+    }
+ 
+// Implement User interface methods
     @Override
     public int getUserId() {
         return userId;
@@ -79,18 +89,113 @@ public class Customer implements User{
         return address;
     }
 
-    public int getBalance() {
-        return balance;
+    public int getBalance(String currency) {
+    int balance = 0;
+    try {
+        DBConnection ToDB = new DBConnection();
+        Connection DBConn = ToDB.openConn();
+        Statement Stmt = DBConn.createStatement();
+
+        String SQL_Command = "SELECT " + currency + "Balance FROM account WHERE username = '" + this.getUsername()+ "'";
+        
+        ResultSet Rslt = Stmt.executeQuery(SQL_Command);
+        if (Rslt.next()) {
+            balance = Rslt.getInt(1);
+        }
+        
+        Stmt.close();
+        ToDB.closeConn();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return balance;
+}
+
+
+    public void updateBalanceSender(int newBalance, String currency) throws SQLException {
+        DBConnection ToDB = new DBConnection();
+        Connection DBConn = ToDB.openConn();
+        PreparedStatement pstmt = null;
+    
+        try {
+            String accountNum = getAccountN();
+            if (accountNum == null) {
+                throw new SQLException("Account number is null");
+            }
+        
+            String SQL_Command = "UPDATE account SET " + currency + "Balance = ? WHERE AccountNum = ?";
+            pstmt = DBConn.prepareStatement(SQL_Command);
+            pstmt.setInt(1, newBalance);
+            pstmt.setString(2, accountNum);
+        
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Failed to update balance, no rows affected.");
+            }
+        
+            System.out.println("Balance updated successfully for account: " + accountNum);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            ToDB.closeConn();
+        }
     }
     
+    public void updateBalanceRecipient(int newBalance, String currency, String accountNum) throws SQLException {
+        DBConnection ToDB = new DBConnection();
+        Connection DBConn = ToDB.openConn();
+        PreparedStatement pstmt = null;
+    
+//        try {
+//            String accountNum = getAccountN();
+//            if (accountNum == null) {
+//                throw new SQLException("Account number is null");
+//            }
+        
+            String SQL_Command = "UPDATE account SET " + currency + "Balance = ? WHERE AccountNum = ?";
+            pstmt = DBConn.prepareStatement(SQL_Command);
+            pstmt.setInt(1, newBalance);
+            pstmt.setString(2, accountNum);
+        
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected == 0) {
+                throw new SQLException("Failed to update balance, no rows affected.");
+            }
+        
+            System.out.println("Balance updated successfully for account: " + accountNum);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (pstmt != null) {
+//                try {
+//                    pstmt.close();
+//                } catch (SQLException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//            ToDB.closeConn();
+//        }
+    }
+    
+
+
+
+    
     public String getTier() {
-        if (getBalance() < 10000) {
+        if (getBalance("Knut") < 10000) {
             return "Silver Snitch";
         }
-        else if (getBalance() >= 10000 && getBalance() < 50000) {
+        else if (getBalance("Knut") >= 10000 && getBalance("Knut") < 50000) {
             return "Golden Galleon";
         }
-        else if (getBalance() >= 50000) {
+        else if (getBalance("Knut") >= 50000) {
             return "Platinum Patronus";
         }
         return null;
@@ -105,13 +210,32 @@ public class Customer implements User{
         return accountnum;
     }
     
+    public String getAccountN() {
+        //return the actual account number from the database
+        String accountNum = null;
+        try {
+            DBConnection ToDB = new DBConnection();
+            Connection DBConn = ToDB.openConn();
+            Statement Stmt = DBConn.createStatement();
+            
+            String SQL_Command = "SELECT AccountNum FROM account WHERE username = '" + this.getUsername() + "'";
+            ResultSet Rslt = Stmt.executeQuery(SQL_Command);
+            if (Rslt.next()) {
+                accountNum = Rslt.getString(1);
+            }
+            
+            Stmt.close();
+            ToDB.closeConn();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accountNum;
+    }
+    
 
     @Override
     public void setName(String name) {
         this.name = name;
-    }
-
-    
-    
+    }  
 }
 

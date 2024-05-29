@@ -22,7 +22,7 @@ public class Account<T extends User> {
         boolean done = !user.getUsername().equals("") && !user.getPassword().equals("");
         if (user instanceof Customer) {
             Customer customer = (Customer) user;
-            done = !customer.getAddress().equals("") && done && !customer.getName().equals("") && !customer.getPhoneNum().equals("") && !customer.getEmail().equals("") && !customer.getDOB().equals("") && customer.getBalance()!=0;
+            done = !customer.getAddress().equals("") && done && !customer.getName().equals("") && !customer.getPhoneNum().equals("") && !customer.getEmail().equals("") && !customer.getDOB().equals("") && (customer.getBalance("Knut")!=0 || customer.getBalance("Sickle")!=0 || customer.getBalance("Galleon")!= 0);
         }
         else if (user instanceof Admin) {
             Admin admin = (Admin) user;
@@ -41,10 +41,14 @@ public class Account<T extends User> {
                     if (done) {
                         // Save the user details based on the type
                         if (user instanceof Customer) {
-                            Customer customer = (Customer) user;
-                            SQL_Command = "INSERT INTO account(AccountNum, username, Name_Customer, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Balance, Tier) " +
-                                          "VALUES ('"+customer.getAccountNum()+ "','"+customer.getUsername()+ "','"+customer.getName()+ "','"+customer.getPhoneNum()+ "','"+customer.getEmail()+ "','"+customer.getPassword()+ "','"+customer.getDOB()+ "','"+customer.getAddress()+ "','"+customer.getBalance()+ "','"+customer.getTier()+ "')"; 
-                        } else if (user instanceof Admin) {
+                        Customer customer = (Customer) user;
+                           SQL_Command = "INSERT INTO account(AccountNum, Username, Name_Customer, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, KnutBalance, SickleBalance, GalleonBalance, Tier) " +
+                                        "VALUES ('" + customer.getAccountNum() + "','" + customer.getUsername() + "','" + customer.getName() + "','" + customer.getPhoneNum() + "','" +
+                                        customer.getEmail() + "','" + customer.getPassword() + "','" + customer.getDOB() + "','" + customer.getAddress() + "','" +
+                                        customer.getBalance("Knut") + "','" + customer.getBalance("Sickle") + "','" + customer.getBalance("Galleon") + "','" + 
+                                        customer.getTier() + "')";
+
+                    } else if (user instanceof Admin) {
                             Admin admin = (Admin) user;
                             SQL_Command = "INSERT INTO admin(ID_Admin, username, Name_Admin, PhoneNum_Admin, Email_Admin, Password_Admin, DOB, Address) VALUES ('"+admin.getUserId()+ "','"+admin.getUsername()+  "','"+admin.getName()+ "','"+admin.getPhoneNum()+ "','"+admin.getEmail()+ "','"+admin.getPassword()+ "','"+admin.getDOB()+ "','"+admin.getAddress()+ "')"; 
                         }
@@ -115,8 +119,7 @@ public class Account<T extends User> {
     }
     // Return the username of the signed-in user
     return done ? user.getName() : null;
-}
-
+    }
 }
 
 
