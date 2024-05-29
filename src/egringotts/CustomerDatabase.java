@@ -14,11 +14,9 @@ import java.util.Map;
 public class CustomerDatabase {
 
     public static Customer getCustomerByAccountNumber(String accountNumber) {
-        DBConnection dbConnection = new DBConnection();
-        Connection conn = dbConnection.openConn();
         Customer customer = null;
 
-        try {
+        try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE AccountNum = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(query);
             preparedStatement.setString(1, accountNumber);
@@ -39,11 +37,10 @@ public class CustomerDatabase {
 
                 customer = new Customer(username, name, phoneNum, email, password, DOB, address, balances);
             }
+            preparedStatement.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            dbConnection.closeConn();
         }
 
         return customer;

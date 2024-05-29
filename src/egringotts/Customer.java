@@ -91,10 +91,9 @@ public class Customer implements User{
 
     public int getBalance(String currency) {
     int balance = 0;
-    try {
-        DBConnection ToDB = new DBConnection();
-        Connection DBConn = ToDB.openConn();
-        Statement Stmt = DBConn.createStatement();
+    try(Connection DBConn = DBConnection.openConn();
+        Statement Stmt = DBConn.createStatement();) {
+        
 
         String SQL_Command = "SELECT " + currency + "Balance FROM account WHERE username = '" + this.getUsername()+ "'";
         
@@ -104,7 +103,6 @@ public class Customer implements User{
         }
         
         Stmt.close();
-        ToDB.closeConn();
     } catch (SQLException e) {
         e.printStackTrace();
     }
@@ -113,11 +111,9 @@ public class Customer implements User{
 
 
     public void updateBalanceSender(double newBalance, String currency) throws SQLException {
-        DBConnection ToDB = new DBConnection();
-        Connection DBConn = ToDB.openConn();
         PreparedStatement pstmt = null;
     
-        try {
+        try(Connection DBConn = DBConnection.openConn();) {
             String accountNum = getAccountN();
             if (accountNum == null) {
                 throw new SQLException("Account number is null");
@@ -134,17 +130,9 @@ public class Customer implements User{
             }
         
             System.out.println("Balance updated successfully for account: " + accountNum);
+            pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (pstmt != null) {
-                try {
-                    pstmt.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            ToDB.closeConn();
         }
     }
     
@@ -195,19 +183,14 @@ public class Customer implements User{
     public String getAccountN() {
         //return the actual account number from the database
         String accountNum = null;
-        try {
-            DBConnection ToDB = new DBConnection();
-            Connection DBConn = ToDB.openConn();
-            Statement Stmt = DBConn.createStatement();
+        try(Connection DBConn = DBConnection.openConn();
+            Statement Stmt = DBConn.createStatement();) {
             
             String SQL_Command = "SELECT AccountNum FROM account WHERE username = '" + this.getUsername() + "'";
             ResultSet Rslt = Stmt.executeQuery(SQL_Command);
             if (Rslt.next()) {
                 accountNum = Rslt.getString(1);
             }
-            
-            Stmt.close();
-            ToDB.closeConn();
         } catch (SQLException e) {
             e.printStackTrace();
         }

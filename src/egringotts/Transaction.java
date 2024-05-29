@@ -164,11 +164,8 @@ public class Transaction {
      // Method to record a transaction for currency exchange
     public String recordCurrencyExchange(String sender, String recipient, double amount, double convertedAmount, double processingFee, double senderBalance, double recipientBalance) throws SQLException {
         String transactionID = null;
-        try {
-            DBConnection dbConnection = new DBConnection();
-            Connection connection = dbConnection.openConn();
-            Statement statement = connection.createStatement();
-
+        try (Connection connection = DBConnection.openConn();
+            Statement statement = connection.createStatement();){
             // Generate a transaction ID
             transactionID = getTransactionId();
 
@@ -195,7 +192,6 @@ public class Transaction {
 //            statement.executeUpdate(updateRecipientBalanceQuery);
 
             statement.close();
-            dbConnection.closeConn();
         } catch (SQLException e) {
             e.printStackTrace();
         }
