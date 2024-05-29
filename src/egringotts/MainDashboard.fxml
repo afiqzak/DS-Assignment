@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -105,67 +105,46 @@
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="58.0" prefWidth="170.0" text="Dashboard" textFill="#e09f3e">
+                  <Button mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Dashboard" textFill="#e09f3e">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="58.0" prefHeight="58.0" prefWidth="170.0" text="Transfer" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="58.0" mnemonicParsing="false" onMouseClicked="#transferMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transfer" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="116.0" prefHeight="58.0" prefWidth="170.0" text="Transaction" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="116.0" mnemonicParsing="false" onMouseClicked="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Transaction" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="171.0" prefHeight="58.0" prefWidth="170.0" text="Cards" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="171.0" mnemonicParsing="false" onMouseClicked="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Cards" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="229.0" prefHeight="58.0" prefWidth="170.0" text="Exchange" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="229.0" mnemonicParsing="false" onMouseClicked="#exchangeMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Exchange" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="287.0" prefHeight="58.0" prefWidth="170.0" text="Analytics" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="287.0" mnemonicParsing="false" onMouseClicked="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Analytics" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="345.0" prefHeight="58.0" prefWidth="170.0" text="Accounts" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="345.0" mnemonicParsing="false" onMouseClicked="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Account" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
-                  <Label accessibleRole="BUTTON" alignment="CENTER" contentDisplay="CENTER" layoutY="403.0" prefHeight="58.0" prefWidth="170.0" text="Settings" textFill="#fbf5f3">
+                  </Button>
+                  <Button layoutY="403.0" mnemonicParsing="false" onMouseClicked="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" text="Settings" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic" size="13.0" />
                      </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Label>
+                  </Button>
                </children>
             </AnchorPane>
          </children>
