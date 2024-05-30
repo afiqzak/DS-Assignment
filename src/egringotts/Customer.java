@@ -29,7 +29,7 @@ public class Customer implements User{
         this.password = password;
     }
     
-    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address, Map<String,Double> balances){
+    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address){
         this.username = username;
         this.name = name;
         this.phoneNum = phoneNum;
@@ -37,8 +37,21 @@ public class Customer implements User{
         this.password = password;
         this.DOB = DOB;
         this.address = address;
+    }
+
+    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address, Map<String, Double> balances) {
+        this.userId = userId;
+        this.name = name;
+        this.username = username;
+        this.phoneNum = phoneNum;
+        this.email = email;
+        this.password = password;
+        this.DOB = DOB;
+        this.address = address;
         this.balances = balances;
     }
+    
+    
     
     public Map<String,Double> getBalances(){
         return balances;
