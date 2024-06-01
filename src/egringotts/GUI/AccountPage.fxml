@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane style="-fx-background-color: #E4C3AD;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.TransferPageController">
+<StackPane style="-fx-background-color: #E4C3AD;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.AccountPageController">
    <children>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" StackPane.alignment="CENTER">
          <columnConstraints>
@@ -101,7 +101,7 @@
                         <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                   </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="345.0" mnemonicParsing="false" onAction="#settingsMenu" onMouseClicked="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Settings" textFill="#fbf5f3">
+                  <Button alignment="BASELINE_LEFT" layoutY="345.0" mnemonicParsing="false" onAction="#settingsMenu" onMouseClicked="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Settings" textFill="#fbf5f3">
                      <font>
                         <Font name="Century Gothic Bold" size="13.0" />
                      </font>
