@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
 <StackPane style="-fx-background-color: #E4C3AD;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.AccountPageController">
    <children>
       <GridPane alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" StackPane.alignment="CENTER">
@@ -52,6 +51,15 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
+                  <Pane layoutX="25.0" layoutY="9.0" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 200; -fx-background-color: white;" />
+                  <Label fx:id="AccNumLabel" layoutX="174.0" layoutY="44.0" prefHeight="18.0" prefWidth="146.0" style="-fx-background-color: white;" text="AccNum" />
+                  <Label fx:id="TierField" layoutX="174.0" layoutY="81.0" prefHeight="18.0" prefWidth="146.0" style="-fx-background-color: white;" text="Tier" />
+                  <Label fx:id="NameLabel" layoutX="25.0" layoutY="202.0" prefHeight="18.0" prefWidth="190.0" style="-fx-background-color: white;" text="Name" />
+                  <Label fx:id="EmailLabel" layoutX="25.0" layoutY="231.0" prefHeight="18.0" prefWidth="190.0" style="-fx-background-color: white;" text="Email" />
+                  <Label fx:id="PhoneLabel" layoutX="25.0" layoutY="263.0" prefHeight="18.0" prefWidth="190.0" style="-fx-background-color: White;" text="Phone" />
+                  <Label fx:id="UsernameLabel" layoutX="25.0" layoutY="171.0" prefHeight="18.0" prefWidth="190.0" style="-fx-background-color: white;" text="Username" />
+                  <Label fx:id="AddressLabel" layoutX="270.0" layoutY="171.0" prefHeight="18.0" prefWidth="190.0" style="-fx-background-color: white;" text="Address" />
+                  <Label fx:id="AddressLabel1" layoutX="270.0" layoutY="202.0" prefHeight="18.0" prefWidth="190.0" style="-fx-background-color: white;" text="Poscode + State" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
