@@ -15,7 +15,7 @@ public class Egringotts extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent loginroot = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+        Parent loginroot = FXMLLoader.load(getClass().getResource("signup.fxml"));
         Scene login = new Scene(loginroot);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("Logo.png")));
         stage.setScene(login);

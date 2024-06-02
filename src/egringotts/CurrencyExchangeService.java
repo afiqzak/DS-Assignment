@@ -30,7 +30,7 @@ public class CurrencyExchangeService {
         sender.updateBalanceSender((double) newBalanceSender, fromCurrency);
 
         // Fetch recipient's customer account
-        Customer recipient = CustomerDatabase.getCustomerByAccountNumber(recipientAccountNum);
+        Customer recipient = Account.getCustomerByAccountNumber(recipientAccountNum);
         double currentBalanceRecipient = recipient.getBalance(toCurrency);
 
         // Update recipient's balance
