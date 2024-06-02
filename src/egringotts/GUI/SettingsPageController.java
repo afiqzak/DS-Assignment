@@ -1,5 +1,6 @@
 package egringotts.GUI;
 
+import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -11,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -44,6 +46,9 @@ public class SettingsPageController implements Initializable {
     }
     
     @FXML
+    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, poscodeLabel, stateLabel, dobLabel;
+    
+    @FXML
     private void profileButton(ActionEvent event) throws IOException {
         security.setVisible(false);
         profile.setVisible(true);
@@ -56,66 +61,75 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void transferMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void transactionMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void cardsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void exchangeMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void logoutButton(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     
     @Override
@@ -124,5 +138,15 @@ public class SettingsPageController implements Initializable {
         profile.setVisible(true);
     } 
     
+    public void setProfile(){
+        accNumLabel.setText("  " + cust.getAccountNum());
+        tierLabel.setText("  " + cust.getTier());
+        nameLabel.setText("  " + cust.getName());
+        emailLabel.setText("  " + cust.getEmail());
+        phoneLabel.setText("  " + cust.getPhoneNum());
+        usernameLabel.setText("  " + cust.getUsername());
+        addressLabel.setText("  " + cust.getAddress());
+        dobLabel.setText("  " + cust.getDOB());
+    }
 }
 

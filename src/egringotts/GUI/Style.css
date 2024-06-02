@@ -41,10 +41,18 @@
     -fx-text-fill: #CECECE;
     -fx-border-color: #CECECE;
     -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-radius: 8;
 }
 
 .settingItem{
     -fx-background-color:  black;
     -fx-background-radius: 8;
     -fx-text-fill: white;
+}
+
+.LogoutButton:hover{
+    -fx-background-color: #FBF5F3;
+    -fx-border-radius: 7;
+    -fx-border-width: 3;
+    -fx-border-color: #FBF5F3;
 }

@@ -1,5 +1,6 @@
 package egringotts.GUI;
 
+import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +26,12 @@ public class MainDashboardController implements Initializable{
     
     @FXML
     private Parent root;
+    
+    private Customer cust;
+    
+    public void setCustomer(Customer cust){
+        this.cust = cust;
+    }
     
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
@@ -74,16 +81,20 @@ public class MainDashboardController implements Initializable{
     
     @FXML
     private void settingsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("SettingsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+        root = loader.load();
+        SettingsPageController setting = loader.getController();
+        setting.setCustomer(cust);
+        setting.setProfile();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.cust = new Customer();
     }    
 }
