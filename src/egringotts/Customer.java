@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 public class Customer implements User{
-    
-    private int userId;
+    private String accountNum;
     private String name;
     private String username;
     private String phoneNum;
@@ -30,6 +29,7 @@ public class Customer implements User{
     }
     
     public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address){
+        this.accountNum = newAccountNum();
         this.username = username;
         this.name = name;
         this.phoneNum = phoneNum;
@@ -37,10 +37,11 @@ public class Customer implements User{
         this.password = password;
         this.DOB = DOB;
         this.address = address;
+        this.tier = setTier();
     }
 
-    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address, Map<String, Double> balances) {
-        this.userId = userId;
+    public Customer(String accountNum, String name, String username, String phoneNum, String email, String password, String DOB, String address, Map<String, Double> balances, String tier) {
+        this.accountNum = accountNum;
         this.name = name;
         this.username = username;
         this.phoneNum = phoneNum;
@@ -49,10 +50,11 @@ public class Customer implements User{
         this.DOB = DOB;
         this.address = address;
         this.balances = balances;
+        this.tier = tier;
     }
     
     
-    
+  
     public Map<String,Double> getBalances(){
         return balances;
     }
@@ -62,10 +64,6 @@ public class Customer implements User{
     }
  
 // Implement User interface methods
-    @Override
-    public int getUserId() {
-        return userId;
-    }
 
     @Override
     public String getName() {
@@ -102,13 +100,21 @@ public class Customer implements User{
         return address;
     }
 
-    public int getBalance(String currency) {
-    int balance = 0;
+    public String getAccountNum() {
+        return accountNum;
+    }
+
+    public String getTier() {
+        return tier;
+    }
+    
+    public double getBalance(String currency) {
+    double balance = 0;
     try(Connection DBConn = DBConnection.openConn();
         Statement Stmt = DBConn.createStatement();) {
         
 
-        String SQL_Command = "SELECT " + currency + "Balance FROM account WHERE username = '" + this.getUsername()+ "'";
+        String SQL_Command = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.accountNum+ "'";
         
         ResultSet Rslt = Stmt.executeQuery(SQL_Command);
         if (Rslt.next()) {
@@ -132,7 +138,7 @@ public class Customer implements User{
                 throw new SQLException("Account number is null");
             }
         
-            String SQL_Command = "UPDATE account SET " + currency + "Balance = ? WHERE AccountNum = ?";
+            String SQL_Command = "UPDATE account SET " + currency + " = ? WHERE AccountNum = ?";
             pstmt = DBConn.prepareStatement(SQL_Command);
             pstmt.setDouble(1, newBalance);
             pstmt.setString(2, accountNum);
@@ -171,7 +177,7 @@ public class Customer implements User{
 
 
     
-    public String getTier() {
+    public String setTier() {
         if (getBalance("Knut") < 10000) {
             return "Silver Snitch";
         }
@@ -184,14 +190,37 @@ public class Customer implements User{
         return null;
     }
     
-    public String getAccountNum() {
+    public String generateAccountNum() {
+        int n1, n2, n3;
         Random r = new Random();
-        int num1 = r.nextInt(10000);
-        int num2 = r.nextInt(10000);
-        int num3 = r.nextInt(10000);
-        String accountnum= String.format("%04d", num1) + " " + String.format("%04d", num2) + " " + String.format("%04d", num3);
-        return accountnum;
+        n1 = r.nextInt(10000);
+        n2 = r.nextInt(10000);
+        n3 = r.nextInt(10000);
+        String accountNum = String.format("%04d", n1) + " " + String.format("%04d", n2) + " " + String.format("%04d", n3);
+        return accountNum;
     }
+    
+    public String newAccountNum() {
+        String accountNum;
+        boolean foundDuplicate = true; // Assume duplicate initially to enter the loop
+
+        do {
+          accountNum = generateAccountNum(); // Generate random number
+
+          try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement("SELECT 1 FROM account WHERE AccountNum = ?")) {
+
+            stmt.setString(1, accountNum); // Set parameter with prepared statement
+            ResultSet rs = stmt.executeQuery();
+
+            foundDuplicate = rs.next(); // Check if a row exists (duplicate)
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        } while (foundDuplicate);
+
+        return accountNum;
+      }
     
     public String getAccountN() {
         //return the actual account number from the database
@@ -202,7 +231,7 @@ public class Customer implements User{
             String SQL_Command = "SELECT AccountNum FROM account WHERE username = '" + this.getUsername() + "'";
             ResultSet Rslt = Stmt.executeQuery(SQL_Command);
             if (Rslt.next()) {
-                accountNum = Rslt.getString(1);
+                accountNum = Rslt.getString("AccountNum");
             }
         } catch (SQLException e) {
             e.printStackTrace();

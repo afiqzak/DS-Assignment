@@ -35,8 +35,17 @@ public class SignupController implements Initializable {
     @FXML
     private Parent root;
     
-     @FXML
+    @FXML
     private Label err;
+
+    @FXML
+    private Label errPass;
+
+    @FXML
+    private Label errPoscode;
+    
+    @FXML
+    private Label errUsername;
     
     @FXML
     private TextField nameField,addressField,emailField,phoneNumField,poscodeField,usernameField;
@@ -46,52 +55,80 @@ public class SignupController implements Initializable {
 
     @FXML
     private PasswordField passwordField, passwordConfirmField;
+    
+    @FXML
+    private ChoiceBox<String> currency;
+
+    @FXML
+    private TextField amountField;
 
     @FXML
     private ChoiceBox<String> stateField;
+    
     private String[] State = {"Hogwarts","Forbidden Forest","Great Lake","Hogsmeade","London","Countryside","Salem"};
     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         stateField.getItems().addAll(State);
+        currency.getItems().addAll(egringotts.Account.getCurrency());
     }    
     
     @FXML
     private void signupButton(ActionEvent event) throws IOException {
-        String name, email, address, phoneNum, username, password, state;
+        //check if ll of the box have been filled
+        err.setText("");
+        errPass.setText("");
+        errPoscode.setText("");
+        if(nameField.getText().isEmpty() || addressField.getText().isEmpty() || emailField.getText().isEmpty() || phoneNumField.getText().isEmpty() || poscodeField.getText().isEmpty() ||
+                usernameField.getText().isEmpty() || dobField.getValue() == null || stateField.getTypeSelector().isEmpty() || passwordField.getText().isEmpty() || passwordConfirmField.getText().isEmpty()){
+            err.setText("Please fill in all of the information");
+            return;
+        }
+        String name, email, address, phoneNum, username, password, confirmPass, state, pc;
         int poscode = 0;
         LocalDate dob;
-        boolean next = true;
         name = nameField.getText();
         email = emailField.getText();
         phoneNum = phoneNumField.getText();
         dob = dobField.getValue();
         address = addressField.getText();
-        //state = stateField.getTypeSelector();
+        state = stateField.getTypeSelector();
         username = usernameField.getText();
         password = passwordField.getText();
+        confirmPass = passwordConfirmField.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  // Adjust format as needed
         String dobString = dob.format(formatter);
         
+        //check if poscode contain letter
         try{
             poscode = Integer.parseInt(poscodeField.getText());
         } catch (NumberFormatException e){
-            next = false;
-            err.setText("Number only");
+            errPoscode.setText("Number only");
+            return;
         }
         
-        egringotts.Customer cust = new egringotts.Customer(username, name, phoneNum, email, password, dobString, address + ", " + poscode);
+        //chechk if password match
+        if(!confirmPass.equals(password)){
+            errPass.setText("Password does not match");
+            return;
+        }
         
-        if(next){
-            egringotts.Account.signUp(cust);
-            root = FXMLLoader.load(getClass().getResource("login.fxml"));
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            scene = new Scene(root);
+        egringotts.Customer cust = new egringotts.Customer(username, name, phoneNum, email, password, dobString, address + ", " + poscode + ", " + state);
+        
+        //check if username already exist or not
+        if(!egringotts.Account.signUp(cust, currency.getTypeSelector(), Double.parseDouble(amountField.getText()))){
+            errUsername.setText("username already exist");
+            return;
+        }
+        root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
 
-            stage.setScene(scene);
-            //stage.setMaximized(true);
-            stage.show();
-        }
+        stage.setScene(scene);
+        //stage.setMaximized(true);
+        stage.show();
     }
+    
+    
 }

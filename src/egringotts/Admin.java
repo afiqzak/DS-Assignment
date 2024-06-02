@@ -40,7 +40,6 @@ public class Admin implements User {
 
     // Implement User interface methods
     
-    @Override
     public int getUserId() throws SQLException{
         int newId = 1;
         try (Connection con = DBConnection.openConn();

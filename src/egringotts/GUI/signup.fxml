@@ -51,9 +51,27 @@
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Button>
-            <Label fx:id="err" layoutX="294.0" layoutY="260.0" prefHeight="11.0" prefWidth="82.0" textFill="RED">
+            <Label fx:id="errPoscode" layoutX="294.0" layoutY="260.0" prefHeight="14.0" prefWidth="117.0" textFill="RED">
                <font>
-                  <Font name="Arial Italic" size="10.0" />
+                  <Font name="Arial Bold Italic" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="errPass" layoutX="41.0" layoutY="440.0" prefHeight="14.0" prefWidth="199.0" textFill="RED">
+               <font>
+                  <Font name="Arial Bold Italic" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="err" layoutX="41.0" layoutY="65.0" prefHeight="14.0" prefWidth="199.0" textFill="RED">
+               <font>
+                  <Font name="Arial Bold Italic" size="11.0" />
+               </font>
+            </Label>
+            <Label layoutX="294.0" layoutY="280.0" prefHeight="17.0" prefWidth="43.0" text="Deposit" />
+            <ChoiceBox fx:id="currency" layoutX="295.0" layoutY="302.0" prefHeight="25.0" prefWidth="96.0" style="-fx-background-color: #FBF5F3;" />
+            <TextField fx:id="amountField" layoutX="402.0" layoutY="302.0" prefHeight="25.0" prefWidth="96.0" />
+            <Label fx:id="errUsername" layoutX="40.0" layoutY="260.0" prefHeight="14.0" prefWidth="199.0" textFill="RED">
+               <font>
+                  <Font name="Arial Bold Italic" size="11.0" />
                </font>
             </Label>
          </children>
