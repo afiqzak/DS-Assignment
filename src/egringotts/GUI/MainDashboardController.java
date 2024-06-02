@@ -27,10 +27,16 @@ public class MainDashboardController implements Initializable{
     @FXML
     private Parent root;
     
+    private Admin admin;
+    
     private Customer cust;
     
     public void setCustomer(Customer cust){
         this.cust = cust;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
     
     @FXML
@@ -85,6 +91,8 @@ public class MainDashboardController implements Initializable{
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
+        setting.setAdmin(admin);
+        setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -95,6 +103,7 @@ public class MainDashboardController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.cust = new Customer();
+        this.cust = null;
+        this.admin = null;
     }    
 }

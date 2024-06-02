@@ -39,24 +39,48 @@ public class SettingsPageController implements Initializable {
     @FXML
     private PasswordField passField, newPassField;
     
-    private egringotts.Customer cust;
-    
-    public void setCustomer(egringotts.Customer cust){
-        this.cust = cust;
-    }
+    @FXML
+    private Button profileButton, securityButton, userButton;
     
     @FXML
     private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, poscodeLabel, stateLabel, dobLabel;
     
+    private egringotts.Customer cust;
+    private Admin admin;
+    
+    public void setCustomer(egringotts.Customer cust){
+        this.cust = cust;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+    
+    public void checkAdmin(){
+        if(admin != null) {
+            userButton.setVisible(true);
+        }else{
+            userButton.setVisible(false);
+        } 
+    }
+    
     @FXML
     private void profileButton(ActionEvent event) throws IOException {
         security.setVisible(false);
+        user.setVisible(false);
         profile.setVisible(true);
     }
     @FXML
     private void securityButton(ActionEvent event) throws IOException {
         profile.setVisible(false);
+        user.setVisible(false);
         security.setVisible(true);
+    }
+    @FXML
+    private void userButton(ActionEvent event) throws IOException {
+        profile.setVisible(false);
+        security.setVisible(false);
+        user.setVisible(true);
     }
     
     @FXML
@@ -135,18 +159,21 @@ public class SettingsPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         security.setVisible(false);
+        user.setVisible(false);
         profile.setVisible(true);
     } 
     
     public void setProfile(){
-        accNumLabel.setText("  " + cust.getAccountNum());
-        tierLabel.setText("  " + cust.getTier());
-        nameLabel.setText("  " + cust.getName());
-        emailLabel.setText("  " + cust.getEmail());
-        phoneLabel.setText("  " + cust.getPhoneNum());
-        usernameLabel.setText("  " + cust.getUsername());
-        addressLabel.setText("  " + cust.getAddress());
-        dobLabel.setText("  " + cust.getDOB());
+        if(cust != null){
+            accNumLabel.setText("  " + cust.getAccountNum());
+            tierLabel.setText("  " + cust.getTier());
+            nameLabel.setText("  " + cust.getName());
+            emailLabel.setText("  " + cust.getEmail());
+            phoneLabel.setText("  " + cust.getPhoneNum());
+            usernameLabel.setText("  " + cust.getUsername());
+            addressLabel.setText("  " + cust.getAddress());
+            dobLabel.setText("  " + cust.getDOB());
+        }
     }
 }
 

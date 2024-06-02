@@ -51,14 +51,15 @@ public class LoginController implements Initializable {
         root = loader.load();
         MainDashboardController main = loader.getController();
         String user = egringotts.Account.signIn(usernameField.getText(), passField.getText());
-        
+        System.out.println(user);
         if(!user.isEmpty()){
             if(user.equalsIgnoreCase("admin")) {
                 egringotts.Admin admin = new egringotts.Admin(usernameField.getText(), passField.getText());
+                main.setAdmin(admin);
             }else{
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
-                System.out.println(cust.toString());
                 main.setCustomer(cust);
+                
             } 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             mainDashboard = new Scene(root);
