@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -16,8 +17,10 @@ public class Egringotts extends Application {
     public void start(Stage stage) throws Exception {
         Parent loginroot = FXMLLoader.load(getClass().getResource("signup.fxml"));
         Scene login = new Scene(loginroot);
-        
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("Logo.png")));
         stage.setScene(login);
+        stage.setTitle("E-Gringotts");
+        
         stage.show();
     }
 

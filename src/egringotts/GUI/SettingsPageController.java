@@ -10,6 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -27,6 +30,23 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private Parent root;
+    
+    @FXML
+    private Pane security, profile;
+    
+    @FXML
+    private PasswordField passField, newPassField;
+    
+    @FXML
+    private void profileButton(ActionEvent event) throws IOException {
+        security.setVisible(false);
+        profile.setVisible(true);
+    }
+    @FXML
+    private void securityButton(ActionEvent event) throws IOException {
+        profile.setVisible(false);
+        security.setVisible(true);
+    }
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
@@ -94,7 +114,8 @@ public class SettingsPageController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        security.setVisible(false);
+        profile.setVisible(true);
     } 
     
 }

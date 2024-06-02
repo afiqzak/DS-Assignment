@@ -38,8 +38,8 @@ public class ExchangePageController implements Initializable {
     stage.show();
     }
     @FXML
-    private void transferMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
+    private void accountsMenu(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     
@@ -67,15 +67,6 @@ public class ExchangePageController implements Initializable {
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
-    }
-    @FXML
-    private void accountsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     

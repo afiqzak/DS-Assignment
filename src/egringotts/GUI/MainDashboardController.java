@@ -27,8 +27,8 @@ public class MainDashboardController implements Initializable{
     private Parent root;
     
     @FXML
-    private void transferMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
+    private void accountsMenu(ActionEvent event) throws IOException {
+    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     
@@ -71,15 +71,7 @@ public class MainDashboardController implements Initializable{
     stage.setScene(scene);
     stage.show();
     }
-    @FXML
-    private void accountsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
     
-    stage.setScene(scene);
-    stage.show();
-    }
     @FXML
     private void settingsMenu(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("SettingsPage.fxml"));
