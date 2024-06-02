@@ -36,3 +36,15 @@
 .menuItem{
     -fx-text-fill: #ffffff;
 }
+
+.settingItem:hover{
+    -fx-text-fill: #CECECE;
+    -fx-border-color: #CECECE;
+    -fx-border-width: 3px 0px 0px 0px;
+}
+
+.settingItem{
+    -fx-background-color:  black;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+}

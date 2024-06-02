@@ -68,8 +68,14 @@
                            </font>
                         </Label>
                      </children></AnchorPane>
-                  <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#profileButton" prefHeight="38.0" prefWidth="98.0" text="Profile" />
-                  <Button layoutX="112.0" layoutY="19.0" mnemonicParsing="false" onAction="#securityButton" prefHeight="38.0" prefWidth="98.0" text="Security" />
+                  <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#profileButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Profile">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font></Button>
+                  <Button layoutX="112.0" layoutY="19.0" mnemonicParsing="false" onAction="#securityButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Security">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font></Button>
                   <Line endX="595.5999145507812" endY="-0.9999961853027344" layoutX="118.0" layoutY="57.0" startX="-100.99999237060547" startY="-0.9999961853027344" strokeWidth="5.0" />
                </children>
             </AnchorPane>
