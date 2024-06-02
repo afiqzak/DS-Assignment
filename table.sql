@@ -3,8 +3,9 @@
 create table admin(
 	ID_Admin int,
     Name_Admin varchar(100),
-    PhoneNum_Admin varchar(25),
+    PhoneNum_Admin varchar(50),
     Email_Admin varchar(100),
+    username varchar(20),
     Password_Admin varchar(15),
     DOB date,
     address varchar(100),
@@ -13,14 +14,17 @@ create table admin(
 
 create table account(
 	AccountNum varchar(19),
-    username varchar(50),
+    Name_Customer varchar(100),
+    username varchar(20),
     PhoneNum_Customer varchar(25),
     Email_Customer varchar(100),
     Password_Customer varchar(15),
     DOB date,
     Address varchar(100),
-    Balance int,
     Tier varchar(50),
+    Knut float default 0,
+    Sickle float default 0,
+    Galleon float default 0,
     constraint PK_account primary key(AccountNum)
 );
 
@@ -28,8 +32,9 @@ create table transaction(
 	ID_Transaction varchar(10),
     Sender varchar(19),
     Receipent varchar(19),
-    Amount int,
-    balance int,
+    Amount varchar(100),
+    balance varchar(100),
+    method varchar(20),
     Type varchar(25),
     Date datetime default now(),
     Description varchar(100),
@@ -47,7 +52,8 @@ create table card(
     AccountNum varchar(19),
     Card_Number varchar(19),
     Expiration_Date date,
-    Credit_limit int,
+    Credit_limit varchar(100),
+    type varchar(20),
     constraint PK_card primary key(cvv),
     constraint PF_Holder foreign key (AccountNum)
     references account(AccountNum)
