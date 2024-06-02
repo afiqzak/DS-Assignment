@@ -28,6 +28,12 @@ public class AccountPageController implements Initializable {
     @FXML
     private Parent root;
     
+    private egringotts.Customer cust;
+    
+    public void setCustomer(egringotts.Customer cust){
+        this.cust = cust;
+    }
+    
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
     root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
