@@ -45,10 +45,11 @@ public class LoginController implements Initializable {
     @FXML
     private Parent root;
     
-    private SettingsPageController setting;
-    
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
+        root = loader.load();
+        MainDashboardController main = loader.getController();
         String user = egringotts.Account.signIn(usernameField.getText(), passField.getText());
         
         if(!user.isEmpty()){
@@ -56,9 +57,9 @@ public class LoginController implements Initializable {
                 egringotts.Admin admin = new egringotts.Admin(usernameField.getText(), passField.getText());
             }else{
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
-                setting.setCustomer(cust);
+                System.out.println(cust.toString());
+                main.setCustomer(cust);
             } 
-            root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             mainDashboard = new Scene(root);
 
@@ -94,7 +95,6 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.setting = new SettingsPageController();
     }    
     
 }

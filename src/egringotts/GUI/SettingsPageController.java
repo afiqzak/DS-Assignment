@@ -1,5 +1,6 @@
 package egringotts.GUI;
 
+import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -135,17 +136,17 @@ public class SettingsPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         security.setVisible(false);
         profile.setVisible(true);
-        
-        /*accNumLabel.setText();
-        tierLabel.setText();
-        nameLabel.setText();
-        emailLabel.setText();
-        phoneLabel.setText();
-        usernameLabel.setText();
-        addressLabel.setText();
-        poscodeLabel.setText();
-        stateLabel.setText();
-        dobLabel.setText();*/
     } 
+    
+    public void setProfile(){
+        accNumLabel.setText("  " + cust.getAccountNum());
+        tierLabel.setText("  " + cust.getTier());
+        nameLabel.setText("  " + cust.getName());
+        emailLabel.setText("  " + cust.getEmail());
+        phoneLabel.setText("  " + cust.getPhoneNum());
+        usernameLabel.setText("  " + cust.getUsername());
+        addressLabel.setText("  " + cust.getAddress());
+        dobLabel.setText("  " + cust.getDOB());
+    }
 }
 

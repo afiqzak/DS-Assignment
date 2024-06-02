@@ -41,6 +41,7 @@
     -fx-text-fill: #CECECE;
     -fx-border-color: #CECECE;
     -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-radius: 8;
 }
 
 .settingItem{

@@ -21,7 +21,9 @@ public class Customer implements User{
     private String address;
     private Map<String, Double> balances;
     private String tier;
-    
+
+    public Customer() {
+    }
     
     public Customer(String username, String password) {
         this.username = username;
