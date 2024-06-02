@@ -34,7 +34,7 @@ public class SettingsPageController implements Initializable {
     private Parent root;
     
     @FXML
-    private Pane security, profile;
+    private Pane security, profile, user;
     
     @FXML
     private PasswordField passField, newPassField;
