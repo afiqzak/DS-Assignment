@@ -51,7 +51,7 @@ create table card(
 	cvv int,
     AccountNum varchar(19),
     Card_Number varchar(19),
-    Expiration_Date date,
+    Expiration_Date varchar(5),
     Credit_limit varchar(100),
     type varchar(20),
     constraint PK_card primary key(cvv),
