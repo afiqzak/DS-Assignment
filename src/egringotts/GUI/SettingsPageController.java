@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -36,6 +37,9 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private PasswordField passField, newPassField;
+    
+    @FXML
+    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, poscodeLabel, stateLabel, dobLabel;
     
     @FXML
     private void profileButton(ActionEvent event) throws IOException {
@@ -116,7 +120,17 @@ public class SettingsPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         security.setVisible(false);
         profile.setVisible(true);
+        
+        accNumLabel.getText();
+        tierLabel.getText();
+        nameLabel.getText();
+        emailLabel.getText();
+        phoneLabel.getText();
+        usernameLabel.getText();
+        addressLabel.getText();
+        poscodeLabel.getText();
+        stateLabel.getText();
+        dobLabel.getText();
     } 
-    
 }
 
