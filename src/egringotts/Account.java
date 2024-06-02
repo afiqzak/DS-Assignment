@@ -122,9 +122,9 @@ public class Account {
                 String address = resultSet.getString("Address");
                 String tier = resultSet.getString("Tier");
                 Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("KnutBalance"));
-                balances.put("Sickle", resultSet.getDouble("SickleBalance"));
-                balances.put("Galleon", resultSet.getDouble("GalleonBalance"));
+                balances.put("Knut", resultSet.getDouble("Knut"));
+                balances.put("Sickle", resultSet.getDouble("Sickle"));
+                balances.put("Galleon", resultSet.getDouble("Galleon"));
 
                 customer = new Customer(accountNumber, name, username, phoneNum, email, password, DOB, address, balances, tier);
             }
