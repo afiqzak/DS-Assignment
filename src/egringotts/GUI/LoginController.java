@@ -45,16 +45,18 @@ public class LoginController implements Initializable {
     @FXML
     private Parent root;
     
+    private SettingsPageController setting;
+    
     @FXML
     private void loginAction(ActionEvent event) throws IOException {
         String user = egringotts.Account.signIn(usernameField.getText(), passField.getText());
-        System.out.println(user);
         
         if(!user.isEmpty()){
             if(user.equalsIgnoreCase("admin")) {
                 egringotts.Admin admin = new egringotts.Admin(usernameField.getText(), passField.getText());
             }else{
-                egringotts.Customer cust = new egringotts.Customer(usernameField.getText(), passField.getText());
+                egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
+                setting.setCustomer(cust);
             } 
             root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -62,7 +64,7 @@ public class LoginController implements Initializable {
 
             stage.setScene(mainDashboard);
             //stage.setMaximized(true);
-        stage.show();
+            stage.show();
         }else{
             errorLabel.setText("incorrect username or password");
         }
@@ -92,7 +94,7 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.setting = new SettingsPageController();
     }    
     
 }

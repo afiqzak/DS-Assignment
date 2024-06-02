@@ -37,6 +37,12 @@ public class SettingsPageController implements Initializable {
     @FXML
     private PasswordField passField, newPassField;
     
+    private egringotts.Customer cust;
+    
+    public void setCustomer(egringotts.Customer cust){
+        this.cust = cust;
+    }
+    
     @FXML
     private void profileButton(ActionEvent event) throws IOException {
         security.setVisible(false);
