@@ -54,66 +54,75 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void transferMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void transactionMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void cardsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void exchangeMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void logoutButton(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     
     @Override
@@ -121,16 +130,16 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         profile.setVisible(true);
         
-        accNumLabel.getText();
-        tierLabel.getText();
-        nameLabel.getText();
-        emailLabel.getText();
-        phoneLabel.getText();
-        usernameLabel.getText();
-        addressLabel.getText();
-        poscodeLabel.getText();
-        stateLabel.getText();
-        dobLabel.getText();
+        /*accNumLabel.setText();
+        tierLabel.setText();
+        nameLabel.setText();
+        emailLabel.setText();
+        phoneLabel.setText();
+        usernameLabel.setText();
+        addressLabel.setText();
+        poscodeLabel.setText();
+        stateLabel.setText();
+        dobLabel.setText();*/
     } 
 }
 

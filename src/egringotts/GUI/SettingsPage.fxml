@@ -78,6 +78,11 @@
                         <Label fx:id="stateLabel" layoutX="345.0" layoutY="181.0" prefHeight="26.0" prefWidth="126.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="State" />
                      </children>
                   </AnchorPane>
+                  <Button layoutX="626.0" layoutY="493.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="38.0" prefWidth="90.0" style="-fx-background-color: #cc252c; -fx-background-radius: 10;" styleClass="LogoutButton" text="Log Out" textFill="#fbf5f3">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="54.0" prefWidth="189.0" style="-fx-background-color: #000000;">

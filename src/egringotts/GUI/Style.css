@@ -48,3 +48,10 @@
     -fx-background-radius: 8;
     -fx-text-fill: white;
 }
+
+.LogoutButton:hover{
+    -fx-background-color: #FBF5F3;
+    -fx-border-radius: 7;
+    -fx-border-width: 3;
+    -fx-border-color: #FBF5F3;
+}
