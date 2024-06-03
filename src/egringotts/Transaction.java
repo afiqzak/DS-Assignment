@@ -16,22 +16,37 @@ import java.util.Vector;
  */
 public class Transaction {
 
-    private String transactionID, sender, receipent, type, description;
-    private int amount, sbalance, rbalance;
-    private LocalDate date;
+    private String transactionID, sender, receipent, type, description, method, currAmount, currBalance, date;
+    private Double amount, balance;
 
     public Transaction() {
     }
-    
 
-    public Transaction(String sender, String receipent, int amount, String type, String description) {
+    public Transaction(String transactionID, String sender, String receipent, String type, String method, String description, double amount, double balance, String date) {
+        this.transactionID = transactionID;
         this.sender = sender;
         this.receipent = receipent;
-        this.amount = amount;
         this.type = type;
+        this.method = method;
         this.description = description;
+        this.amount = amount;
+        this.balance = balance;
+        this.date = date;
     }
 
+    public Transaction(String transactionID, String sender, String receipent, String type, String description, String method, String currAmount, String currBalance, String date) {
+        this.transactionID = transactionID;
+        this.sender = sender;
+        this.receipent = receipent;
+        this.type = type;
+        this.description = description;
+        this.method = method;
+        this.currAmount = currAmount;
+        this.currBalance = currBalance;
+        this.date = date;
+    }
+    
+    
     
     public String getTransactionId() throws SQLException {
         
@@ -57,7 +72,8 @@ public class Transaction {
 }
 
     
-    public String recordTransaction(String userPin) throws SQLException {
+    public String recordTransaction(String currency, String method) throws SQLException {
+        double rbalance = 0.0;
         String transactionID = null;
         
         try (Connection con = DBConnection.openConn();
@@ -65,30 +81,22 @@ public class Transaction {
             // Generate a transaction ID
             transactionID = getTransactionId();
             
-            // Get current date
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String formattedDate = currentDate.format(dateFormatter);
-
-            // Get current time
-            LocalTime currentTime = LocalTime.now();
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String formattedTime = currentTime.format(timeFormatter);
-            
             // Fetch sender current balance from database
-            String senderBalance = "SELECT Balance FROM account WHERE AccountNum = '" + sender + "'";
+            String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + sender + "'";
             ResultSet SBalanceResult = statement.executeQuery(senderBalance);
             if (SBalanceResult.next()) {
-                sbalance = SBalanceResult.getInt("Balance");
+                balance = SBalanceResult.getDouble(currency);
             }
             // Update balance
-            sbalance -= amount;
+            balance -= amount;
+            this.currBalance = String.valueOf(balance) + currency.charAt(0);
+            this.currAmount = String.valueOf(amount) + currency.charAt(0);
             
             // Fetch receipent current balance from database
-            String receipentBalance = "SELECT Balance FROM account WHERE AccountNum = '" + receipent + "'";
+            String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + receipent + "'";
             ResultSet RBalanceResult = statement.executeQuery(receipentBalance);
             if (RBalanceResult.next()) {
-                rbalance = RBalanceResult.getInt("Balance");
+                rbalance = RBalanceResult.getInt(currency);
             }
             
             // Update balance
@@ -96,15 +104,15 @@ public class Transaction {
 
             
             // Insert transaction into database
-            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
-                    + "VALUES ('" + transactionID + "', '" + sender + "', '" + receipent + "', " + amount + ", " + sbalance + ", '" + type + "', '" + formattedDate + " " + formattedTime + "', '" + description + "')";
+            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, method, Type, Description) "
+                    + "VALUES ('" + transactionID + "', '" + sender + "', '" + receipent + "', '" + currAmount + "', '" + currBalance + "', '" + method + "', '" + type + "', '" + description + "')";
             statement.executeUpdate(sql);
             
             // Update the balance in the account table
-            String updateSenderBalanceQuery = "UPDATE account SET Balance = " + sbalance + " WHERE AccountNum = '" + sender + "'";
+            String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + balance + " WHERE AccountNum = '" + sender + "'";
             statement.executeUpdate(updateSenderBalanceQuery);
             
-            String updateReceipentBalanceQuery = "UPDATE account SET Balance = " + rbalance + " WHERE AccountNum = '" + receipent + "'";
+            String updateReceipentBalanceQuery = "UPDATE account SET " + currency + " = " + rbalance + " WHERE AccountNum = '" + receipent + "'";
             statement.executeUpdate(updateReceipentBalanceQuery);
             
         } catch (SQLException e) {
@@ -141,7 +149,7 @@ public class Transaction {
         return transactionRecords;
     }
     
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -149,16 +157,43 @@ public class Transaction {
         return type;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
     public String getDescription() {
         return description;
     }
-    
-    
 
+    public String getTransactionID() {
+        return transactionID;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public String getReceipent() {
+        return receipent;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getCurrAmount() {
+        return currAmount;
+    }
+
+    public String getCurrBalance() {
+        return currBalance;
+    }
+    
+    
     
     //modification
      // Method to record a transaction for currency exchange
