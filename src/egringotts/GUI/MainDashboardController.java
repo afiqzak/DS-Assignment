@@ -41,14 +41,21 @@ public class MainDashboardController implements Initializable{
     @FXML
     private Parent root;
     
+
     @FXML
     private ChoiceBox<String> currencyChoice;
+
+    private Admin admin;
     
     private Customer cust;
     public int card;
     
     public void setCustomer(Customer cust){
         this.cust = cust;
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
     }
     
     public void displayCard(String accNum){
@@ -166,6 +173,8 @@ public class MainDashboardController implements Initializable{
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
+        setting.setAdmin(admin);
+        setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -176,9 +185,13 @@ public class MainDashboardController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        this.cust = null;
+        this.admin = null;
         this.cust = new Customer();
         currencyChoice.getItems().addAll(Account.getCurrency());
         currencyChoice.getSelectionModel().selectFirst();
         currencyChoice.setOnAction(this::getBalance);
+
+        
     }    
 }

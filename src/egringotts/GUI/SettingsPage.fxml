@@ -2,8 +2,12 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -34,6 +38,38 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
+                  <AnchorPane fx:id="user" layoutX="14.0" layoutY="57.0" prefHeight="432.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="98.0" text="Customer" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView layoutX="14.0" layoutY="52.0" prefHeight="200.0" prefWidth="678.0">
+                          <columns>
+                            <TableColumn prefWidth="75.20002555847168" text="Acc Num" />
+                            <TableColumn prefWidth="102.40003204345703" text="Name" />
+                              <TableColumn prefWidth="61.5999755859375" text="Phone" />
+                              <TableColumn prefWidth="116.79998779296875" text="Email" />
+                              <TableColumn minWidth="9.60003662109375" prefWidth="63.20001220703125" text="DOB" />
+                              <TableColumn prefWidth="168.79995727539062" text="Address" />
+                              <TableColumn minWidth="0.0" prefWidth="91.2000732421875" text="Tier" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="14.0" layoutY="262.0" prefHeight="38.0" prefWidth="98.0" text="Add Admin" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="14.0" layoutY="300.0" prefHeight="26.0" prefWidth="186.0" promptText="Name" />
+                        <TextField layoutX="14.0" layoutY="337.0" prefHeight="26.0" prefWidth="186.0" promptText="Phone Number" />
+                        <TextField layoutX="14.0" layoutY="374.0" prefHeight="26.0" prefWidth="186.0" promptText="Email" />
+                        <TextField layoutX="228.0" layoutY="300.0" prefHeight="26.0" prefWidth="170.0" promptText="Email" text="Address" />
+                        <TextField layoutX="442.0" layoutY="300.0" promptText="Username" />
+                        <TextField layoutX="442.0" layoutY="337.0" promptText="Password" />
+                        <DatePicker layoutX="228.0" layoutY="337.0" prefHeight="26.0" prefWidth="170.0" />
+                        <Button layoutX="604.0" layoutY="375.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="80.0" text="Add" />
+                     </children></AnchorPane>
                   <AnchorPane fx:id="security" layoutX="14.0" layoutY="55.0" prefHeight="403.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
                      <children>
                         <Label layoutX="16.0" layoutY="14.0" prefHeight="38.0" prefWidth="170.0" text="Change Password" textFill="#fbf5f3">
@@ -54,11 +90,16 @@
                            </font>
                         </Label>
                      </children></AnchorPane>
-                  <Button layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#profileButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Profile">
+                  <Button fx:id="profileButton" layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#profileButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Profile">
                      <font>
                         <Font name="Bank Gothic Medium BT" size="14.0" />
                      </font></Button>
-                  <Button layoutX="112.0" layoutY="19.0" mnemonicParsing="false" onAction="#securityButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Security">
+                  <Button fx:id="userButton" layoutX="210.0" layoutY="19.0" mnemonicParsing="false" onAction="#userButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="User">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="securityButton" layoutX="112.0" layoutY="19.0" mnemonicParsing="false" onAction="#securityButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Security">
                      <font>
                         <Font name="Bank Gothic Medium BT" size="14.0" />
                      </font></Button>

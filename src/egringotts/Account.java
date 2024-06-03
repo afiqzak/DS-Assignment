@@ -59,7 +59,7 @@ public class Account {
             Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            SQL_Command = "SELECT Name_Admin FROM admin WHERE Name_Admin ='" + username + "' AND Password_Admin ='" + pass + "'";
+            SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + username + "' AND Password_Admin ='" + pass + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
             if(Rslt.next()) user = "admin";
             else {
