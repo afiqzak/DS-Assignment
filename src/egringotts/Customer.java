@@ -175,9 +175,15 @@ public class Customer implements User{
             System.out.println("Balance updated successfully for account: " + accountNum);
     }
     
-
-
-
+    public void updateCustomerPassword(String password) throws SQLException {
+        DBConnection ToDB = new DBConnection();
+        Connection DBConn = ToDB.openConn();
+        PreparedStatement pstmt = null;
+        
+        String SQL_Command ="UPDATE account SET password = " + password + "WHERE AccounntNum = ?";
+        pstmt = DBConn.prepareStatement(SQL_Command);
+        pstmt.setString(1, this.accountNum);
+    }
     
     public String setTier() {
         if (getBalance("Knut") < 10000) {

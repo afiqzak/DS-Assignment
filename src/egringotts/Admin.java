@@ -1,9 +1,11 @@
 package egringotts;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 /**
  *
@@ -11,7 +13,7 @@ import java.sql.Statement;
  */
 public class Admin implements User {
 
-    private int userId;
+    private String accountNum;
     private String name;
     private String username;
     private String password;
@@ -21,7 +23,8 @@ public class Admin implements User {
     private String address;
 
     // Constructor
-    public Admin(String username, String name, String phoneNum, String email, String password, String DOB, String address) {
+    public Admin(String accountNum, String username, String name, String phoneNum, String email, String password, String DOB, String address) {
+        this.accountNum = accountNum;
         this.username = username;
         this.name = name;
         this.phoneNum = phoneNum;
@@ -39,7 +42,6 @@ public class Admin implements User {
     
 
     // Implement User interface methods
-    
     public int getUserId() throws SQLException{
         int newId = 1;
         try (Connection con = DBConnection.openConn();
@@ -61,6 +63,26 @@ public class Admin implements User {
         }
         return newId;
 
+    }
+    
+    public void tableUser() throws SQLException {
+        
+    }
+    
+    public void updateAdminPassword(String password) throws SQLException {
+        String SQL_Command ="UPDATE admin SET Password_Admin = '" + password + "' WHERE AccountNum = ?";
+        try(Connection con = DBConnection.openConn();
+            PreparedStatement statement = con.prepareStatement(SQL_Command)){
+            statement.setString(1, this.getAccountNum());
+            System.out.println(statement);
+            statement.executeUpdate();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public String getAccountNum() {
+        return accountNum;
     }
 
     @Override

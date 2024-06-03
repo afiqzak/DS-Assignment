@@ -3,7 +3,10 @@ package egringotts.GUI;
 import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -43,10 +48,38 @@ public class SettingsPageController implements Initializable {
     private Button profileButton, securityButton, userButton;
     
     @FXML
-    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, poscodeLabel, stateLabel, dobLabel;
+    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, dobLabel, incorrectLabel, successLabel;
+    
+    @FXML
+    private TableView<Customer> userTable;
+        
+    @FXML
+    private TableColumn<Customer, String> accNumColumn;
+
+    @FXML
+    private TableColumn<Customer, String> addressColumn;
+
+    @FXML
+    private TableColumn<Customer, String> dobColumn;
+
+    @FXML
+    private TableColumn<Customer, String> emailColumn;
+
+    @FXML
+    private TableColumn<Customer, String> nameColumn;
+
+    @FXML
+    private TableColumn<Customer, String> phoneColumn;
+
+    @FXML
+    private TableColumn<Customer, String> tierColumn;
     
     private egringotts.Customer cust;
     private Admin admin;
+    
+    ObservableList<Customer> list = FXCollections.ObservableArrayList(
+            
+    );
     
     public void setCustomer(egringotts.Customer cust){
         this.cust = cust;
@@ -59,7 +92,7 @@ public class SettingsPageController implements Initializable {
     public void checkAdmin(){
         if(admin != null) {
             userButton.setVisible(true);
-        }else{
+        }else if (user != null){
             userButton.setVisible(false);
         } 
     }
@@ -81,6 +114,23 @@ public class SettingsPageController implements Initializable {
         profile.setVisible(false);
         security.setVisible(false);
         user.setVisible(true);
+    }
+    
+    @FXML
+    private void updatePassButton(ActionEvent event) throws IOException, SQLException {
+        System.out.println(admin.getAccountNum());
+        String password = newPassField.getText();
+        if (cust != null && passField.getText().equals(cust.getPassword())){
+            cust.updateCustomerPassword(password);
+            incorrectLabel.setVisible(false);
+            successLabel.setVisible(true);
+        }else if (admin!=null && passField.getText().equals(admin.getPassword())){
+            admin.getPassword();
+            admin.updateAdminPassword(password);
+            incorrectLabel.setVisible(false);
+            successLabel.setVisible(true);
+        }else
+            incorrectLabel.setVisible(true);
     }
     
     @FXML
@@ -161,9 +211,11 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         user.setVisible(false);
         profile.setVisible(true);
+        incorrectLabel.setVisible(false);
+        successLabel.setVisible(false);
     } 
     
-    public void setProfile(){
+    public void setProfile() throws SQLException{
         if(cust != null){
             accNumLabel.setText("  " + cust.getAccountNum());
             tierLabel.setText("  " + cust.getTier());
@@ -173,6 +225,15 @@ public class SettingsPageController implements Initializable {
             usernameLabel.setText("  " + cust.getUsername());
             addressLabel.setText("  " + cust.getAddress());
             dobLabel.setText("  " + cust.getDOB());
+        } else {
+            accNumLabel.setText("  " + admin.getAccountNum());
+            tierLabel.setVisible(false);
+            nameLabel.setText("  " + admin.getName());
+            emailLabel.setText("  " + admin.getEmail());
+            phoneLabel.setText("  " + admin.getPhoneNum());
+            usernameLabel.setText("  " + admin.getUsername());
+            addressLabel.setText("  " + admin.getAddress());
+            dobLabel.setText("  " + admin.getDOB());
         }
     }
 }

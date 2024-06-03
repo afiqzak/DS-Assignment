@@ -3,6 +3,7 @@ package egringotts.GUI;
 import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -86,7 +87,7 @@ public class MainDashboardController implements Initializable{
     }
     
     @FXML
-    private void settingsMenu(ActionEvent event) throws IOException {
+    private void settingsMenu(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
         root = loader.load();
         SettingsPageController setting = loader.getController();

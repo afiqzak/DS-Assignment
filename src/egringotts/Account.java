@@ -15,13 +15,9 @@ public class Account {
  
     public static boolean signUp(Customer user, String currency, double amount) {
         boolean done = true;
-        String SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ") " +
-                                        "VALUES ('" + user.getAccountNum() + "','" + user.getUsername() + "','" + user.getName() + "','" + user.getPhoneNum() + "','" +
-                                        user.getEmail() + "','" + user.getPassword() + "','" + user.getDOB() + "','" + user.getAddress() + "', '" + user.setTier() + "', " + amount + ")";;
+        String SQL_Command = "SELECT username FROM account WHERE username ='" + user.getUsername() + "'"; 
             try (Connection con = DBConnection.openConn();
-                Statement statement = con.prepareStatement(currency)){
-                // SQL query command
-                SQL_Command = "SELECT username FROM account WHERE username ='" + user.getUsername() + "'"; 
+                Statement statement = con.prepareStatement(SQL_Command)){
                 // Inquire if the username exists.
                 ResultSet Rslt = statement.executeQuery(SQL_Command); 
                 if(Rslt.next()) return false;
@@ -170,9 +166,37 @@ public class Account {
         return customer;
     }
     
-    public static void main(String[] args) {
-        Customer cust = new Customer("amii", "ali amad", "10291301", "kbbwcjbsov", "1234", "2004-11-02", "sfbvodfnvois");
-        System.out.println(signUp(cust, "Knut", 1234.0));
+    public static Admin getAdminByUsername(String username){
+        Admin admin = null;
+
+        try (Connection conn = DBConnection.openConn();){
+            String query = "SELECT * FROM admin WHERE username = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String accountNum = resultSet.getString("AccountNum");
+                String name = resultSet.getString("Name_Admin");
+                String phoneNum = resultSet.getString("PhoneNum_Admin");
+                String email = resultSet.getString("Email_Admin");
+                String password = resultSet.getString("Password_Admin");
+                String DOB = resultSet.getString("DOB");
+                String address = resultSet.getString("Address");
+                /*Map<String, java.lang.Double> balances = new HashMap<>();
+                balances.put("Knut", resultSet.getDouble("KnutBalance"));
+                balances.put("Sickle", resultSet.getDouble("SickleBalance"));
+                balances.put("Galleon", resultSet.getDouble("GalleonBalance"));*/
+
+                admin = new Admin(accountNum, name, username, phoneNum, email, password, DOB, address);
+            }
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return admin;
     }
 }
 
