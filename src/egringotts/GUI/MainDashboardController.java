@@ -174,7 +174,7 @@ public class MainDashboardController implements Initializable{
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
-        setting.setAdmin(admin);
+        if(admin != null) setting.setAdmin(admin);
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

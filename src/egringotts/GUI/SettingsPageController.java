@@ -86,7 +86,6 @@ public class SettingsPageController implements Initializable {
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
-        System.out.println(admin.getName());
         list = FXCollections.observableArrayList(admin.tableUser());
     }
     
