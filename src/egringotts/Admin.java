@@ -95,14 +95,12 @@ public class Admin implements User {
         try (Connection connection = DBConnection.openConn();
             PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
-            //printTable(rs);
             if (rs.next()) {
                 do {
                   // Process the result set and create Transaction objects
                   users.add(Account.getCustomerByAccountNumber(rs.getString("AccountNum")));
                 } while (rs.next());
               }
-            //printTable(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }

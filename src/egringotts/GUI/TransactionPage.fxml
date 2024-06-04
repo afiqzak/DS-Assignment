@@ -53,14 +53,14 @@
                         <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <TableView layoutX="14.0" layoutY="53.0" prefHeight="222.0" prefWidth="702.0">
+                  <TableView fx:id="history" layoutX="14.0" layoutY="53.0" prefHeight="222.0" prefWidth="702.0">
                     <columns>
-                      <TableColumn prefWidth="94.39997673034668" text="Recipient" />
-                        <TableColumn prefWidth="121.60001220703123" text="Amount" />
-                        <TableColumn prefWidth="96.79998779296875" text="Type" />
-                        <TableColumn prefWidth="140.79998779296875" text="Method" />
-                        <TableColumn minWidth="6.4000244140625" prefWidth="94.39999389648438" text="Date" />
-                      <TableColumn prefWidth="153.59998321533203" text="Description" />
+                      <TableColumn fx:id="receipentColumn" prefWidth="94.39997673034668" text="Receipent" />
+                        <TableColumn fx:id="typeColumn" prefWidth="96.79998779296875" text="Type" />
+                        <TableColumn fx:id="amountColumn" prefWidth="121.60001220703123" text="Amount" />
+                        <TableColumn fx:id="methodColumn" prefWidth="140.79998779296875" text="Method" />
+                        <TableColumn fx:id="dateColumn" minWidth="6.4000244140625" prefWidth="94.39999389648438" text="Date" />
+                      <TableColumn fx:id="descColumn" prefWidth="153.59998321533203" text="Description" />
                     </columns>
                   </TableView>
                   <SplitMenuButton layoutX="629.0" layoutY="19.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="86.0" text="Filter By">

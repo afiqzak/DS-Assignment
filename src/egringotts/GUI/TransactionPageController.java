@@ -4,6 +4,7 @@ import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,9 +38,34 @@ public class TransactionPageController implements Initializable {
     private TableView<Transaction> history;
         
     @FXML
-    private TableColumn<Transaction, String> receipentColumn, descColumn, typeColumn, methodColumn, dateColumn,amountColumn;
+    private TableColumn<Transaction, String> receipentColumn, descColumn, typeColumn, methodColumn, dateColumn, amountColumn;
     
-    ObservableList<Transaction> list ;
+    private PensivePast pensive;
+    private Admin admin;
+    private Customer cust;
+    
+    ObservableList<Transaction> list;
+    
+    public void setCustomer(egringotts.Customer cust){
+        this.cust = cust;
+        
+        list = FXCollections.observableArrayList(pensive.history(cust.getAccountNum()));
+    }
+
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
+    
+    public void historyTable(){
+        receipentColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("receipent"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
+        descColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("description"));
+        methodColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("method"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
+        
+        history.setItems(list);
+    }
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
@@ -98,14 +124,7 @@ public class TransactionPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        receipentColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("receipent"));
-        descColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("desc"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
-        methodColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("method"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
-        amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("amount"));
         
-        history.setItems(list);
     }    
     
 }

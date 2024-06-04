@@ -78,6 +78,9 @@ public class MainDashboardController implements Initializable{
                     nameField2.setText(rs.getString("Name_Customer"));
                     numField2.setText(masking(rs.getString("Card_Number")));
                     card2.setVisible(true);
+                }else if(card==0){
+                    card1.setVisible(false);
+                    card2.setVisible(false);
                 }
                 this.card++;
             }
@@ -90,8 +93,7 @@ public class MainDashboardController implements Initializable{
         Label[] desc = {descField1, descField2, descField3};
         Label[] date = {dateField1, dateField2, dateField3};
         Label[] amount = {amountField1, amountField2, amountField3};
-        PensivePast history = new PensivePast(cust);
-        ArrayList<Transaction> trans = history.history(); 
+        ArrayList<Transaction> trans = PensivePast.history(cust.getAccountNum()); 
         
         for(int i = 0; i < 3 && trans.size() > i; i++){
             desc[i].setText(trans.get(i).getDescription());
@@ -100,7 +102,7 @@ public class MainDashboardController implements Initializable{
         }
       }
     
-    public String masking(String cardNum){
+    public static String masking(String cardNum){
         String newCardNum = "";
         String[] num = cardNum.split(" ");
         for(int i = 0; i < num.length; i++){
@@ -124,48 +126,55 @@ public class MainDashboardController implements Initializable{
     
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void transactionMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
+        root = loader.load();
+        TransactionPageController trans = loader.getController();
+        trans.setCustomer(cust);
+        trans.historyTable();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void cardsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
+        root = loader.load();
+        CardsPageController cards = loader.getController();
+        cards.displayCard(cust.getAccountNum());
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void exchangeMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
-    root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    
-    stage.setScene(scene);
-    stage.show();
+        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     
     @FXML

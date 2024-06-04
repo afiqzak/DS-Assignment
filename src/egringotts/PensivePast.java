@@ -9,34 +9,28 @@ import java.util.List;
     
 public class PensivePast {
     private Customer cust;
-
-    public PensivePast(Customer cust) {
-        this.cust = cust;
-    }
-
     
-    public ArrayList<Transaction> history(){
+    public static ArrayList<Transaction> history(String accountNum){
         ArrayList<Transaction> trans = new ArrayList<>();
         String query = "SELECT * FROM transaction WHERE Sender = ? ORDER BY Date DESC";
         
         try (Connection connection = DBConnection.openConn();
             PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, cust.getAccountNum());
+            ps.setString(1, accountNum);
             ResultSet rs = ps.executeQuery();
-            //printTable(rs);
             if (rs.next()) {
                 do {
                   // Process the result set and create Transaction objects
                   trans.add(new Transaction(
                       rs.getString("ID_Transaction"),
-                      cust.getAccountNum(), // Assuming sender should be the provided accNum
+                      accountNum, // Assuming sender should be the provided accNum
                       rs.getString("Receipent"),
                       rs.getString("Type"),
                       rs.getString("Description"),
                       rs.getString("method"),
                       rs.getString("amount"),
                       rs.getString("balance"),
-                      rs.getString("Date").toString()
+                      rs.getString("Date")
                   ));
                 } while (rs.next());
               }

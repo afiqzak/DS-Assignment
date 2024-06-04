@@ -62,9 +62,6 @@
                         <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="18.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Pane layoutX="493.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Pane layoutX="254.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
                   <PieChart layoutX="18.0" layoutY="242.0" prefHeight="290.0" prefWidth="290.0" style="-fx-background-color: #0d1f2d;" />
                   <Label layoutX="327.0" layoutY="203.0" prefHeight="38.0" prefWidth="213.0" text="+ Add New Card">
                      <font>
@@ -72,6 +69,111 @@
                      </font>
                   </Label>
                   <Pane layoutX="327.0" layoutY="241.0" prefHeight="290.0" prefWidth="390.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
+                  <Pane fx:id="card1" layoutX="24.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #8DB694; -fx-background-radius: 15; -fx-border-radius: 15;">
+                     <children>
+                        <Pane layoutY="-2.0" prefHeight="100.0" prefWidth="222.0" style="-fx-background-color: #729b79; -fx-background-radius: 15px 15px 0px 0px;">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="179.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@chip.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="14.0" layoutY="57.0" text="CARD HOLDER" textFill="WHITE">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="125.0" layoutY="57.0" text="VALID THRU" textFill="WHITE">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="nameField" layoutX="14.0" layoutY="72.0" text="Label" textFill="#e8e8e8" />
+                              <Label fx:id="expField" layoutX="125.0" layoutY="72.0" text="Label" textFill="#e8e8e8" />
+                           </children>
+                        </Pane>
+                        <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="179.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@chip2.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="numField" layoutX="14.0" layoutY="108.0" prefHeight="17.0" prefWidth="146.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="card3" layoutX="493.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #8DB694; -fx-background-radius: 15; -fx-border-radius: 15;">
+                     <children>
+                        <Pane layoutY="-2.0" prefHeight="100.0" prefWidth="222.0" style="-fx-background-color: #729b79; -fx-background-radius: 15px 15px 0px 0px;">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="179.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@chip.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="14.0" layoutY="57.0" text="CARD HOLDER" textFill="WHITE">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="125.0" layoutY="57.0" text="VALID THRU" textFill="WHITE">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="nameField3" layoutX="14.0" layoutY="72.0" text="Label" textFill="#e8e8e8" />
+                              <Label fx:id="expField3" layoutX="125.0" layoutY="72.0" text="Label" textFill="#e8e8e8" />
+                           </children>
+                        </Pane>
+                        <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="179.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@chip2.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="numField3" layoutX="14.0" layoutY="108.0" prefHeight="17.0" prefWidth="146.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane fx:id="card2" layoutX="261.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #8DB694; -fx-background-radius: 15; -fx-border-radius: 15;">
+                     <children>
+                        <Pane layoutY="-2.0" prefHeight="100.0" prefWidth="222.0" style="-fx-background-color: #729b79; -fx-background-radius: 15px 15px 0px 0px;">
+                           <children>
+                              <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="179.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@chip.png" />
+                                 </image>
+                              </ImageView>
+                              <Label layoutX="14.0" layoutY="57.0" text="CARD HOLDER" textFill="WHITE">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="125.0" layoutY="57.0" text="VALID THRU" textFill="WHITE">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="nameField2" layoutX="14.0" layoutY="72.0" text="Label" textFill="#e8e8e8" />
+                              <Label fx:id="expField2" layoutX="125.0" layoutY="72.0" text="Label" textFill="#e8e8e8" />
+                           </children>
+                        </Pane>
+                        <ImageView fitHeight="26.0" fitWidth="29.0" layoutX="179.0" layoutY="108.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@chip2.png" />
+                           </image>
+                        </ImageView>
+                        <Label fx:id="numField2" layoutX="14.0" layoutY="108.0" prefHeight="17.0" prefWidth="146.0" text="Label" textFill="WHITE">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">

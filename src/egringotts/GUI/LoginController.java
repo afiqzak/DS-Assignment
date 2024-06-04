@@ -64,13 +64,11 @@ public class LoginController implements Initializable {
                 main.displayCard(cust.getAccountNum());
                 main.displayRecentTrans();
                 main.displayBalance();
-                
             } 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             mainDashboard = new Scene(root);
 
             stage.setScene(mainDashboard);
-            //stage.setMaximized(true);
             stage.show();
         }else{
             errorLabel.setText("incorrect username or password");
