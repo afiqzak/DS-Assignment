@@ -47,7 +47,7 @@ public class SettingsPageController implements Initializable {
     private Pane security, profile, user;
     
     @FXML
-    private PasswordField passField, newPassField;
+    private PasswordField passField, newPassField, passF;
     
     @FXML
     private Button profileButton, securityButton, userButton;
@@ -56,7 +56,7 @@ public class SettingsPageController implements Initializable {
     private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, dobLabel, incorrectLabel, successLabel;
     
     @FXML
-    private TextField nameF, emailF, phoneF, addressF, usernameF, passF;
+    private TextField nameF, emailF, phoneF, addressF, usernameF;
     
     @FXML
     private DatePicker dobF;
