@@ -123,14 +123,14 @@
                               <Font name="Bank Gothic Medium BT" size="16.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="14.0" layoutY="300.0" prefHeight="26.0" prefWidth="186.0" promptText="Name" />
-                        <TextField layoutX="14.0" layoutY="337.0" prefHeight="26.0" prefWidth="186.0" promptText="Phone Number" />
-                        <TextField layoutX="14.0" layoutY="374.0" prefHeight="26.0" prefWidth="186.0" promptText="Email" />
-                        <TextField layoutX="228.0" layoutY="300.0" prefHeight="26.0" prefWidth="170.0" promptText="Email" text="Address" />
-                        <TextField layoutX="442.0" layoutY="300.0" promptText="Username" />
-                        <TextField layoutX="442.0" layoutY="337.0" promptText="Password" />
-                        <DatePicker layoutX="228.0" layoutY="337.0" prefHeight="26.0" prefWidth="170.0" />
-                        <Button layoutX="604.0" layoutY="375.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="80.0" text="Add" />
+                        <TextField fx:id="nameF" layoutX="14.0" layoutY="300.0" prefHeight="26.0" prefWidth="186.0" promptText="Name" />
+                        <TextField fx:id="phoneF" layoutX="14.0" layoutY="337.0" prefHeight="26.0" prefWidth="186.0" promptText="Phone Number" />
+                        <TextField fx:id="emailF" layoutX="14.0" layoutY="374.0" prefHeight="26.0" prefWidth="186.0" promptText="Email" />
+                        <TextField fx:id="addressF" layoutX="228.0" layoutY="300.0" prefHeight="26.0" prefWidth="170.0" promptText="Address" />
+                        <TextField fx:id="usernameF" layoutX="442.0" layoutY="300.0" promptText="Username" />
+                        <TextField fx:id="passF" layoutX="442.0" layoutY="337.0" promptText="Password" />
+                        <DatePicker fx:id="dobF" layoutX="228.0" layoutY="337.0" prefHeight="26.0" prefWidth="170.0" />
+                        <Button layoutX="604.0" layoutY="375.0" mnemonicParsing="false" onAction="#addAdminButton" prefHeight="38.0" prefWidth="80.0" text="Add" />
                      </children></AnchorPane>
                   <Button layoutX="626.0" layoutY="493.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="38.0" prefWidth="90.0" style="-fx-background-color: #cc252c; -fx-background-radius: 10;" styleClass="LogoutButton" text="Log Out" textFill="#fbf5f3">
                      <font>

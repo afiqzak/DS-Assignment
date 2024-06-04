@@ -47,7 +47,7 @@ public class Admin implements User {
         int newId = 1;
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
-            String SQL_Command = "SELECT MAX(ID_Admin) FROM admin";
+            String SQL_Command = "SELECT MAX(AccountNum) FROM admin";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
 
             if (Rslt.next()) {
@@ -63,7 +63,29 @@ public class Admin implements User {
             e.printStackTrace();
         }
         return newId;
-
+    }
+    
+    public void addAdmin(String accountNum, String name, String phoneNum, String email, String username, String password, String dob, String address){
+        try (Connection con = DBConnection.openConn();
+                Statement statement = con.createStatement()){
+        String SQL_Command = "INSERT INTO admin (AccountNum, Name_Admin, PhoneNum_Admin, Email_Admin, username, Password_Admin, DOB, address) " +
+                                    "VALUES ('" + accountNum + "','" + name + "','" + phoneNum + "','" + email + "','" +
+                                    username + "','" + password + "','" + dob + "','" + address + "')";
+        statement.executeUpdate(SQL_Command);
+        }
+        catch (SQLException e) {
+           System.out.println("SQLException: " + e);
+           while (e != null) {
+               System.out.println("SQLState: " + e.getSQLState());
+               System.out.println("Message: " + e.getMessage());
+               System.out.println("Vendor: " + e.getErrorCode());
+               e = e.getNextException();
+               System.out.println("");
+           }
+       } catch (Exception e) {
+           System.out.println("Exception: " + e);
+           e.printStackTrace();
+       }
     }
     
     public ArrayList<Customer> tableUser() {
