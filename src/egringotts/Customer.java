@@ -25,11 +25,6 @@ public class Customer implements User{
     public Customer() {
     }
     
-    public Customer(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-    
     public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address){
         this.accountNum = newAccountNum();
         this.username = username;

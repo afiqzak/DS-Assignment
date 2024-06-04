@@ -53,8 +53,8 @@ public class ExpenseManager {
     public List<Transaction> filterTransactions(String category, LocalDate startDate, LocalDate endDate, String paymentMethod) {
     return transactions.stream().filter(t -> 
         (category == null || t.getType().equals(category)) &&
-        (startDate == null || !t.getDate().isBefore(startDate)) &&
-        (endDate == null || !t.getDate().isAfter(endDate)) &&
+        //(startDate == null || !t.getDate().isBefore(startDate)) &&
+        //(endDate == null || !t.getDate().isAfter(endDate)) &&
         (paymentMethod == null || t.getDescription().equals(paymentMethod))).collect(Collectors.toList());
     }
 
@@ -84,10 +84,10 @@ public class ExpenseManager {
 
         // Assuming the transactions are fetched from the database and added to the manager
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        manager.addTransaction(new Transaction("658210164008", "540857571006", 50, "Food", "bjkgjyfj"));
+        /*manager.addTransaction(new Transaction("658210164008", "540857571006", 50, "Food", "bjkgjyfj"));
         manager.addTransaction(new Transaction("124512331312", "receipent2", 100, "Entertainment", "vbjgjhf"));
         manager.addTransaction(new Transaction("658210164008", "receipent3", 200, "Grocery", "uyduyfk"));
-        manager.addTransaction(new Transaction("734223131232", "540857571006", 150, "Food", "vjhdthu"));
+        manager.addTransaction(new Transaction("734223131232", "540857571006", 150, "Food", "vjhdthu"));*/
 
         //manager.displayPieChart();
 

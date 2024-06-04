@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -77,9 +78,7 @@ public class SettingsPageController implements Initializable {
     private egringotts.Customer cust;
     private Admin admin;
     
-    ObservableList<Customer> list = FXCollections.ObservableArrayList(
-            
-    );
+    ObservableList<Customer> list ;
     
     public void setCustomer(egringotts.Customer cust){
         this.cust = cust;
@@ -87,6 +86,8 @@ public class SettingsPageController implements Initializable {
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
+        System.out.println(admin.getName());
+        list = FXCollections.observableArrayList(admin.tableUser());
     }
     
     public void checkAdmin(){
@@ -114,6 +115,16 @@ public class SettingsPageController implements Initializable {
         profile.setVisible(false);
         security.setVisible(false);
         user.setVisible(true);
+
+        accNumColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("accountNum"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("name"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("phoneNum"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("email"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("DOB"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("address"));
+        tierColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("tier"));
+        
+        userTable.setItems(list);
     }
     
     @FXML
@@ -213,6 +224,10 @@ public class SettingsPageController implements Initializable {
         profile.setVisible(true);
         incorrectLabel.setVisible(false);
         successLabel.setVisible(false);
+        
+        this.admin = null;
+        this.cust = null;
+        
     } 
     
     public void setProfile() throws SQLException{

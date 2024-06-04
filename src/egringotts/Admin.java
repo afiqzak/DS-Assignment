@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 
 /**
@@ -65,8 +66,25 @@ public class Admin implements User {
 
     }
     
-    public void tableUser() throws SQLException {
+    public ArrayList<Customer> tableUser() {
+        ArrayList<Customer> users = new ArrayList<>();
+        String query = "SELECT * FROM account";
         
+        try (Connection connection = DBConnection.openConn();
+            PreparedStatement ps = connection.prepareStatement(query)) {
+            ResultSet rs = ps.executeQuery();
+            //printTable(rs);
+            if (rs.next()) {
+                do {
+                  // Process the result set and create Transaction objects
+                  users.add(Account.getCustomerByAccountNumber(rs.getString("AccountNum")));
+                } while (rs.next());
+              }
+            //printTable(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
     
     public void updateAdminPassword(String password) throws SQLException {

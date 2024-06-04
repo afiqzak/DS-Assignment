@@ -2,6 +2,7 @@ package egringotts.GUI;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +47,7 @@ public class LoginController implements Initializable {
     private Parent root;
     
     @FXML
-    private void loginAction(ActionEvent event) throws IOException {
+    private void loginAction(ActionEvent event) throws IOException, SQLException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
@@ -58,7 +59,11 @@ public class LoginController implements Initializable {
                 main.setAdmin(admin);
             }else{
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
-                main.setCustomer(cust); 
+                main.setCustomer(cust);
+                main.displayCard(cust.getAccountNum());
+                main.displayRecentTrans();
+                main.displayBalance();
+                
             } 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             mainDashboard = new Scene(root);
@@ -69,17 +74,6 @@ public class LoginController implements Initializable {
         }else{
             errorLabel.setText("incorrect username or password");
         }
-        
-        /*switch(user){
-        case "admin":
-        egringotts.Admin admin = new egringotts.Admin(usernameField.getText(), passField.getText());
-        break;
-        case "customer":
-        egringotts.Customer cust = new egringotts.Customer(usernameField.getText(), passField.getText());
-        break;
-        case null:
-        errorLabel.setText("incorrect username or password");
-        }*/
     }
     
     @FXML
