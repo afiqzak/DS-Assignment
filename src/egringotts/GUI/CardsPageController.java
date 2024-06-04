@@ -1,5 +1,6 @@
 package egringotts.GUI;
 
+import egringotts.*;
 import egringotts.DBConnection;
 import static egringotts.GUI.MainDashboardController.masking;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +18,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -40,7 +44,21 @@ public class CardsPageController implements Initializable {
     private Label expField, expField2, expField3, nameField, nameField2, nameField3, numField, numField2, numField3;
     
     @FXML
+    private TextField cardNumField,expDateField,ccvField,creditLimitField;
+    
+    @FXML
+    private ChoiceBox<String> typeField;
+    
+    @FXML
     private Pane card1, card2, card3;
+    
+    private Customer cust;
+    
+    public void setCustomer(egringotts.Customer cust){
+        this.cust = cust;
+    }
+    
+    private String[] type = {"Credit Card","Debit Card"};
     
     public int card;
     
@@ -77,6 +95,17 @@ public class CardsPageController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void addCardButton(ActionEvent event) throws IOException, SQLException {
+        try (Connection con = DBConnection.openConn();
+                Statement statement = con.createStatement()){
+        String SQL_Command = "INSERT INTO card (cvv, AccountNum, Card_Number, Expiration_Date, Credit_limit, type) " +
+                                    "VALUES ('" + ccvField.getText() + "','" + cust.getAccountNum() + "','" + cardNumField.getText() + "','" + expDateField.getText() + "','" +
+                                    creditLimitField.getText() + "','" + typeField.getValue() + "')";
+        statement.executeUpdate(SQL_Command);
         }
     }
     
@@ -137,7 +166,7 @@ public class CardsPageController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        typeField.getItems().addAll(type);
     } 
     
 }

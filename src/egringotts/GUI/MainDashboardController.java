@@ -152,6 +152,7 @@ public class MainDashboardController implements Initializable{
         root = loader.load();
         CardsPageController cards = loader.getController();
         cards.displayCard(cust.getAccountNum());
+        cards.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
