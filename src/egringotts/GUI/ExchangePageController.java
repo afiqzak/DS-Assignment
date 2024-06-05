@@ -3,6 +3,7 @@ package egringotts.GUI;
 import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,6 +49,7 @@ public class ExchangePageController implements Initializable {
     @FXML
     private ChoiceBox<String> currencyChoice;
     private Customer cust;
+    private Admin admin;
     private PensivePast pensive;
     
     ObservableList<Transaction> list;
@@ -90,7 +92,11 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        root = loader.load();
+        AccountPageController acc = loader.getController();
+        acc.setCustomer(cust);
+        acc.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -100,7 +106,11 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private void transactionMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
+        root = loader.load();
+        TransactionPageController trans = loader.getController();
+        trans.setCustomer(cust);
+        trans.historyTable();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -110,7 +120,11 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private void cardsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
+        root = loader.load();
+        CardsPageController cards = loader.getController();
+        cards.displayCard(cust.getAccountNum());
+        cards.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -120,7 +134,10 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
+        root = loader.load();
+        AnalyticsPageController analytics = loader.getController();
+        analytics.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -129,8 +146,14 @@ public class ExchangePageController implements Initializable {
     }
     
     @FXML
-    private void settingsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("SettingsPage.fxml"));
+    private void settingsMenu(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+        root = loader.load();
+        SettingsPageController setting = loader.getController();
+        setting.setCustomer(cust);
+        if(admin != null) setting.setAdmin(admin);
+        setting.checkAdmin();
+        setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

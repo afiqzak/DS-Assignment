@@ -152,52 +152,11 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    private void transferMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("TransferPage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    private void transactionMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    private void cardsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("CardsPage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    private void exchangeMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-
-        stage.setScene(scene);
-        stage.show();
-    }
-    @FXML
-    private void analyticsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        root = loader.load();
+        AccountPageController acc = loader.getController();
+        acc.setCustomer(cust);
+        acc.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -206,7 +165,63 @@ public class SettingsPageController implements Initializable {
     }
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        root = loader.load();
+        AccountPageController acc = loader.getController();
+        acc.setCustomer(cust);
+        acc.displayBalance();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void transactionMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
+        root = loader.load();
+        TransactionPageController trans = loader.getController();
+        trans.setCustomer(cust);
+        trans.historyTable();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void cardsMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
+        root = loader.load();
+        CardsPageController cards = loader.getController();
+        cards.displayCard(cust.getAccountNum());
+        cards.setCustomer(cust);
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void exchangeMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
+        root = loader.load();
+        ExchangePageController exchange = loader.getController();
+        exchange.setCustomer(cust);
+        exchange.historyTable();
+        exchange.displayBalance();
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    @FXML
+    private void analyticsMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
+        root = loader.load();
+        AnalyticsPageController analytics = loader.getController();
+        analytics.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

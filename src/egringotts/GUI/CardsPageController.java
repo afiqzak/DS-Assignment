@@ -51,7 +51,7 @@ public class CardsPageController implements Initializable {
     
     @FXML
     private Pane card1, card2, card3;
-    
+    private Admin admin;
     private Customer cust;
     
     public void setCustomer(egringotts.Customer cust){
@@ -111,7 +111,14 @@ public class CardsPageController implements Initializable {
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
+        root = loader.load();
+        MainDashboardController main = loader.getController();
+        main.setCustomer(cust);
+        main.displayCard(cust.getAccountNum());
+        main.displayRecentTrans();
+        main.displayBalance();
+        main.displayPieChart();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -120,7 +127,11 @@ public class CardsPageController implements Initializable {
     }
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        root = loader.load();
+        AccountPageController acc = loader.getController();
+        acc.setCustomer(cust);
+        acc.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -129,7 +140,11 @@ public class CardsPageController implements Initializable {
     }
     @FXML
     private void transactionMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("TransactionPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
+        root = loader.load();
+        TransactionPageController trans = loader.getController();
+        trans.setCustomer(cust);
+        trans.historyTable();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -138,7 +153,12 @@ public class CardsPageController implements Initializable {
     }
     @FXML
     private void exchangeMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
+        root = loader.load();
+        ExchangePageController exchange = loader.getController();
+        exchange.setCustomer(cust);
+        exchange.historyTable();
+        exchange.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -147,7 +167,10 @@ public class CardsPageController implements Initializable {
     }
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
+        root = loader.load();
+        AnalyticsPageController analytics = loader.getController();
+        analytics.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -155,8 +178,14 @@ public class CardsPageController implements Initializable {
         stage.show();
     }
     @FXML
-    private void settingsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("SettingsPage.fxml"));
+    private void settingsMenu(ActionEvent event) throws IOException, SQLException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+        root = loader.load();
+        SettingsPageController setting = loader.getController();
+        setting.setCustomer(cust);
+        if(admin != null) setting.setAdmin(admin);
+        setting.checkAdmin();
+        setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

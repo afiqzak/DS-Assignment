@@ -205,7 +205,10 @@ public class MainDashboardController implements Initializable{
     }
     @FXML
     private void analyticsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AnalyticsPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
+        root = loader.load();
+        AnalyticsPageController analytics = loader.getController();
+        analytics.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
