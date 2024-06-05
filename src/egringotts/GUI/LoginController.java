@@ -64,6 +64,7 @@ public class LoginController implements Initializable {
                 main.displayCard(cust.getAccountNum());
                 main.displayRecentTrans();
                 main.displayBalance();
+                main.displayPieChart();
             } 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             mainDashboard = new Scene(root);

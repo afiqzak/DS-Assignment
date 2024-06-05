@@ -10,6 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -42,9 +46,11 @@ public class MainDashboardController implements Initializable{
     @FXML
     private Parent root;
     
-
     @FXML
     private ChoiceBox<String> currencyChoice;
+
+    @FXML
+    private PieChart piechartType;
 
     private Admin admin;
     
@@ -124,6 +130,27 @@ public class MainDashboardController implements Initializable{
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
+    public void displayPieChart(){
+        ObservableList<PieChart.Data> pieData = 
+                FXCollections.observableArrayList(
+                        new PieChart.Data("ent", cust.getPercentageType("entertainment")),
+                        new PieChart.Data("bill", cust.getPercentageType("bill")),
+                        new PieChart.Data("grocery", cust.getPercentageType("grocery")),
+                        new PieChart.Data("food", cust.getPercentageType("food")),
+                        new PieChart.Data("other", cust.getPercentageType("other"))
+                );
+        
+        pieData.forEach(data -> 
+                data.nameProperty().bind(
+                        Bindings.concat(
+                                data.getName(), ": ", data.pieValueProperty(), "%"
+                        )
+                )
+        );
+        
+        piechartType.getData().addAll(pieData);
+    }
+        
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));

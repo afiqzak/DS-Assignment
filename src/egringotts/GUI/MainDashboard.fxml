@@ -175,7 +175,7 @@
                   </Label>
                   <Pane layoutX="491.0" layoutY="227.0" prefHeight="150.0" prefWidth="222.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
                      <children>
-                        <PieChart layoutX="11.0" prefHeight="100.0" prefWidth="106.0" />
+                        <PieChart fx:id="piechartType" labelLineLength="10.0" layoutX="-55.0" layoutY="-40.0" legendSide="LEFT" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="277.0" style="-fx-background-size: 200px 200px;" />
                      </children>
                   </Pane>
                   <Pane layoutX="14.0" layoutY="182.0" prefHeight="197.0" prefWidth="459.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
@@ -186,7 +186,7 @@
                            </font>
                         </Label>
                         <ChoiceBox fx:id="currencyChoice" layoutX="13.0" layoutY="40.0" prefHeight="25.0" prefWidth="74.0" />
-                        <Label fx:id="balanceField" layoutX="14.0" layoutY="82.0" prefHeight="93.0" prefWidth="418.0" text="Label">
+                        <Label fx:id="balanceField" layoutX="14.0" layoutY="82.0" prefHeight="93.0" prefWidth="418.0" text="balance">
                            <font>
                               <Font size="64.0" />
                            </font>
