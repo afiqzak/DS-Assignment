@@ -4,6 +4,8 @@ import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,10 +17,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -43,7 +47,7 @@ public class SettingsPageController implements Initializable {
     private Pane security, profile, user;
     
     @FXML
-    private PasswordField passField, newPassField;
+    private PasswordField passField, newPassField, passF;
     
     @FXML
     private Button profileButton, securityButton, userButton;
@@ -52,28 +56,16 @@ public class SettingsPageController implements Initializable {
     private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, dobLabel, incorrectLabel, successLabel;
     
     @FXML
+    private TextField nameF, emailF, phoneF, addressF, usernameF;
+    
+    @FXML
+    private DatePicker dobF;
+    
+    @FXML
     private TableView<Customer> userTable;
         
     @FXML
-    private TableColumn<Customer, String> accNumColumn;
-
-    @FXML
-    private TableColumn<Customer, String> addressColumn;
-
-    @FXML
-    private TableColumn<Customer, String> dobColumn;
-
-    @FXML
-    private TableColumn<Customer, String> emailColumn;
-
-    @FXML
-    private TableColumn<Customer, String> nameColumn;
-
-    @FXML
-    private TableColumn<Customer, String> phoneColumn;
-
-    @FXML
-    private TableColumn<Customer, String> tierColumn;
+    private TableColumn<Customer, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
     
     private egringotts.Customer cust;
     private Admin admin;
@@ -128,7 +120,6 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private void updatePassButton(ActionEvent event) throws IOException, SQLException {
-        System.out.println(admin.getAccountNum());
         String password = newPassField.getText();
         if (cust != null && passField.getText().equals(cust.getPassword())){
             cust.updateCustomerPassword(password);
@@ -141,6 +132,22 @@ public class SettingsPageController implements Initializable {
             successLabel.setVisible(true);
         }else
             incorrectLabel.setVisible(true);
+    }
+    
+    @FXML
+    private void addAdminButton(ActionEvent event) throws IOException, SQLException {
+        String name = nameF.getText();
+        String email = emailF.getText();
+        String phone = phoneF.getText();
+        String address = addressF.getText();
+        LocalDate dobf = dobF.getValue();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  // Adjust format as needed
+        String dob = dobf.format(formatter);
+        String username = usernameF.getText();
+        String password = passF.getText();
+        String accountNum = Integer.toString(admin.getUserId());
+        
+        admin.addAdmin(accountNum, name, phone, email, username, password, dob, address);
     }
     
     @FXML
