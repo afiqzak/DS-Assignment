@@ -36,7 +36,7 @@ public class PensivePast {
                       rs.getString("method"),
                       rs.getString("amount"),
                       rs.getString("balance"),
-                      rs.getString("Date").toString()
+                      rs.getString("Date")
                   ));
                 } while (rs.next());
               }

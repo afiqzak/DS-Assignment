@@ -242,10 +242,39 @@ public class Customer implements User{
         return accountNum;
     }
     
+    public double getPercentageType(String type){
+        int total = 0, numType = 0;
+        String SQL_Command = "SELECT COUNT(*) FROM transaction WHERE sender='" + this.accountNum + "';";
+        try (Connection con = DBConnection.openConn();
+             Statement stmt = con.prepareStatement(SQL_Command)) {
+
+            ResultSet rs = stmt.executeQuery(SQL_Command);
+
+            if(rs.next()){
+                total = rs.getInt(1);
+            }
+            
+            SQL_Command = "SELECT COUNT(*) FROM transaction WHERE sender='" + this.accountNum + "' AND Type='" + type + "';";
+            
+            rs = stmt.executeQuery(SQL_Command);
+            
+            if(rs.next()){
+                numType = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+          e.printStackTrace();
+        }
+        return (double) numType / total * 100;
+    }
 
     @Override
     public void setName(String name) {
         this.name = name;
     }  
+    
+    public static void main(String[] args) {
+        Customer cust = Account.getCustomerByUsername("ali");
+        System.out.println(cust.getPercentageType("entertainment"));
+    }
 }
 
