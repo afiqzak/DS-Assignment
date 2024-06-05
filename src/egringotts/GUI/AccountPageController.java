@@ -36,9 +36,9 @@ public class AccountPageController implements Initializable {
     
     @FXML
     private ChoiceBox<String> currencyChoice;
-    private egringotts.Customer cust;
+    private Customer cust;
     
-    public void setCustomer(egringotts.Customer cust){
+    public void setCustomer(Customer cust){
         this.cust = cust;
     }
     

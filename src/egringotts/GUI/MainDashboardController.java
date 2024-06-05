@@ -4,7 +4,6 @@ import java.sql.Connection;
 import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -192,7 +191,12 @@ public class MainDashboardController implements Initializable{
     }
     @FXML
     private void exchangeMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("ExchangePage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
+        root = loader.load();
+        ExchangePageController exchange = loader.getController();
+        exchange.setCustomer(cust);
+        exchange.historyTable();
+        exchange.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

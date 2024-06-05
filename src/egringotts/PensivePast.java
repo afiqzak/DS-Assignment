@@ -41,9 +41,41 @@ public class PensivePast {
         return trans;
     }
     
+    public static ArrayList<Transaction> historyExchange(String accountNum){
+        ArrayList<Transaction> trans = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE Sender = ? AND Receipent = ?";
+        
+        try (Connection connection = DBConnection.openConn();
+            PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, accountNum);
+            ps.setString(2, accountNum);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                do {
+                  // Process the result set and create Transaction objects
+                  trans.add(new Transaction(
+                      rs.getString("amount"),
+                      accountNum, // Assuming sender should be the provided accNum
+                      accountNum,
+                      rs.getString("Type"),
+                      rs.getString("Description"),
+                      rs.getString("method"),
+                      rs.getString("amount"),
+                      rs.getString("balance"),
+                      rs.getString("Date")
+                  ));
+                } while (rs.next());
+              }
+            //printTable(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trans;
+    }
+    
     public void filter(String accNum, int minAmount, int maxAmount, String filterDate, String filterDateBy, String filterType) {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT ID_Transaction, Receipent, Amount, Type, Date, Description FROM transaction WHERE Sender = ? RDER BY Date DESC");
+        query.append("SELECT ID_Transaction, Receipent, Amount, Type, Date, Description FROM transaction WHERE Sender = ? ORDER BY Date DESC");
 
         List<String> filterConditions = new ArrayList<>();
 
