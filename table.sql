@@ -60,3 +60,19 @@ create table card(
     on delete cascade
 );
 
+CREATE TABLE exchange_rate (
+    currency_code_from int NOT NULL,
+    currency_code_to int NOT NULL,
+    rate DECIMAL(9, 6) NOT NULL,
+    fee_rate decimal(10,4),
+    PRIMARY KEY (currency_code_from, currency_code_to),
+    FOREIGN KEY (currency_code_from) REFERENCES currency(code),
+    FOREIGN KEY (currency_code_to) REFERENCES currency(code)
+);
+
+CREATE TABLE currency (
+    code int NOT NULL,
+    symbol VARCHAR(3) NOT NULL,
+    display_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (code)
+);
