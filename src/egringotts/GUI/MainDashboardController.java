@@ -126,7 +126,11 @@ public class MainDashboardController implements Initializable{
     
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("AccountPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        root = loader.load();
+        AccountPageController acc = loader.getController();
+        acc.setCustomer(cust);
+        acc.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
