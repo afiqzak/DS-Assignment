@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,12 +51,6 @@ public class AccountPageController implements Initializable {
 
     @FXML
     private TextField findField, transferField;
-
-    @FXML
-    private Pane friend;
-
-    @FXML
-    private Label phoneFriend, usernameFriend;
     
     @FXML
     private VBox vbox;
@@ -80,15 +75,18 @@ public class AccountPageController implements Initializable {
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
-    public void findFriend(String phoneUsername){
+    @FXML
+    private void findFriend(ActionEvent event) {
+        vbox.getChildren().clear();
         try (Connection con = DBConnection.openConn();
                PreparedStatement stmt = con.prepareStatement("SELECT username, PhoneNum_Customer FROM account WHERE PhoneNum_Customer LIKE ? OR username LIKE ?;")) {
 
             stmt.setString(1, findField.getText()+"%"); // Set parameter with prepared statement
+            stmt.setString(2, findField.getText()+"%");
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next()){
-                Pane accountPane = createAccountPane(rs.getString("username"), rs.getString(PhoneNum_Customer));
+                Pane accountPane = createAccountPane(rs.getString("username"), rs.getString("PhoneNum_Customer"));
                 vbox.getChildren().add(accountPane);
             }
           } catch (SQLException e) {
@@ -101,6 +99,12 @@ public class AccountPageController implements Initializable {
         Pane pane = new Pane();
         pane.setPrefHeight(74.0);
         pane.setPrefWidth(188.0);
+        pane.setMaxHeight(74.0);
+        pane.setMaxWidth(188.0);
+        pane.setMinHeight(74.0);
+        pane.setMinWidth(188.0);
+        
+        pane.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 
         Label usernameLabel = new Label(username);
         usernameLabel.setLayoutX(14.0);
