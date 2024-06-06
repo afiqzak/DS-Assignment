@@ -57,7 +57,7 @@ public class LoginController implements Initializable {
                 AdminDashboardController admin = loader.getController();
                 egringotts.Admin Admin = egringotts.Account.getAdminByUsername(usernameField.getText());
                 admin.setAdmin(Admin);
-                System.out.println(Admin.getAccountNum());
+                System.out.println(Admin.getID());
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 adminDashboard = new Scene(root);
                 stage.setScene(adminDashboard);

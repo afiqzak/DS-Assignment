@@ -163,6 +163,23 @@
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
                <children>
+                  <AnchorPane fx:id="adminPane" prefHeight="120.0" prefWidth="170.0">
+                     <children>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#adminMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Dashboard" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" layoutY="58.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000; -fx-border-width: 0px 0px 0px 3px; -fx-border-color: #e09f3e;" text="Settings" textFill="#e09f3e">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </AnchorPane>
                   <AnchorPane fx:id="customerPane">
                      <children>
                         <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Dashboard" textFill="#fbf5f3">
@@ -218,23 +235,6 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <AnchorPane fx:id="customerPane1" prefHeight="120.0" prefWidth="170.0">
-                           <children>
-                              <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Dashboard" textFill="#fbf5f3">
-                                 <font>
-                                    <Font name="Century Gothic Bold" size="13.0" />
-                                 </font>
-                              </Button>
-                              <Button alignment="BASELINE_LEFT" layoutY="58.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000; -fx-border-width: 0px 0px 0px 3px; -fx-border-color: #e09f3e;" text="Settings" textFill="#e09f3e">
-                                 <font>
-                                    <Font name="Century Gothic Bold" size="13.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
-                           </children>
-                        </AnchorPane>
                      </children>
                   </AnchorPane>
                </children>

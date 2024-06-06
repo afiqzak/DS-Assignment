@@ -44,7 +44,7 @@ public class SettingsPageController implements Initializable {
     private Parent root;
     
     @FXML
-    private Pane security, profile, user;
+    private Pane security, profile, user, adminPane, customerPane;
     
     @FXML
     private PasswordField passField, newPassField, passF;
@@ -74,10 +74,14 @@ public class SettingsPageController implements Initializable {
     
     public void setCustomer(egringotts.Customer cust){
         this.cust = cust;
+        customerPane.setVisible(true);
+        adminPane.setVisible(false);
     }
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
+        adminPane.setVisible(true);
+        customerPane.setVisible(false);
         list = FXCollections.observableArrayList(admin.tableUser());
     }
     
@@ -151,12 +155,25 @@ public class SettingsPageController implements Initializable {
     }
     
     @FXML
-    private void dashboardMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+    private void adminMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminDashboard.fxml"));
         root = loader.load();
-        AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        AdminDashboardController Admin = loader.getController();
+        Admin.setAdmin(admin);
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
+    }
+    
+    @FXML
+    private void dashboardMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
+        root = loader.load();
+        MainDashboardController main = loader.getController();
+        main.setCustomer(cust);
+        main.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -243,6 +260,7 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         user.setVisible(false);
         profile.setVisible(true);
+        
         incorrectLabel.setVisible(false);
         successLabel.setVisible(false);
         
@@ -260,16 +278,16 @@ public class SettingsPageController implements Initializable {
             phoneLabel.setText("  " + cust.getPhoneNum());
             usernameLabel.setText("  " + cust.getUsername());
             addressLabel.setText("  " + cust.getAddress());
-            dobLabel.setText("  " + cust.getDOB());
+            dobLabel.setText("  " + cust.getDob());
         } else {
-            accNumLabel.setText("  " + admin.getAccountNum());
+            accNumLabel.setText("  " + admin.getID());
             tierLabel.setVisible(false);
             nameLabel.setText("  " + admin.getName());
             emailLabel.setText("  " + admin.getEmail());
             phoneLabel.setText("  " + admin.getPhoneNum());
             usernameLabel.setText("  " + admin.getUsername());
             addressLabel.setText("  " + admin.getAddress());
-            dobLabel.setText("  " + admin.getDOB());
+            dobLabel.setText("  " + admin.getDob());
         }
     }
 }

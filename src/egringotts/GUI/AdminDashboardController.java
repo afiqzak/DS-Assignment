@@ -12,6 +12,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -29,6 +31,12 @@ public class AdminDashboardController implements Initializable {
     
     @FXML
     private Parent root;
+    
+    @FXML
+    private TextField nameField, symbolField, rateField,proFeeField;
+    
+    @FXML
+    private ChoiceBox<String> currencyChoice;
     
     private Admin admin;
 
@@ -51,9 +59,21 @@ public class AdminDashboardController implements Initializable {
         stage.show();
     }
     
+    @FXML
+    private void addCurrency(ActionEvent event) throws IOException, SQLException {
+        String name = nameField.getText();
+        String symbol = symbolField.getText();
+        String choice = currencyChoice.getValue();
+        //float rate = rateField.getText();
+        //double proFee = proFeeField.getText();
+        //admin.currencyCode(choice);
+        //admin.addCurrency(name, symbol, choice, rate, float);
+    }
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        currencyChoice.getItems().addAll(Account.getCurrency());
+        currencyChoice.getSelectionModel().selectFirst();
     }    
     
 }

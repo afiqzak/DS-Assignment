@@ -10,49 +10,28 @@ import java.lang.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-public class Customer implements User{
+public class Customer extends User{
     private String accountNum;
-    private String name;
-    private String username;
-    private String phoneNum;
-    private String email;
-    private String password;
-    private String DOB;
-    private String address;
     private Map<String, Double> balances;
     private String tier;
-    private CurrencyExchange exchange;
+    private CurrencyExchange exchange = new CurrencyExchange();
 
-    public Customer() {
-    }
-    
-    public Customer(String username, String name, String phoneNum, String email, String password, String DOB, String address){
-        this.accountNum = newAccountNum();
-        this.username = username;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.password = password;
-        this.DOB = DOB;
-        this.address = address;
-        this.tier = setTier();
-    }
-
-    public Customer(String accountNum, String name, String username, String phoneNum, String email, String password, String DOB, String address, Map<String, Double> balances, String tier) {
+    public Customer(String accountNum, Map<String, Double> balances, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
-        this.name = name;
-        this.username = username;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.password = password;
-        this.DOB = DOB;
-        this.address = address;
         this.balances = balances;
         this.tier = tier;
-        this.exchange = new CurrencyExchange();
     }
-    
-    
+
+    public Customer(String username, String password) {
+        super(username, password);
+    }
+
+    public Customer(String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(username, name, password, phoneNum, email, dob, address);
+        this.accountNum = generateAccountNum();
+        this.tier = setTier();
+    } 
   
     public Map<String,Double> getBalances(){
         return balances;
@@ -60,43 +39,6 @@ public class Customer implements User{
     
     public void setBalances(Map<String, Double> balances){
         this.balances = balances;
-    }
- 
-// Implement User interface methods
-
-    @Override
-    public String getName() {
-        return name;
-    }
-    
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-    
-    @Override
-    public String getEmail() {
-        return email;
-    }
-    
-    @Override
-    public String getDOB() {
-        return DOB;
-    }
-    
-    @Override
-    public String getAddress() {
-        return address;
     }
 
     public String getAccountNum() {
@@ -307,12 +249,7 @@ public class Customer implements User{
             e.printStackTrace();
           }
         return sum;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }  
+    } 
     
     public static void main(String[] args) {
         Customer cust = Account.getCustomerByUsername("ali");
