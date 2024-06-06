@@ -70,11 +70,11 @@
                   </Label>
                   <TableView fx:id="history" layoutX="14.0" layoutY="306.0" prefHeight="200.0" prefWidth="687.0">
                     <columns>
-                      <TableColumn fx:id="amountColumn" prefWidth="113.59998893737793" text="Amount Paid" />
-                        <TableColumn fx:id="receivedColumn" prefWidth="113.5999755859375" text="Amount Received" />
-                        <TableColumn fx:id="descColumn" prefWidth="180.0" text="Target Currency" />
-                        <TableColumn fx:id="dateColumn" prefWidth="141.60000610351562" sortType="DESCENDING" text="Date" />
-                        <TableColumn fx:id="balanceColumn" minWidth="0.0" prefWidth="138.39996337890625" text="Balance" />
+                      <TableColumn fx:id="amountColumn" editable="false" prefWidth="113.59998893737793" resizable="false" text="Amount Paid" />
+                        <TableColumn fx:id="receivedColumn" editable="false" prefWidth="113.5999755859375" resizable="false" text="Amount Received" />
+                        <TableColumn fx:id="descColumn" editable="false" prefWidth="180.0" resizable="false" text="Target Currency" />
+                        <TableColumn fx:id="dateColumn" editable="false" prefWidth="141.60000610351562" resizable="false" sortType="DESCENDING" text="Date" />
+                        <TableColumn fx:id="balanceColumn" editable="false" minWidth="0.0" prefWidth="138.39996337890625" resizable="false" text="Balance" />
                     </columns>
                   </TableView>
                   <Label layoutX="14.0" layoutY="272.0" prefHeight="26.0" prefWidth="86.0" text="History">

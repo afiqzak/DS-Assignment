@@ -64,25 +64,51 @@
                         <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <PieChart layoutX="18.0" layoutY="242.0" prefHeight="290.0" prefWidth="290.0" style="-fx-background-color: #0d1f2d;" />
+                  <PieChart layoutX="18.0" layoutY="242.0" prefHeight="290.0" prefWidth="290.0" style="-fx-background-color: #0d1f2d; -fx-background-radius: 15;" />
                   <Label layoutX="327.0" layoutY="203.0" prefHeight="38.0" prefWidth="213.0" text="+ Add New Card">
                      <font>
                         <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="327.0" layoutY="241.0" prefHeight="290.0" prefWidth="390.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
+                  <Pane layoutX="327.0" layoutY="241.0" prefHeight="290.0" prefWidth="390.0" style="-fx-background-color: #540b0e; -fx-background-radius: 15;">
                      <children>
-                        <Button layoutX="325.0" layoutY="251.0" mnemonicParsing="false" onAction="#addCardButton" text="Button" />
+                        <Button layoutX="310.0" layoutY="231.0" mnemonicParsing="false" onAction="#addCardButton" prefHeight="38.0" prefWidth="66.0" style="-fx-background-color: #4fb176;" text="Add">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Button>
                         <TextField fx:id="cardNumField" layoutX="14.0" layoutY="44.0" />
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="82.0" text="Card Number" />
-                        <Label layoutX="139.0" layoutY="90.0" prefHeight="17.0" prefWidth="36.0" text="CCV" />
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="82.0" text="Card Number" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font></Label>
                         <TextField fx:id="ccvField" layoutX="142.0" layoutY="113.0" prefHeight="25.0" prefWidth="66.0" />
-                        <Label layoutX="14.0" layoutY="90.0" prefHeight="17.0" prefWidth="82.0" text="Exp Date" />
-                        <Label layoutX="14.0" layoutY="162.0" prefHeight="17.0" prefWidth="36.0" text="Type" />
+                        <Label layoutX="14.0" layoutY="90.0" prefHeight="17.0" prefWidth="82.0" text="Exp Date" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font></Label>
                         <TextField fx:id="expDateField" layoutX="14.0" layoutY="113.0" prefHeight="25.0" prefWidth="82.0" />
                         <ChoiceBox fx:id="typeField" layoutX="14.0" layoutY="186.0" prefHeight="25.0" prefWidth="82.0" />
-                        <Label layoutX="145.0" layoutY="162.0" prefHeight="17.0" prefWidth="66.0" text="Credit Limit" />
                         <TextField fx:id="creditLimitField" layoutX="142.0" layoutY="186.0" prefHeight="25.0" prefWidth="121.0" />
+                        <Label layoutX="142.0" layoutY="90.0" prefHeight="17.0" prefWidth="36.0" text="CCV" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="162.0" prefHeight="17.0" prefWidth="82.0" text="Type" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="142.0" layoutY="162.0" prefHeight="17.0" prefWidth="82.0" text="Credit Limit" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="successLabel" layoutX="183.0" layoutY="242.0" text="Added successfully" textFill="#4fb176">
+                           <font>
+                              <Font name="Arial Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
                      </children></Pane>
                   <Pane fx:id="card1" layoutX="24.0" layoutY="40.0" prefHeight="142.0" prefWidth="222.0" style="-fx-background-color: #8DB694; -fx-background-radius: 15; -fx-border-radius: 15;">
                      <children>

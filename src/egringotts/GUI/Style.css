@@ -72,6 +72,17 @@
     -fx-border-width: 3;
 }
 
-.tableCustomer{
-    -fx-background-color:  #A7B0CA;
+.table-view {
+    -fx-background-color: #A7B0CA;
+    border-collapse: collapse;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FBF5F3;
+}
+
+.table-view .column-header .label {
+    -fx-background-color: #343C6A;
+    -fx-text-fill: white;
+    border-collapse: collapse;
 }

@@ -35,13 +35,38 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="24.0" layoutY="231.0" prefHeight="294.0" prefWidth="459.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
+                  <Pane layoutX="24.0" layoutY="231.0" prefHeight="294.0" prefWidth="459.0" style="-fx-background-color: #0D1F2D; -fx-background-radius: 15;">
                      <children>
-                        <Label layoutX="14.0" layoutY="7.0" prefHeight="26.0" prefWidth="74.0" text="Services">
+                        <Label layoutX="14.0" layoutY="7.0" prefHeight="26.0" prefWidth="122.0" text="Make Payment" textFill="#e09f3e">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="27.0" layoutY="47.0" text="Receipent" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
+                        <TextField layoutX="21.0" layoutY="68.0" />
+                        <Label layoutX="195.0" layoutY="47.0" text="Amount" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="195.0" layoutY="68.0" prefHeight="25.0" prefWidth="86.0" />
+                        <ChoiceBox layoutX="20.0" layoutY="135.0" prefHeight="25.0" prefWidth="111.0" />
+                        <Label layoutX="27.0" layoutY="113.0" text="Type" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <TextField layoutX="21.0" layoutY="201.0" prefHeight="25.0" prefWidth="274.0" />
+                        <Label layoutX="23.0" layoutY="179.0" text="Description" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="transferButton1" layoutX="341.0" layoutY="235.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="86.0" style="-fx-background-radius: 30; -fx-background-color: #4fb176;" text="Pay" />
                      </children>
                   </Pane>
                   <Pane layoutX="502.0" layoutY="24.0" prefHeight="501.0" prefWidth="223.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">

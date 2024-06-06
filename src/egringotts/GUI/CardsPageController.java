@@ -41,7 +41,7 @@ public class CardsPageController implements Initializable {
     private Parent root;
     
     @FXML
-    private Label expField, expField2, expField3, nameField, nameField2, nameField3, numField, numField2, numField3;
+    private Label expField, expField2, expField3, nameField, nameField2, nameField3, numField, numField2, numField3, successLabel;
     
     @FXML
     private TextField cardNumField,expDateField,ccvField,creditLimitField;
@@ -112,6 +112,7 @@ public class CardsPageController implements Initializable {
                                     "VALUES ('" + ccvField.getText() + "','" + cust.getKey() + "','" + cardNumField.getText() + "','" + expDateField.getText() + "','" +
                                     creditLimitField.getText() + "','" + typeField.getValue() + "')";
         statement.executeUpdate(SQL_Command);
+        successLabel.setVisible(true);
         }
     }
     
@@ -199,6 +200,7 @@ public class CardsPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         typeField.getItems().addAll(type);
+        successLabel.setVisible(false);
     } 
     
 }

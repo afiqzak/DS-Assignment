@@ -44,7 +44,7 @@ public class SettingsPageController implements Initializable {
     private Parent root;
     
     @FXML
-    private Pane security, profile, user;
+    private Pane security, profile, user, adminPane, customerPane;
     
     @FXML
     private PasswordField passField, newPassField, passF;
@@ -53,7 +53,8 @@ public class SettingsPageController implements Initializable {
     private Button profileButton, securityButton, userButton;
     
     @FXML
-    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, dobLabel, incorrectLabel, successLabel;
+    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, 
+            dobLabel, incorrectLabel, successLabel,successLabel1;
     
     @FXML
     private TextField nameF, emailF, phoneF, addressF, usernameF;
@@ -74,10 +75,14 @@ public class SettingsPageController implements Initializable {
     
     public void setCustomer(egringotts.Customer cust){
         this.cust = cust;
+        customerPane.setVisible(true);
+        adminPane.setVisible(false);
     }
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
+        adminPane.setVisible(true);
+        customerPane.setVisible(false);
         list = FXCollections.observableArrayList(admin.tableUser());
     }
     
@@ -148,15 +153,29 @@ public class SettingsPageController implements Initializable {
         String accountNum = Integer.toString(admin.getUserId());
         
         admin.addAdmin(accountNum, name, phone, email, username, password, dob, address);
+        successLabel1.setVisible(false);
+    }
+    
+    @FXML
+    private void adminMenu(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminDashboard.fxml"));
+        root = loader.load();
+        AdminDashboardController Admin = loader.getController();
+        Admin.setAdmin(admin);
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+
+        stage.setScene(scene);
+        stage.show();
     }
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
-        AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        MainDashboardController main = loader.getController();
+        main.setCustomer(cust);
+        main.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -243,8 +262,10 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         user.setVisible(false);
         profile.setVisible(true);
+        
         incorrectLabel.setVisible(false);
         successLabel.setVisible(false);
+        successLabel1.setVisible(false);
         
         this.admin = null;
         this.cust = null;
