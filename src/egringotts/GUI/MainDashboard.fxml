@@ -196,15 +196,9 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Label layoutX="15.0" layoutY="389.0" prefHeight="26.0" prefWidth="146.0" text="Quick Transfer">
-                     <font>
-                        <Font name="Copperplate Gothic Bold" size="12.0" />
-                     </font>
-                  </Label>
-                  <Pane layoutX="14.0" layoutY="415.0" prefHeight="126.0" prefWidth="286.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;" />
-                  <Pane layoutX="317.0" layoutY="389.0" prefHeight="150.0" prefWidth="398.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
+                  <Pane layoutX="14.0" layoutY="389.0" prefHeight="150.0" prefWidth="701.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
                      <children>
-                        <BarChart fx:id="barchartSpending" prefHeight="150.0" prefWidth="398.0">
+                        <BarChart fx:id="barchartSpending" prefHeight="150.0" prefWidth="701.0" title="Weekly Spending">
                           <xAxis>
                             <CategoryAxis prefHeight="9.0" prefWidth="352.0" side="BOTTOM" />
                           </xAxis>
