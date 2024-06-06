@@ -71,3 +71,8 @@
     -fx-background-radius: 8;
     -fx-border-width: 3;
 }
+
+.tableCustomer{
+    -fx-background-color:  #A7B0CA;
+
+}
