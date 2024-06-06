@@ -77,7 +77,7 @@
                               <Font name="Bank Gothic Medium BT" size="12.0" />
                            </font></Button>
                         <TextField fx:id="cardNumField" layoutX="14.0" layoutY="44.0" />
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="82.0" text="Card Number" textFill="#fbf5f3">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="95.0" text="Card Number" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font></Label>

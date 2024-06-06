@@ -45,18 +45,28 @@ public class Transaction {
         this.currBalance = currBalance;
         this.date = date;
     }
+
+    public Transaction(String sender, String receipent, String type, String description, String method, Double amount) {
+        this.sender = sender;
+        this.receipent = receipent;
+        this.type = type;
+        this.description = description;
+        this.method = method;
+        this.amount = amount;
+    }
+    
+    
     
     
     
     public String getTransactionId() throws SQLException {
         
-        String newId = "1001"; // Default starting ID if no existing IDs are found
+        String newId = "1"; // Default starting ID if no existing IDs are found
         try(Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
             String SQL_Command = "SELECT MAX(ID_Transaction) FROM transaction";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
 
-        
             if (Rslt.next()) {
             String lastId = Rslt.getString(1);
             if (lastId != null) {
@@ -72,7 +82,7 @@ public class Transaction {
 }
 
     
-    public String recordTransaction(String currency, String method) throws SQLException {
+    public String recordTransaction(String sender,String receipent,double amount,String currency,String type,String description) throws SQLException {
         double rbalance = 0.0;
         String transactionID = null;
         
@@ -80,6 +90,7 @@ public class Transaction {
             Statement statement = con.createStatement()) {
             // Generate a transaction ID
             transactionID = getTransactionId();
+            String mathod = "Transfer";
             
             // Fetch sender current balance from database
             String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + sender + "'";
@@ -89,8 +100,8 @@ public class Transaction {
             }
             // Update balance
             balance -= amount;
-            this.currBalance = String.valueOf(balance) + currency.charAt(0);
-            this.currAmount = String.valueOf(amount) + currency.charAt(0);
+            this.currBalance = String.valueOf(balance) + " " + currency.charAt(0);
+            this.currAmount = String.valueOf(amount) + " " + currency.charAt(0);
             
             // Fetch receipent current balance from database
             String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + receipent + "'";

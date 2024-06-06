@@ -44,16 +44,18 @@ public class AccountPageController implements Initializable {
     private Label balanceField;
 
     @FXML
-    private ChoiceBox<String> currencyChoice, currencyChoice1;
+    private ChoiceBox<String> currencyChoice, currencyChoice1, currencyChoice2, typeChoice;
 
     @FXML
     private Button findButton, transferButton;
 
     @FXML
-    private TextField findField, transferField;
+    private TextField findField, transferField, receipentField, amountField, descField;
     
     @FXML
     private VBox vbox;
+    
+    private String[] Type = {"Food","Bill","Grocery","Entertainment","Others"};
     
     private Customer cust;
     private Admin admin;
@@ -92,6 +94,20 @@ public class AccountPageController implements Initializable {
           } catch (SQLException e) {
             e.printStackTrace();
           }
+    }
+    
+    @FXML
+    private void payButton(ActionEvent event) throws SQLException{
+        String receipent = receipentField.getText();
+        double amount = Double.parseDouble(amountField.getText());
+        String currency = currencyChoice2.getValue();
+        String type = typeChoice.getValue();
+        String desc = descField.getText();
+        
+        Transaction trans = new Transaction(cust.getKey(), receipent, type, desc, "Transfer", amount);
+        
+        trans.recordTransaction(cust.getKey(), receipent, amount, currency, type, desc);
+        displayBalance();
     }
     
     @FXML
@@ -207,6 +223,9 @@ public class AccountPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         currencyChoice.getItems().addAll(Account.getCurrency());
+        currencyChoice1.getItems().addAll(Account.getCurrency());
+        currencyChoice2.getItems().addAll(Account.getCurrency());
+        typeChoice.getItems().addAll(Type);
         currencyChoice.getSelectionModel().selectFirst();
         currencyChoice.setOnAction(this::getBalance);
     } 
