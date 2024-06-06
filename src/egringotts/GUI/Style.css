@@ -72,7 +72,13 @@
     -fx-border-width: 3;
 }
 
-.tableCustomer{
-    -fx-background-color:  #A7B0CA;
-
+table.tableCustomer{
+    -fx-background-color: #A7B0CA;
+}
+tr:nth-child(even){
+    -fx-background-color: #FBF5F3;
+}
+th{
+    background-color: #343C6A;
+    color: white;
 }

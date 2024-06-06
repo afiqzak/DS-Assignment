@@ -109,13 +109,13 @@
                         </Label>
                         <TableView fx:id="userTable" layoutX="14.0" layoutY="52.0" prefHeight="200.0" prefWidth="678.0" styleClass="tableCustomer">
                           <columns>
-                            <TableColumn fx:id="accNumColumn" editable="false" prefWidth="75.20002555847168" text="Acc Num" />
-                            <TableColumn fx:id="nameColumn" editable="false" prefWidth="102.40003204345703" text="Name" />
-                              <TableColumn fx:id="phoneColumn" editable="false" prefWidth="61.5999755859375" text="Phone" />
-                              <TableColumn fx:id="emailColumn" editable="false" prefWidth="116.79998779296875" text="Email" />
-                              <TableColumn fx:id="dobColumn" editable="false" minWidth="9.60003662109375" prefWidth="63.20001220703125" text="DOB" />
-                              <TableColumn fx:id="addressColumn" editable="false" prefWidth="168.79995727539062" text="Address" />
-                              <TableColumn fx:id="tierColumn" editable="false" minWidth="0.0" prefWidth="91.2000732421875" text="Tier" />
+                            <TableColumn fx:id="accNumColumn" editable="false" prefWidth="75.20002555847168" sortable="false" text="Acc Num" />
+                            <TableColumn fx:id="nameColumn" editable="false" prefWidth="102.40003204345703" sortable="false" text="Name" />
+                              <TableColumn fx:id="phoneColumn" editable="false" prefWidth="61.5999755859375" sortable="false" text="Phone" />
+                              <TableColumn fx:id="emailColumn" editable="false" prefWidth="116.79998779296875" sortable="false" text="Email" />
+                              <TableColumn fx:id="dobColumn" editable="false" minWidth="9.60003662109375" prefWidth="63.20001220703125" sortable="false" text="DOB" />
+                              <TableColumn fx:id="addressColumn" editable="false" prefWidth="168.79995727539062" sortable="false" text="Address" />
+                              <TableColumn fx:id="tierColumn" editable="false" minWidth="0.0" prefWidth="91.2000732421875" sortable="false" text="Tier" />
                           </columns>
                         </TableView>
                         <Label layoutX="14.0" layoutY="262.0" prefHeight="38.0" prefWidth="98.0" text="Add Admin" textFill="#fbf5f3">

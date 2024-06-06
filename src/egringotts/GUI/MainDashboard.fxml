@@ -196,7 +196,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <Pane layoutX="14.0" layoutY="389.0" prefHeight="150.0" prefWidth="701.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
+                  <Pane layoutX="14.0" layoutY="389.0" prefHeight="150.0" prefWidth="701.0" style="-fx-background-color: #F5F3BB; -fx-background-radius: 15;">
                      <children>
                         <BarChart fx:id="barchartSpending" prefHeight="150.0" prefWidth="701.0" title="Weekly Spending">
                           <xAxis>
