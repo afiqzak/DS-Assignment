@@ -41,7 +41,10 @@ public class AccountPageController implements Initializable {
     private Parent root;
     
     @FXML
-    private Label balanceField;
+    private Pane receiptPane;
+    
+    @FXML
+    private Label balanceField, errorLabel;
 
     @FXML
     private ChoiceBox<String> currencyChoice, currencyChoice1, currencyChoice2, typeChoice;
@@ -59,6 +62,7 @@ public class AccountPageController implements Initializable {
     
     private Customer cust;
     private Admin admin;
+    private Transaction trans;
     
     public void setCustomer(Customer cust){
         this.cust = cust;
@@ -104,10 +108,27 @@ public class AccountPageController implements Initializable {
         String type = typeChoice.getValue();
         String desc = descField.getText();
         
-        Transaction trans = new Transaction(cust.getKey(), receipent, type, desc, "Transfer", amount);
-        
-        trans.recordTransaction(cust.getKey(), receipent, amount, currency, type, desc);
-        displayBalance();
+        if(receipt.accExist(receipent)==true){
+            trans = new Transaction(cust.getKey(), receipent, type, desc, "Transfer", amount);
+
+            trans.recordTransaction(cust.getKey(), receipent, amount, currency, type, desc);
+            displayBalance();
+            receiptPane.setVisible(true);
+        } else {
+            errorLabel.setText("Receipent does not exist");
+            errorLabel.setVisible(true);
+        }
+    }
+    
+    @FXML
+    private void receiptButton(ActionEvent event){
+        trans.printReceipt();
+        receiptPane.setVisible(false);
+    }
+    
+    @FXML
+    private void continueButton(ActionEvent event){
+        receiptPane.setVisible(false);
     }
     
     @FXML
@@ -222,6 +243,8 @@ public class AccountPageController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        receiptPane.setVisible(false);
+        errorLabel.setVisible(false);
         currencyChoice.getItems().addAll(Account.getCurrency());
         currencyChoice1.getItems().addAll(Account.getCurrency());
         currencyChoice2.getItems().addAll(Account.getCurrency());
