@@ -47,10 +47,7 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         MainDashboardController main = loader.getController();
         main.setCustomer(cust);
-        main.displayCard(cust.getAccountNum());
-        main.displayRecentTrans();
-        main.displayBalance();
-        main.displayPieChart();
+        main.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

@@ -298,7 +298,6 @@ public class Customer implements User{
             while(rs.next()){
                 if(!(rs.getString("currency").equalsIgnoreCase("K"))){
                     amount = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
-                    System.out.println(amount);
                 }else
                     amount = rs.getDouble("totalSpend");
                 sum += amount;

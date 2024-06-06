@@ -61,11 +61,7 @@ public class LoginController implements Initializable {
             }else{
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
                 main.setCustomer(cust);
-                main.displayCard(cust.getAccountNum());
-                main.displayRecentTrans();
-                main.displayBalance();
-                main.displayPieChart();
-                main.displayBarChart();
+                main.display();
             } 
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             mainDashboard = new Scene(root);
