@@ -53,7 +53,8 @@ public class SettingsPageController implements Initializable {
     private Button profileButton, securityButton, userButton;
     
     @FXML
-    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, dobLabel, incorrectLabel, successLabel;
+    private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, 
+            dobLabel, incorrectLabel, successLabel,successLabel1;
     
     @FXML
     private TextField nameF, emailF, phoneF, addressF, usernameF;
@@ -152,6 +153,7 @@ public class SettingsPageController implements Initializable {
         String accountNum = Integer.toString(admin.getUserId());
         
         admin.addAdmin(accountNum, name, phone, email, username, password, dob, address);
+        successLabel1.setVisible(false);
     }
     
     @FXML
@@ -263,6 +265,7 @@ public class SettingsPageController implements Initializable {
         
         incorrectLabel.setVisible(false);
         successLabel.setVisible(false);
+        successLabel1.setVisible(false);
         
         this.admin = null;
         this.cust = null;

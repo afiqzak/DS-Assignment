@@ -13,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -34,6 +35,9 @@ public class AdminDashboardController implements Initializable {
     
     @FXML
     private TextField nameField, symbolField, rateField,proFeeField;
+    
+    @FXML
+    private Label successLabel;
     
     @FXML
     private ChoiceBox<String> currencyChoice;
@@ -64,14 +68,15 @@ public class AdminDashboardController implements Initializable {
         String name = nameField.getText();
         String symbol = symbolField.getText();
         String choice = currencyChoice.getValue();
-        //float rate = rateField.getText();
-        //double proFee = proFeeField.getText();
-        //admin.currencyCode(choice);
-        //admin.addCurrency(name, symbol, choice, rate, float);
+        float rate = Float.parseFloat(rateField.getText());
+        double proFee = Double.parseDouble(proFeeField.getText());
+        admin.addCurrency(name, symbol, choice, rate, proFee);
+        successLabel.setVisible(true);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        successLabel.setVisible(false);
         currencyChoice.getItems().addAll(Account.getCurrency());
         currencyChoice.getSelectionModel().selectFirst();
     }    

@@ -134,6 +134,11 @@
                               <Font name="Bank Gothic Medium BT" size="16.0" />
                            </font></Button>
                         <PasswordField fx:id="passF" layoutX="442.0" layoutY="337.0" promptText="Password" />
+                        <Label fx:id="successLabel1" layoutX="479.0" layoutY="392.0" text="Added successfully" textFill="#4fb176">
+                           <font>
+                              <Font name="Arial Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
                      </children></AnchorPane>
                   <Button layoutX="626.0" layoutY="493.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="38.0" prefWidth="90.0" style="-fx-background-color: #cc252c; -fx-background-radius: 10;" styleClass="LogoutButton" text="Log Out" textFill="#fbf5f3">
                      <font>

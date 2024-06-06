@@ -79,43 +79,50 @@ public class Admin extends User {
        }
     }
     
-    public int getCode() throws SQLException{
-        int newCode = 1;
-        try (Connection con = DBConnection.openConn();
-            Statement statement = con.createStatement()){
-            String SQL_Command = "SELECT MAX(code) FROM currency";
-            ResultSet Rslt = statement.executeQuery(SQL_Command);
-
-            if (Rslt.next()) {
-                int maxId = Rslt.getInt(1);
-                newCode = maxId + 1;
-            }
-        }catch (SQLException e ){
-            e.printStackTrace();
+    public int getNewCode() throws SQLException {
+      String sql = "SELECT MAX(code) FROM currency";
+      try (Connection con = DBConnection.openConn();
+           Statement statement = con.createStatement();
+           ResultSet rs = statement.executeQuery(sql)) {
+        if (rs.next()) {
+          return rs.getInt(1) + 1;
+        } else {
+          // Handle case where no records exist (e.g., return 1)
+          return 1;
         }
-        return newCode;
+      }
     }
-    /*
-    public void currencyCode(String currName) throws SQLException{
-        try(Connection con = DBConnection.openConn();
-                Statement statement =con.createStatement()){
-            String SQL_Command = "SELECT * from currency WHERE display_name = ?";
+
+    public void addCurrency(String newCurrName, String symbol, String existingCurrency, float rate, double proFee) throws SQLException {
+      int newCode = getNewCode();
+      String sqlInsertCurrency = "INSERT INTO currency (code, symbol, display_name) VALUES (?, ?, ?)";
+      String sqlGetExistingId = "SELECT code INTO @existing_currency_id FROM currency WHERE display_name = ?";
+      String sqlInsertExchangeRate = "INSERT INTO exchange_rate (currency_code_from, currency_code_to, rate, fee_rate) VALUES (?, @existing_currency_id, ?, ?)";
+
+      try (Connection connection = DBConnection.openConn()) {
+        // Separate prepared statements for security
+        try (PreparedStatement psInsertCurrency = connection.prepareStatement(sqlInsertCurrency);
+             PreparedStatement psGetExistingId = connection.prepareStatement(sqlGetExistingId);
+             PreparedStatement psInsertExchangeRate = connection.prepareStatement(sqlInsertExchangeRate)) {
+          // Set parameters for insert currency
+          psInsertCurrency.setInt(1, newCode);
+          psInsertCurrency.setString(2, symbol);
+          psInsertCurrency.setString(3, newCurrName);
+          psInsertCurrency.executeUpdate();
+
+          // Get existing currency ID
+          psGetExistingId.setString(1, existingCurrency);
+          psGetExistingId.executeQuery(); // Ignoring result as we use OUT parameter
+
+          // Set parameters for insert exchange rate
+          psInsertExchangeRate.setInt(1, newCode);
+          psInsertExchangeRate.setDouble(2, rate);
+          psInsertExchangeRate.setDouble(3, proFee);
+          psInsertExchangeRate.executeUpdate();
         }
+      }
     }
     
-    public void addCurrency(String newCurrName,String symbol,String currency,double rate,float proFee) throws SQLException{
-        try(Connection con = DBConnection.openConn();
-                Statement statement =con.createStatement()){
-            String SQL_Command = " INSERT INTO currency (code, symbol, display_name)" + "VALUES ('" + getCode() +"','" + symbol +
-                    "','" + newCurrName + "');" +
-                    " INSERT INTO exchange_rate (currency_code_from, currency_code_to,rate,fee_rate)" + 
-                    "VALUES ('" + getCode() +"','" + currencycode "','"+ rate + "','" + proFee + "')";
-            statement.executeUpdate(SQL_Command);
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-    */
     public ArrayList<Customer> tableUser() {
         ArrayList<Customer> users = new ArrayList<>();
         String query = "SELECT * FROM account";
