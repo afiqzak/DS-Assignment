@@ -47,47 +47,69 @@
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="21.0" layoutY="68.0" />
+                        <TextField fx:id="receipentField" layoutX="21.0" layoutY="68.0" />
                         <Label layoutX="195.0" layoutY="47.0" text="Amount" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="195.0" layoutY="68.0" prefHeight="25.0" prefWidth="86.0" />
-                        <ChoiceBox layoutX="20.0" layoutY="135.0" prefHeight="25.0" prefWidth="111.0" />
+                        <TextField fx:id="amountField" layoutX="195.0" layoutY="68.0" prefHeight="25.0" prefWidth="86.0" />
+                        <ChoiceBox fx:id="typeChoice" layoutX="20.0" layoutY="135.0" prefHeight="25.0" prefWidth="111.0" />
                         <Label layoutX="27.0" layoutY="113.0" text="Type" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
-                        <TextField layoutX="21.0" layoutY="201.0" prefHeight="25.0" prefWidth="274.0" />
+                        <TextField fx:id="descField" layoutX="21.0" layoutY="201.0" prefHeight="25.0" prefWidth="274.0" />
                         <Label layoutX="23.0" layoutY="179.0" text="Description" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Button fx:id="transferButton1" layoutX="341.0" layoutY="235.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="86.0" style="-fx-background-radius: 30; -fx-background-color: #4fb176;" text="Pay" />
+                        <Button layoutX="341.0" layoutY="235.0" mnemonicParsing="false" onAction="#payButton" prefHeight="37.0" prefWidth="86.0" style="-fx-background-radius: 30; -fx-background-color: #4fb176;" text="Pay">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="16.0" />
+                           </font>
+                        </Button>
+                        <ChoiceBox fx:id="currencyChoice2" layoutX="306.0" layoutY="68.0" prefHeight="25.0" prefWidth="86.0" />
+                        <Label layoutX="306.0" layoutY="47.0" text="Currency" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
                      </children>
                   </Pane>
-                  <Pane layoutX="502.0" layoutY="24.0" prefHeight="501.0" prefWidth="223.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
+                  <Pane layoutX="502.0" layoutY="24.0" prefHeight="501.0" prefWidth="223.0" style="-fx-background-color: #412722; -fx-background-radius: 15;">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="128.0" text="Find Your Friends">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="128.0" text="Find Your Friends" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
                         <TextField fx:id="findField" layoutX="11.0" layoutY="40.0" promptText="username or no, phone" />
-                        <Button fx:id="findButton" layoutX="167.0" layoutY="40.0" mnemonicParsing="false" onAction="#findFriend" prefHeight="25.0" prefWidth="46.0" text="Find" />
+                        <Button fx:id="findButton" layoutX="167.0" layoutY="40.0" mnemonicParsing="false" onAction="#findFriend" prefHeight="25.0" prefWidth="46.0" style="-fx-background-color: #A7B0CA;" text="Find">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Button>
                         <ScrollPane hbarPolicy="NEVER" layoutX="12.0" layoutY="142.0" prefHeight="349.0" prefWidth="200.0" style="-fx-background-color: #fbf5f3;">
                            <content>
                               <VBox fx:id="vbox" prefHeight="76.0" prefWidth="188.0" style="-fx-background-color: #fbf5f3;" />
                            </content>
                         </ScrollPane>
-                        <Label layoutX="10.0" layoutY="109.0" text="Write Amount" />
-                        <TextField fx:id="transferField" layoutX="92.0" layoutY="105.0" prefHeight="25.0" prefWidth="122.0" style="-fx-background-radius: 30;" />
-                        <Button fx:id="transferButton" layoutX="155.0" layoutY="105.0" mnemonicParsing="false" onAction="#transferButton" style="-fx-background-radius: 30;" text="Transfer" />
-                        <Label layoutX="14.0" layoutY="75.0" text="Currency" />
-                        <ChoiceBox fx:id="currencyChoice1" layoutX="71.0" layoutY="71.0" prefHeight="25.0" prefWidth="142.0" />
+                        <Label layoutX="10.0" layoutY="109.0" prefHeight="14.0" prefWidth="68.0" text="Amount" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font></Label>
+                        <TextField fx:id="transferField" layoutX="77.0" layoutY="105.0" prefHeight="25.0" prefWidth="137.0" style="-fx-background-radius: 30;" />
+                        <Button fx:id="transferButton" layoutX="135.0" layoutY="105.0" mnemonicParsing="false" onAction="#transferButton" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 30; -fx-background-color: #4fb176;" text="Transfer">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font></Button>
+                        <Label layoutX="14.0" layoutY="75.0" text="Currency" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Label>
+                        <ChoiceBox fx:id="currencyChoice1" layoutX="91.0" layoutY="71.0" prefHeight="25.0" prefWidth="122.0" />
                      </children>
                   </Pane>
                   <Pane layoutX="24.0" layoutY="44.0" prefHeight="178.0" prefWidth="459.0" style="-fx-background-color: #540b0e; -fx-background-radius: 15;">

@@ -45,18 +45,28 @@ public class Transaction {
         this.currBalance = currBalance;
         this.date = date;
     }
+
+    public Transaction(String sender, String receipent, String type, String description, String method, Double amount) {
+        this.sender = sender;
+        this.receipent = receipent;
+        this.type = type;
+        this.description = description;
+        this.method = method;
+        this.amount = amount;
+    }
+    
+    
     
     
     
     public String getTransactionId() throws SQLException {
         
-        String newId = "1001"; // Default starting ID if no existing IDs are found
+        String newId = "1"; // Default starting ID if no existing IDs are found
         try(Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
             String SQL_Command = "SELECT MAX(ID_Transaction) FROM transaction";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
 
-        
             if (Rslt.next()) {
             String lastId = Rslt.getString(1);
             if (lastId != null) {
@@ -72,7 +82,7 @@ public class Transaction {
 }
 
     
-    public String recordTransaction(String currency, String method) throws SQLException {
+    public String recordTransaction(String currency) throws SQLException {
         double rbalance = 0.0;
         String transactionID = null;
         
@@ -80,39 +90,40 @@ public class Transaction {
             Statement statement = con.createStatement()) {
             // Generate a transaction ID
             transactionID = getTransactionId();
+            String method = "Transfer";
             
             // Fetch sender current balance from database
-            String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + sender + "'";
+            String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.sender + "'";
             ResultSet SBalanceResult = statement.executeQuery(senderBalance);
             if (SBalanceResult.next()) {
-                balance = SBalanceResult.getDouble(currency);
+                this.balance = SBalanceResult.getDouble(currency);
             }
             // Update balance
-            balance -= amount;
-            this.currBalance = String.valueOf(balance) + currency.charAt(0);
-            this.currAmount = String.valueOf(amount) + currency.charAt(0);
+            this.balance -= this.amount;
+            this.currBalance = String.valueOf(this.balance) + " " + currency.charAt(0);
+            this.currAmount = String.valueOf(this.amount) + " " + currency.charAt(0);
             
             // Fetch receipent current balance from database
-            String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + receipent + "'";
+            String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.receipent + "'";
             ResultSet RBalanceResult = statement.executeQuery(receipentBalance);
             if (RBalanceResult.next()) {
                 rbalance = RBalanceResult.getInt(currency);
             }
             
             // Update balance
-            rbalance += amount;
+            rbalance += this.amount;
 
             
             // Insert transaction into database
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, method, Type, Description) "
-                    + "VALUES ('" + transactionID + "', '" + sender + "', '" + receipent + "', '" + currAmount + "', '" + currBalance + "', '" + method + "', '" + type + "', '" + description + "')";
+                    + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', '" + this.currAmount + "', '" + this.currBalance + "', '" + method + "', '" + this.type + "', '" + this.description + "')";
             statement.executeUpdate(sql);
             
             // Update the balance in the account table
-            String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + balance + " WHERE AccountNum = '" + sender + "'";
+            String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + this.balance + " WHERE AccountNum = '" + this.sender + "'";
             statement.executeUpdate(updateSenderBalanceQuery);
             
-            String updateReceipentBalanceQuery = "UPDATE account SET " + currency + " = " + rbalance + " WHERE AccountNum = '" + receipent + "'";
+            String updateReceipentBalanceQuery = "UPDATE account SET " + currency + " = " + rbalance + " WHERE AccountNum = '" + this.receipent + "'";
             statement.executeUpdate(updateReceipentBalanceQuery);
             
         } catch (SQLException e) {

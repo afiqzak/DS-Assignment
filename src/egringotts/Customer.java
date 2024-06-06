@@ -303,9 +303,42 @@ public class Customer extends User{
         return sum;
     }
     
+    public double getMonthlySpend(int month){
+        double sum = 0.0;
+
+        String SQL_Command = "SELECT SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend,\n" +
+            "       SUBSTRING_INDEX(amount, ' ', -1) AS currency\n" +
+            "FROM transaction\n" +
+            "WHERE DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)\n" +
+            "  AND Sender = ?\n" +
+            "  AND MONTH(Date) = ?\n" +
+            "GROUP BY YEAR(Date), MONTH(Date), currency";
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
+            double amount = 0.0;
+
+            stmt.setString(1, this.accountNum); // Set parameter with prepared statement
+            stmt.setInt(2, month);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                if(!(rs.getString("currency").equalsIgnoreCase("K"))){
+                    amount = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
+                }else
+                    amount = rs.getDouble("totalSpend");
+                sum += amount;
+                
+            }
+            return sum;
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        return sum;
+    }
+    
     public static void main(String[] args) {
         Customer cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getSumCard("Credit Card", "Monday"));
+        System.out.println(cust.getMonthlySpend(6));
     }
 
 }

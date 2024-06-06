@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -41,6 +43,9 @@ public class TransactionPageController implements Initializable {
     @FXML
     private TableColumn<Transaction, String> receipentColumn, descColumn, typeColumn, methodColumn, dateColumn, amountColumn;
     
+    @FXML
+    private LineChart<String, Double> linechartMonthly;
+    
     private PensivePast pensive;
     private Admin admin;
     private Customer cust;
@@ -66,6 +71,25 @@ public class TransactionPageController implements Initializable {
         amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
         
         history.setItems(list);
+    }
+    
+    public void displayLineChart(){
+        XYChart.Series series = new XYChart.Series();
+        series.getData().add(new XYChart.Data("Jan", cust.getMonthlySpend(1)));
+        series.getData().add(new XYChart.Data("Feb", cust.getMonthlySpend(2)));
+        series.getData().add(new XYChart.Data("Mar", cust.getMonthlySpend(3)));
+        series.getData().add(new XYChart.Data("Apr", cust.getMonthlySpend(4)));
+        series.getData().add(new XYChart.Data("May", cust.getMonthlySpend(5)));
+        series.getData().add(new XYChart.Data("Jun", cust.getMonthlySpend(6)));
+        series.getData().add(new XYChart.Data("Jul", cust.getMonthlySpend(7)));
+        series.getData().add(new XYChart.Data("Aug", cust.getMonthlySpend(8)));
+        series.getData().add(new XYChart.Data("Sep", cust.getMonthlySpend(9)));
+        series.getData().add(new XYChart.Data("Okt", cust.getMonthlySpend(10)));
+        series.getData().add(new XYChart.Data("Nov", cust.getMonthlySpend(11)));
+        series.getData().add(new XYChart.Data("Dis", cust.getMonthlySpend(12)));
+        
+        linechartMonthly.getData().addAll(series);
+        
     }
     
     @FXML

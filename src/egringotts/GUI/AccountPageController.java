@@ -44,16 +44,18 @@ public class AccountPageController implements Initializable {
     private Label balanceField;
 
     @FXML
-    private ChoiceBox<String> currencyChoice, currencyChoice1;
+    private ChoiceBox<String> currencyChoice, currencyChoice1, currencyChoice2, typeChoice;
 
     @FXML
     private Button findButton, transferButton;
 
     @FXML
-    private TextField findField, transferField;
+    private TextField findField, transferField, receipentField, amountField, descField;
     
     @FXML
     private VBox vbox;
+    
+    private String[] Type = {"Food","Bill","Grocery","Entertainment","Others"};
     
     private Customer cust;
     private Admin admin;
@@ -93,6 +95,20 @@ public class AccountPageController implements Initializable {
           } catch (SQLException e) {
             e.printStackTrace();
           }
+    }
+    
+    @FXML
+    private void payButton(ActionEvent event) throws SQLException{
+        String receipent = receipentField.getText();
+        double amount = Double.parseDouble(amountField.getText());
+        String currency = currencyChoice2.getValue();
+        String type = typeChoice.getValue();
+        String desc = descField.getText();
+        
+        Transaction trans = new Transaction(cust.getKey(), receipent, type, desc, "Transfer", amount);
+        
+        trans.recordTransaction(currency);
+        displayBalance();
     }
     
     @FXML
@@ -138,13 +154,22 @@ public class AccountPageController implements Initializable {
     }
     
     @FXML
-    void transferButton(ActionEvent event) {
+    void transferButton(ActionEvent event) throws SQLException {
+        if(lastClickedPane == null){
+            System.out.println("Please pick a friend");
+            return;
+        }
         Label username = (Label) lastClickedPane.lookup("#username");
 
         if (username != null) {
           double amount = Double.valueOf(transferField.getText());
           String currency = currencyChoice1.getValue();
-          Customer receipet = Account.getCustomerByUsername(username.getText());
+          Customer receipent = Account.getCustomerByUsername(username.getText());
+          
+          Transaction trans = new Transaction(cust.getKey(), receipent.getKey(), "Other", "Instant transfer to " + receipent.getName(), "Transfer", amount);
+          
+          trans.recordTransaction(currency);
+          displayBalance();
         }
     }
     
@@ -237,6 +262,9 @@ public class AccountPageController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         currencyChoice.getItems().addAll(Account.getCurrency());
+        currencyChoice1.getItems().addAll(Account.getCurrency());
+        currencyChoice2.getItems().addAll(Account.getCurrency());
+        typeChoice.getItems().addAll(Type);
         currencyChoice.getSelectionModel().selectFirst();
         currencyChoice.setOnAction(this::getBalance);
     } 

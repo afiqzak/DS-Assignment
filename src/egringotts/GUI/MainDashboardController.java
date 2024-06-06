@@ -199,6 +199,7 @@ public class MainDashboardController implements Initializable{
         TransactionPageController trans = loader.getController();
         trans.setCustomer(cust);
         trans.historyTable();
+        trans.displayLineChart();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
