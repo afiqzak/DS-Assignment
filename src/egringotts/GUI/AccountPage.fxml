@@ -52,19 +52,10 @@
                            </font>
                         </Label>
                         <TextField fx:id="findField" layoutX="11.0" layoutY="40.0" promptText="username or no, phone" />
-                        <Button fx:id="findButton" layoutX="167.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" text="Find" />
-                        <ScrollPane hbarPolicy="NEVER" layoutX="12.0" layoutY="142.0" prefHeight="349.0" prefWidth="200.0">
+                        <Button fx:id="findButton" layoutX="167.0" layoutY="40.0" mnemonicParsing="false" onAction="#findFriend" prefHeight="25.0" prefWidth="46.0" text="Find" />
+                        <ScrollPane hbarPolicy="NEVER" layoutX="12.0" layoutY="142.0" prefHeight="349.0" prefWidth="200.0" style="-fx-background-color: #fbf5f3;">
                            <content>
-                              <VBox fx:id="vbox" prefHeight="348.0" prefWidth="188.0">
-                                 <children>
-                                    <Pane fx:id="friend" prefHeight="74.0" prefWidth="188.0">
-                                       <children>
-                                          <Label fx:id="usernameFriend" layoutX="14.0" layoutY="14.0" text="username" />
-                                          <Label fx:id="phoneFriend" layoutX="14.0" layoutY="33.0" prefHeight="17.0" prefWidth="46.0" text="phone" />
-                                       </children>
-                                    </Pane>
-                                 </children>
-                              </VBox>
+                              <VBox fx:id="vbox" prefHeight="76.0" prefWidth="188.0" style="-fx-background-color: #fbf5f3;" />
                            </content>
                         </ScrollPane>
                         <Label layoutX="10.0" layoutY="109.0" text="Write Amount" />

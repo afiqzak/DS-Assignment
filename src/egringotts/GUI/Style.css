@@ -72,13 +72,17 @@
     -fx-border-width: 3;
 }
 
-table.tableCustomer{
+.table-view {
     -fx-background-color: #A7B0CA;
+    border-collapse: collapse;
 }
-tr:nth-child(even){
+
+.table-row-cell:even {
     -fx-background-color: #FBF5F3;
 }
-th{
-    background-color: #343C6A;
-    color: white;
+
+.table-view .column-header .label {
+    -fx-background-color: #343C6A;
+    -fx-text-fill: white;
+    border-collapse: collapse;
 }

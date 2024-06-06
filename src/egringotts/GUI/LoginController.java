@@ -41,32 +41,37 @@ public class LoginController implements Initializable {
     private Stage stage;
     
     @FXML
-    private Scene mainDashboard;
+    private Scene mainDashboard,adminDashboard,signUp;
     
     @FXML
     private Parent root;
     
     @FXML
     private void loginAction(ActionEvent event) throws IOException, SQLException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
-        root = loader.load();
-        MainDashboardController main = loader.getController();
         String user = egringotts.Account.signIn(usernameField.getText(), passField.getText());
         System.out.println(user);
         if(!user.isEmpty()){
             if(user.equalsIgnoreCase("admin")) {
-                egringotts.Admin admin = egringotts.Account.getAdminByUsername(usernameField.getText());
-                main.setAdmin(admin);
-                System.out.println(admin.getAccountNum());
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminDashboard.fxml"));
+                root = loader.load();
+                AdminDashboardController admin = loader.getController();
+                egringotts.Admin Admin = egringotts.Account.getAdminByUsername(usernameField.getText());
+                admin.setAdmin(Admin);
+                System.out.println(Admin.getAccountNum());
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                adminDashboard = new Scene(root);
+                stage.setScene(adminDashboard);
             }else{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
+                root = loader.load();
+                MainDashboardController main = loader.getController();
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
                 main.setCustomer(cust);
                 main.display();
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                mainDashboard = new Scene(root);
+                stage.setScene(mainDashboard);
             } 
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            mainDashboard = new Scene(root);
-
-            stage.setScene(mainDashboard);
             stage.show();
         }else{
             errorLabel.setText("incorrect username or password");
@@ -77,10 +82,9 @@ public class LoginController implements Initializable {
     private void signupAction(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("signup.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        mainDashboard = new Scene(root);
+        signUp = new Scene(root);
         
-        stage.setScene(mainDashboard);
-        //stage.setMaximized(true);
+        stage.setScene(signUp);
         stage.show();
     }
     
