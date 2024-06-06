@@ -19,7 +19,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
@@ -50,6 +52,9 @@ public class MainDashboardController implements Initializable{
 
     @FXML
     private PieChart piechartType;
+    
+    @FXML
+    private BarChart<String, Double> barchartSpending;
 
     private Admin admin;
     
@@ -149,6 +154,20 @@ public class MainDashboardController implements Initializable{
         
         piechartType.getData().addAll(pieData);
     }
+    
+    public void displayBarChart(){
+        XYChart.Series series = new XYChart.Series();
+        series.getData().add(new XYChart.Data("Sun", cust.getTotalSpendByDay("Sunday")));
+        series.getData().add(new XYChart.Data("Mon", cust.getTotalSpendByDay("Monday")));
+        series.getData().add(new XYChart.Data("Teu", cust.getTotalSpendByDay("Tuesday")));
+        series.getData().add(new XYChart.Data("Wed", cust.getTotalSpendByDay("Wednesday")));
+        series.getData().add(new XYChart.Data("Thu", cust.getTotalSpendByDay("Thursday")));
+        series.getData().add(new XYChart.Data("Fri", cust.getTotalSpendByDay("Friday")));
+        series.getData().add(new XYChart.Data("Sat", cust.getTotalSpendByDay("Saturday")));
+        
+        barchartSpending.getData().addAll(series);
+        
+    }
         
     @FXML
     private void accountsMenu(ActionEvent event) throws IOException {
@@ -238,8 +257,6 @@ public class MainDashboardController implements Initializable{
         this.admin = null;
         currencyChoice.getItems().addAll(Account.getCurrency());
         currencyChoice.getSelectionModel().selectFirst();
-        currencyChoice.setOnAction(this::getBalance);
-
-        
+        currencyChoice.setOnAction(this::getBalance); 
     }    
 }
