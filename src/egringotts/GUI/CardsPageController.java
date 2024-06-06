@@ -109,7 +109,7 @@ public class CardsPageController implements Initializable {
         try (Connection con = DBConnection.openConn();
                 Statement statement = con.createStatement()){
         String SQL_Command = "INSERT INTO card (cvv, AccountNum, Card_Number, Expiration_Date, Credit_limit, type) " +
-                                    "VALUES ('" + ccvField.getText() + "','" + cust.getAccountNum() + "','" + cardNumField.getText() + "','" + expDateField.getText() + "','" +
+                                    "VALUES ('" + ccvField.getText() + "','" + cust.getKey() + "','" + cardNumField.getText() + "','" + expDateField.getText() + "','" +
                                     creditLimitField.getText() + "','" + typeField.getValue() + "')";
         statement.executeUpdate(SQL_Command);
         }

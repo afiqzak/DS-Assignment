@@ -194,7 +194,7 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.displayCard(cust.getAccountNum());
+        cards.displayCard(cust.getKey());
         cards.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -253,7 +253,7 @@ public class SettingsPageController implements Initializable {
     
     public void setProfile() throws SQLException{
         if(cust != null){
-            accNumLabel.setText("  " + cust.getAccountNum());
+            accNumLabel.setText("  " + cust.getKey());
             tierLabel.setText("  " + cust.getTier());
             nameLabel.setText("  " + cust.getName());
             emailLabel.setText("  " + cust.getEmail());
@@ -262,7 +262,7 @@ public class SettingsPageController implements Initializable {
             addressLabel.setText("  " + cust.getAddress());
             dobLabel.setText("  " + cust.getDob());
         } else {
-            accNumLabel.setText("  " + admin.getID());
+            accNumLabel.setText("  " + admin.getKey());
             tierLabel.setVisible(false);
             nameLabel.setText("  " + admin.getName());
             emailLabel.setText("  " + admin.getEmail());

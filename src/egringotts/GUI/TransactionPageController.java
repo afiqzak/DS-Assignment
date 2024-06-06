@@ -50,7 +50,7 @@ public class TransactionPageController implements Initializable {
     public void setCustomer(egringotts.Customer cust){
         this.cust = cust;
         
-        list = FXCollections.observableArrayList(pensive.history(cust.getAccountNum()));
+        list = FXCollections.observableArrayList(pensive.history(cust.getKey()));
     }
 
     public void setAdmin(Admin admin) {
@@ -101,7 +101,7 @@ public class TransactionPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.displayCard(cust.getAccountNum());
+        cards.displayCard(cust.getKey());
         cards.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

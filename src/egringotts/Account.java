@@ -11,11 +11,16 @@ import java.util.Map;
  *
  * @author USER
  */
-public class Account {
+public class Account <E extends User>{
+    private E account;
+
+    public Account(E account) {
+        this.account = account;
+    } 
  
-    public static boolean signUp(Customer user, String currency, double amount) {
+    public boolean signUp(String currency, double amount) {
         boolean done = true;
-        String SQL_Command = "SELECT username FROM account WHERE username ='" + user.getUsername() + "'"; 
+        String SQL_Command = "SELECT username FROM account WHERE username ='" + account.getUsername() + "'"; 
             try (Connection con = DBConnection.openConn();
                 Statement statement = con.prepareStatement(SQL_Command)){
                 // Inquire if the username exists.
@@ -24,8 +29,8 @@ public class Account {
                 if (done) {
                     // Save the user details
                        SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ") " +
-                                    "VALUES ('" + user.getAccountNum() + "','" + user.getName() + "','" + user.getUsername() + "','" + user.getPhoneNum() + "','" +
-                                    user.getEmail() + "','" + user.getPassword() + "','" + user.getDob() + "','" + user.getAddress() + "', '" + user.setTier() + "', " + amount + ")";
+                                    "VALUES ('" + account.generateKey() + "','" + account.getName() + "','" + account.getUsername() + "','" + account.getPhoneNum() + "','" +
+                                    account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ")";
                        statement.executeUpdate(SQL_Command);
                 }
                 return true;
@@ -47,19 +52,18 @@ public class Account {
            }
         return done;
     }
-
-
-    public static String signIn(String username, String pass) {
+    
+    public String signIn() {
         String user = "";
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + username + "' AND Password_Admin ='" + pass + "'";
+            SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
             if(Rslt.next()) user = "admin";
             else {
-                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + username + "' AND Password_Customer ='" + pass + "'";
+                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
                 Rslt = statement.executeQuery(SQL_Command);
                 if(Rslt.next()) user = "customer";
             }
@@ -80,23 +84,37 @@ public class Account {
         return user;
     }
     
-    public static ArrayList<String> getCurrency(){
-        ArrayList<String> currencys = new ArrayList<>();
-        try (Connection con = DBConnection.openConn();
-            Statement statement = con.createStatement()){
-            String SQL_Command = "SHOW COLUMNS FROM account";
-            ResultSet Rslt = statement.executeQuery(SQL_Command);
-            int i = 1;
-            while(Rslt.next()){
-                i++;
-                if(i>10)
-                    currencys.add(Rslt.getString("Field"));
+    public static Admin getAdminByUsername(String username){
+        Admin admin = null;
+
+        try (Connection conn = DBConnection.openConn();){
+            String query = "SELECT * FROM admin WHERE username = ?";
+            PreparedStatement preparedStatement = conn.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int ID = resultSet.getInt("ID_Admin");
+                String name = resultSet.getString("Name_Admin");
+                String phoneNum = resultSet.getString("PhoneNum_Admin");
+                String email = resultSet.getString("Email_Admin");
+                String password = resultSet.getString("Password_Admin");
+                String DOB = resultSet.getString("DOB");
+                String address = resultSet.getString("Address");
+                /*Map<String, java.lang.Double> balances = new HashMap<>();
+                balances.put("Knut", resultSet.getDouble("KnutBalance"));
+                balances.put("Sickle", resultSet.getDouble("SickleBalance"));
+                balances.put("Galleon", resultSet.getDouble("GalleonBalance"));*/
+
+                admin = new Admin(ID, name, username, phoneNum, email, password, DOB, address);
             }
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
+            preparedStatement.close();
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return currencys;
+
+        return admin;
     }
     
     public static Customer getCustomerByAccountNumber(String accountNumber) {
@@ -166,37 +184,25 @@ public class Account {
         return customer;
     }
     
-    public static Admin getAdminByUsername(String username){
-        Admin admin = null;
-
-        try (Connection conn = DBConnection.openConn();){
-            String query = "SELECT * FROM admin WHERE username = ?";
-            PreparedStatement preparedStatement = conn.prepareStatement(query);
-            preparedStatement.setString(1, username);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                int ID = resultSet.getInt("ID_Admin");
-                String name = resultSet.getString("Name_Admin");
-                String phoneNum = resultSet.getString("PhoneNum_Admin");
-                String email = resultSet.getString("Email_Admin");
-                String password = resultSet.getString("Password_Admin");
-                String DOB = resultSet.getString("DOB");
-                String address = resultSet.getString("Address");
-                /*Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("KnutBalance"));
-                balances.put("Sickle", resultSet.getDouble("SickleBalance"));
-                balances.put("Galleon", resultSet.getDouble("GalleonBalance"));*/
-
-                admin = new Admin(ID, name, username, phoneNum, email, password, DOB, address);
+    
+    
+    public static ArrayList<String> getCurrency(){
+        ArrayList<String> currencys = new ArrayList<>();
+        try (Connection con = DBConnection.openConn();
+            Statement statement = con.createStatement()){
+            String SQL_Command = "SHOW COLUMNS FROM account";
+            ResultSet Rslt = statement.executeQuery(SQL_Command);
+            int i = 1;
+            while(Rslt.next()){
+                i++;
+                if(i>10)
+                    currencys.add(Rslt.getString("Field"));
             }
-            preparedStatement.close();
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
             e.printStackTrace();
         }
-
-        return admin;
+        return currencys;
     }
 }
 

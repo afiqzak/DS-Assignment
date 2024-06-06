@@ -14,7 +14,7 @@ public class Customer extends User{
     private String accountNum;
     private Map<String, Double> balances;
     private String tier;
-    private CurrencyExchange exchange;
+    private CurrencyExchange exchange = new CurrencyExchange();
 
     public Customer(String accountNum, Map<String, Double> balances, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
@@ -32,6 +32,14 @@ public class Customer extends User{
         this.accountNum = generateAccountNum();
         this.tier = setTier();
     } 
+
+    public Customer(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(username, name, password, phoneNum, email, dob, address);
+        this.accountNum = accountNum;
+        this.balances = balances;
+    }
+    
+    
   
     public Map<String,Double> getBalances(){
         return balances;
@@ -41,7 +49,7 @@ public class Customer extends User{
         this.balances = balances;
     }
 
-    public String getAccountNum() {
+    public String getKey() {
         return accountNum;
     }
 
@@ -124,6 +132,7 @@ public class Customer extends User{
         pstmt.setString(1, this.accountNum);
     }
     
+    @Override
     public String setTier() {
         if (getBalance("Knut") < 10000) {
             return "Silver Snitch";
@@ -146,29 +155,7 @@ public class Customer extends User{
         String accountNum = String.format("%04d", n1) + " " + String.format("%04d", n2) + " " + String.format("%04d", n3);
         return accountNum;
     }
-    
-    public String newAccountNum() {
-        String accountNum;
-        boolean foundDuplicate = true; // Assume duplicate initially to enter the loop
 
-        do {
-          accountNum = generateAccountNum(); // Generate random number
-
-          try (Connection con = DBConnection.openConn();
-               PreparedStatement stmt = con.prepareStatement("SELECT 1 FROM account WHERE AccountNum = ?")) {
-
-            stmt.setString(1, accountNum); // Set parameter with prepared statement
-            ResultSet rs = stmt.executeQuery();
-
-            foundDuplicate = rs.next(); // Check if a row exists (duplicate)
-          } catch (SQLException e) {
-            e.printStackTrace();
-          }
-        } while (foundDuplicate);
-
-        return accountNum;
-      }
-    
     public String getAccountN() {
         //return the actual account number from the database
         String accountNum = null;
@@ -254,6 +241,29 @@ public class Customer extends User{
     public static void main(String[] args) {
         Customer cust = Account.getCustomerByUsername("ali");
         System.out.println(cust.getTotalSpendByDay("Wednesday"));
+    }
+
+    @Override
+    public String generateKey() {
+        String accountNum;
+        boolean foundDuplicate = true; // Assume duplicate initially to enter the loop
+
+        do {
+          accountNum = generateAccountNum(); // Generate random number
+
+          try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement("SELECT 1 FROM account WHERE AccountNum = ?")) {
+
+            stmt.setString(1, accountNum); // Set parameter with prepared statement
+            ResultSet rs = stmt.executeQuery();
+
+            foundDuplicate = rs.next(); // Check if a row exists (duplicate)
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        } while (foundDuplicate);
+
+        return accountNum;
     }
 }
 

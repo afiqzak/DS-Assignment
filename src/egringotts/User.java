@@ -6,7 +6,7 @@ import java.sql.SQLException;
  *
  * @author USER
  */
-public class User {
+public abstract class User {
     private String name;
     private String username;
     private String password;
@@ -58,5 +58,9 @@ public class User {
         return address;
     }
 
+    public abstract String setTier();
     
+    public abstract String generateKey();
+    
+    public abstract String getKey();
 }

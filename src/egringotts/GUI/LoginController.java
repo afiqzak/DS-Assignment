@@ -1,5 +1,6 @@
 package egringotts.GUI;
 
+import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -51,11 +52,12 @@ public class LoginController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
-        String user = egringotts.Account.signIn(usernameField.getText(), passField.getText());
-        System.out.println(user);
+        
+        Account<User> acc = new Account(new Customer(usernameField.getText(), passField.getText()));
+        String user = acc.signIn();
         if(!user.isEmpty()){
             if(user.equalsIgnoreCase("admin")) {
-                egringotts.Admin admin = egringotts.Account.getAdminByUsername(usernameField.getText());
+                egringotts.Admin admin = acc.getAdminByUsername(usernameField.getText());
                 main.setAdmin(admin);
             }else{
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());

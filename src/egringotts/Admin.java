@@ -110,7 +110,35 @@ public class Admin extends User {
         }
     }
 
-    public int getID() {
-        return ID;
+    public String getKey() {
+        return String.valueOf(ID);
+    }
+
+    @Override
+    public String setTier() {
+        return "Goblin";
+    }
+
+    @Override
+    public String generateKey() {
+        int newId = 1;
+        try (Connection con = DBConnection.openConn();
+            Statement statement = con.createStatement()){
+            String SQL_Command = "SELECT MAX(ID_Admin) FROM admin";
+            ResultSet Rslt = statement.executeQuery(SQL_Command);
+
+            if (Rslt.next()) {
+                // Retrieve the maximum ID from the result set
+                int maxId = Integer.valueOf(Rslt.getString(1));
+                // If maxId is 0, it means there are no existing admin records, so set newId to 1
+
+                // Increment the maximum ID by 1 to generate a new unique ID
+                newId = maxId + 1;
+
+            }
+        }catch (SQLException e ){
+            e.printStackTrace();
+        }
+        return String.valueOf(newId);
     }
 }

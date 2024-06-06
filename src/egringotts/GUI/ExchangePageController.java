@@ -57,7 +57,7 @@ public class ExchangePageController implements Initializable {
     public void setCustomer(Customer cust){
         this.cust = cust;
         
-        list = FXCollections.observableArrayList(pensive.historyExchange(cust.getAccountNum()));
+        list = FXCollections.observableArrayList(pensive.historyExchange(cust.getKey()));
     }
     
     public void historyTable(){
@@ -123,7 +123,7 @@ public class ExchangePageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.displayCard(cust.getAccountNum());
+        cards.displayCard(cust.getKey());
         cards.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);

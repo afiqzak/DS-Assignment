@@ -115,9 +115,10 @@ public class SignupController implements Initializable {
         }
         
         egringotts.Customer cust = new egringotts.Customer(username, name, phoneNum, email, password, dobString, address + ", " + poscode + ", " + state);
+        egringotts.Account<egringotts.Customer> acc = new egringotts.Account<>(cust);
         
         //check if username already exist or not
-        if(!egringotts.Account.signUp(cust, currency.getTypeSelector(), Double.parseDouble(amountField.getText()))){
+        if(!acc.signUp(currency.getTypeSelector(), Double.parseDouble(amountField.getText()))){
             errUsername.setText("username already exist");
             return;
         }

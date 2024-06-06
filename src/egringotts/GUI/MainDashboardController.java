@@ -75,7 +75,7 @@ public class MainDashboardController implements Initializable{
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, cust.getAccountNum());
+            ps.setString(1, cust.getKey());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 if(card == 1){
@@ -105,7 +105,7 @@ public class MainDashboardController implements Initializable{
         Label[] desc = {descField1, descField2, descField3};
         Label[] date = {dateField1, dateField2, dateField3};
         Label[] amount = {amountField1, amountField2, amountField3};
-        ArrayList<Transaction> trans = PensivePast.history(cust.getAccountNum()); 
+        ArrayList<Transaction> trans = PensivePast.history(cust.getKey()); 
         
         for(int i = 0; i < 3 && trans.size() > i; i++){
             desc[i].setText(trans.get(i).getDescription());
@@ -210,7 +210,7 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.displayCard(cust.getAccountNum());
+        cards.displayCard(cust.getKey());
         cards.setCustomer(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
