@@ -57,7 +57,6 @@ public class LoginController implements Initializable {
             if(user.equalsIgnoreCase("admin")) {
                 egringotts.Admin admin = egringotts.Account.getAdminByUsername(usernameField.getText());
                 main.setAdmin(admin);
-                System.out.println(admin.getAccountNum());
             }else{
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
                 main.setCustomer(cust);

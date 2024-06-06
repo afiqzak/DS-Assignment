@@ -25,7 +25,7 @@ public class Account {
                     // Save the user details
                        SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ") " +
                                     "VALUES ('" + user.getAccountNum() + "','" + user.getName() + "','" + user.getUsername() + "','" + user.getPhoneNum() + "','" +
-                                    user.getEmail() + "','" + user.getPassword() + "','" + user.getDOB() + "','" + user.getAddress() + "', '" + user.setTier() + "', " + amount + ")";
+                                    user.getEmail() + "','" + user.getPassword() + "','" + user.getDob() + "','" + user.getAddress() + "', '" + user.setTier() + "', " + amount + ")";
                        statement.executeUpdate(SQL_Command);
                 }
                 return true;
@@ -122,7 +122,7 @@ public class Account {
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
 
-                customer = new Customer(accountNumber, name, username, phoneNum, email, password, DOB, address, balances, tier);
+                customer = new Customer(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -155,7 +155,7 @@ public class Account {
                 balances.put("Knut", resultSet.getDouble("Knut"));
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
-                customer = new Customer(accountNum, name, username, phoneNum, email, password, DOB, address, balances, tier);
+                customer = new Customer(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -176,7 +176,7 @@ public class Account {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                String accountNum = resultSet.getString("AccountNum");
+                int ID = resultSet.getInt("ID_Admin");
                 String name = resultSet.getString("Name_Admin");
                 String phoneNum = resultSet.getString("PhoneNum_Admin");
                 String email = resultSet.getString("Email_Admin");
@@ -188,7 +188,7 @@ public class Account {
                 balances.put("Sickle", resultSet.getDouble("SickleBalance"));
                 balances.put("Galleon", resultSet.getDouble("GalleonBalance"));*/
 
-                admin = new Admin(accountNum, name, username, phoneNum, email, password, DOB, address);
+                admin = new Admin(ID, name, username, phoneNum, email, password, DOB, address);
             }
             preparedStatement.close();
 

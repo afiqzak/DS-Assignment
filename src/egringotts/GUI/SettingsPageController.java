@@ -260,16 +260,16 @@ public class SettingsPageController implements Initializable {
             phoneLabel.setText("  " + cust.getPhoneNum());
             usernameLabel.setText("  " + cust.getUsername());
             addressLabel.setText("  " + cust.getAddress());
-            dobLabel.setText("  " + cust.getDOB());
+            dobLabel.setText("  " + cust.getDob());
         } else {
-            accNumLabel.setText("  " + admin.getAccountNum());
+            accNumLabel.setText("  " + admin.getID());
             tierLabel.setVisible(false);
             nameLabel.setText("  " + admin.getName());
             emailLabel.setText("  " + admin.getEmail());
             phoneLabel.setText("  " + admin.getPhoneNum());
             usernameLabel.setText("  " + admin.getUsername());
             addressLabel.setText("  " + admin.getAddress());
-            dobLabel.setText("  " + admin.getDOB());
+            dobLabel.setText("  " + admin.getDob());
         }
     }
 }

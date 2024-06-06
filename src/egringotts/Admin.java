@@ -12,35 +12,26 @@ import java.util.Vector;
  *
  * @author USER
  */
-public class Admin implements User {
+public class Admin extends User {
 
-    private String accountNum;
-    private String name;
-    private String username;
-    private String password;
-    private String phoneNum;
-    private String email;
-    private String DOB;
-    private String address;
+    private int ID;
 
     // Constructor
-    public Admin(String accountNum, String username, String name, String phoneNum, String email, String password, String DOB, String address) {
-        this.accountNum = accountNum;
-        this.username = username;
-        this.name = name;
-        this.phoneNum = phoneNum;
-        this.email = email;
-        this.password = password;
-        this.DOB = DOB;
-        this.address = address;
+
+    public Admin(int ID, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(username, name, password, phoneNum, email, dob, address);
+        this.ID = ID;
     }
 
-    public Admin(String username, String password) {
-        this.username = username;
-        this.password = password;
+    public Admin(int ID, String username, String password) {
+        super(username, password);
+        this.ID = ID;
     }
-    
-    
+
+    public Admin(String username, String name, String password, String phoneNum, String email, String dob, String address) throws SQLException {
+        super(username, name, password, phoneNum, email, dob, address);
+        this.ID = getUserId();
+    }
 
     // Implement User interface methods
     public int getUserId() throws SQLException{
@@ -111,7 +102,7 @@ public class Admin implements User {
         String SQL_Command ="UPDATE admin SET Password_Admin = '" + password + "' WHERE AccountNum = ?";
         try(Connection con = DBConnection.openConn();
             PreparedStatement statement = con.prepareStatement(SQL_Command)){
-            statement.setString(1, this.getAccountNum());
+            statement.setString(1, String.valueOf(this.ID));
             System.out.println(statement);
             statement.executeUpdate();
         }catch(SQLException e){
@@ -119,47 +110,7 @@ public class Admin implements User {
         }
     }
 
-    public String getAccountNum() {
-        return accountNum;
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getPhoneNum() {
-        return phoneNum;
-    }
-
-    @Override
-    public String getEmail() {
-        return email;
-    }
-
-    @Override
-    public String getDOB() {
-        return DOB;
-    }
-
-    @Override
-    public String getAddress() {
-        return address;
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
+    public int getID() {
+        return ID;
     }
 }
