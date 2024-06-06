@@ -69,24 +69,26 @@ public class MainDashboardController implements Initializable{
         this.admin = admin;
     }
     
-    public void displayCard(String accNum){
+    public void displayCard(){
         String query = "SELECT card.AccountNum, card.Card_Number,card.Expiration_Date, account.Name_Customer FROM card INNER JOIN account ON card.AccountNum=account.AccountNum WHERE card.AccountNum = ?;";
         this.card = 1;
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, accNum);
+            ps.setString(1, cust.getAccountNum());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 if(card == 1){
                     expField.setText(rs.getString("Expiration_Date"));
                     nameField.setText(rs.getString("Name_Customer"));
                     numField.setText(masking(rs.getString("Card_Number")));
+                    card1.setVisible(true);
                     card2.setVisible(false);
                 }else if(card == 2){
                     expField2.setText(rs.getString("Expiration_Date"));
                     nameField2.setText(rs.getString("Name_Customer"));
                     numField2.setText(masking(rs.getString("Card_Number")));
+                    card1.setVisible(true);
                     card2.setVisible(true);
                 }else if(card==0){
                     card1.setVisible(false);
@@ -167,6 +169,14 @@ public class MainDashboardController implements Initializable{
         
         barchartSpending.getData().addAll(series);
         
+    }
+    
+    public void display(){
+        displayCard();
+        displayRecentTrans();
+        displayBalance();
+        displayPieChart();
+        displayBarChart();
     }
         
     @FXML

@@ -8,11 +8,40 @@ package egringotts;
  * @note : please use this class for the exchange to make it more memory friendly
  * @author afiqz
  */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 class CurrencyExchange {
     private Map<String, Map<String, Double>> graph = new HashMap<>();
     private Map<String, Double> processingFees = new HashMap<>();
+
+    public CurrencyExchange() {
+        String SQL_Command = "SELECT\n" +
+            "    c1.symbol AS FromCurrencyName,\n" +
+            "    c2.symbol AS ToCurrencyName,\n" +
+            "    er.rate AS ExchangeRate,\n" +
+            "    er.fee_rate AS feeRate\n" +
+            "FROM\n" +
+            "    exchange_rate er\n" +
+            "JOIN\n" +
+            "    currency c1 ON er.currency_code_from = c1.code\n" +
+            "JOIN\n" +
+            "    currency c2 ON er.currency_code_to = c2.code";
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                addCurrency(rs.getString("FromCurrencyName"), rs.getString("ToCurrencyName"), rs.getDouble("ExchangeRate"), rs.getDouble("feeRate"));
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+    }
 
     /**
      * Adds currency conversion information to the graph and stores processing fees.

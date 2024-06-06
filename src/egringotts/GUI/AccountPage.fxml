@@ -3,6 +3,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,6 +13,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <StackPane style="-fx-background-color: #E4C3AD;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.AccountPageController">
@@ -48,6 +51,27 @@
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
+                        <TextField fx:id="findField" layoutX="11.0" layoutY="40.0" promptText="username or no, phone" />
+                        <Button fx:id="findButton" layoutX="167.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="46.0" text="Find" />
+                        <ScrollPane hbarPolicy="NEVER" layoutX="12.0" layoutY="142.0" prefHeight="349.0" prefWidth="200.0">
+                           <content>
+                              <VBox fx:id="vbox" prefHeight="348.0" prefWidth="188.0">
+                                 <children>
+                                    <Pane fx:id="friend" prefHeight="74.0" prefWidth="188.0">
+                                       <children>
+                                          <Label fx:id="usernameFriend" layoutX="14.0" layoutY="14.0" text="username" />
+                                          <Label fx:id="phoneFriend" layoutX="14.0" layoutY="33.0" prefHeight="17.0" prefWidth="46.0" text="phone" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                        <Label layoutX="10.0" layoutY="109.0" text="Write Amount" />
+                        <TextField fx:id="transferField" layoutX="92.0" layoutY="105.0" prefHeight="25.0" prefWidth="122.0" style="-fx-background-radius: 30;" />
+                        <Button fx:id="transferButton" layoutX="155.0" layoutY="105.0" mnemonicParsing="false" style="-fx-background-radius: 30;" text="Transfer" />
+                        <Label layoutX="14.0" layoutY="75.0" text="Currency" />
+                        <ChoiceBox fx:id="currencyChoice1" layoutX="71.0" layoutY="71.0" prefHeight="25.0" prefWidth="142.0" />
                      </children>
                   </Pane>
                   <Pane layoutX="24.0" layoutY="44.0" prefHeight="178.0" prefWidth="459.0" style="-fx-background-color: #540b0e; -fx-background-radius: 15;">

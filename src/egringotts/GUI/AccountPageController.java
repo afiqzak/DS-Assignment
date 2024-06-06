@@ -3,6 +3,9 @@ package egringotts.GUI;
 import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -12,8 +15,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -34,9 +41,25 @@ public class AccountPageController implements Initializable {
     
     @FXML
     private Label balanceField;
+
+    @FXML
+    private ChoiceBox<String> currencyChoice, currencyChoice1;
+
+    @FXML
+    private Button findButton, transferButton;
+
+    @FXML
+    private TextField findField, transferField;
+
+    @FXML
+    private Pane friend;
+
+    @FXML
+    private Label phoneFriend, usernameFriend;
     
     @FXML
-    private ChoiceBox<String> currencyChoice;
+    private VBox vbox;
+    
     private Customer cust;
     private Admin admin;
     
@@ -57,16 +80,47 @@ public class AccountPageController implements Initializable {
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
+    public void findFriend(String phoneUsername){
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement("SELECT username, PhoneNum_Customer FROM account WHERE PhoneNum_Customer LIKE ? OR username LIKE ?;")) {
+
+            stmt.setString(1, findField.getText()+"%"); // Set parameter with prepared statement
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Pane accountPane = createAccountPane(rs.getString("username"), rs.getString(PhoneNum_Customer));
+                vbox.getChildren().add(accountPane);
+            }
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+    }
+    
+    @FXML
+    private Pane createAccountPane(String username, String phoneNumber) {
+        Pane pane = new Pane();
+        pane.setPrefHeight(74.0);
+        pane.setPrefWidth(188.0);
+
+        Label usernameLabel = new Label(username);
+        usernameLabel.setLayoutX(14.0);
+        usernameLabel.setLayoutY(14.0);
+
+        Label phoneLabel = new Label(phoneNumber);
+        phoneLabel.setLayoutX(14.0);
+        phoneLabel.setLayoutY(33.0);
+
+        pane.getChildren().addAll(usernameLabel, phoneLabel);
+        return pane;
+    }
+    
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
         main.setCustomer(cust);
-        main.displayCard(cust.getAccountNum());
-        main.displayRecentTrans();
-        main.displayBalance();
-        main.displayPieChart();
+        main.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
