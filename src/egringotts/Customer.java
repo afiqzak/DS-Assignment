@@ -238,11 +238,6 @@ public class Customer extends User{
         return sum;
     } 
     
-    public static void main(String[] args) {
-        Customer cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getTotalSpendByDay("Wednesday"));
-    }
-
     @Override
     public String generateKey() {
         String accountNum;
@@ -265,5 +260,53 @@ public class Customer extends User{
 
         return accountNum;
     }
+    
+    public double getSumCard(String method, String day){
+        double sum = 0.0;
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        
+        int index = -1; // Initialize with an invalid index
+
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].equals(day)) {
+                index = i+1;
+                break; // Exit the loop once found
+            }
+        }
+        String SQL_Command = "SELECT DATE(Date) AS day, \n" +
+            "SUBSTRING_INDEX(amount, ' ', -1) AS currency, \n" +
+            "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend \n" +
+            "FROM transaction \n" +
+            "WHERE DAYOFWEEK(Date)=? AND DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND Sender=? AND method=? \n" +
+            "GROUP BY DATE(Date), currency;";
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
+            double amount = 0.0;
+
+            stmt.setString(1, String.valueOf(index)); // Set parameter with prepared statement
+            stmt.setString(2, this.accountNum);
+            stmt.setString(3, method);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                if(!(rs.getString("currency").equalsIgnoreCase("K"))){
+                    amount = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
+                }else
+                    amount = rs.getDouble("totalSpend");
+                sum += amount;
+                System.out.println(amount);
+            }
+            return sum;
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        return sum;
+    }
+    
+    public static void main(String[] args) {
+        Customer cust = Account.getCustomerByUsername("ali");
+        System.out.println(cust.getSumCard("Credit Card", "Monday"));
+    }
+
 }
 

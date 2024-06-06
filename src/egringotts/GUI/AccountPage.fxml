@@ -85,7 +85,7 @@
                         </ScrollPane>
                         <Label layoutX="10.0" layoutY="109.0" text="Write Amount" />
                         <TextField fx:id="transferField" layoutX="92.0" layoutY="105.0" prefHeight="25.0" prefWidth="122.0" style="-fx-background-radius: 30;" />
-                        <Button fx:id="transferButton" layoutX="155.0" layoutY="105.0" mnemonicParsing="false" style="-fx-background-radius: 30;" text="Transfer" />
+                        <Button fx:id="transferButton" layoutX="155.0" layoutY="105.0" mnemonicParsing="false" onAction="#transferButton" style="-fx-background-radius: 30;" text="Transfer" />
                         <Label layoutX="14.0" layoutY="75.0" text="Currency" />
                         <ChoiceBox fx:id="currencyChoice1" layoutX="71.0" layoutY="71.0" prefHeight="25.0" prefWidth="142.0" />
                      </children>

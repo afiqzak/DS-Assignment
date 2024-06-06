@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +19,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -50,6 +53,9 @@ public class CardsPageController implements Initializable {
     private ChoiceBox<String> typeField;
     
     @FXML
+    private BarChart<String, Double> barchartCard;
+    
+    @FXML
     private Pane card1, card2, card3;
     private Admin admin;
     private Customer cust;
@@ -62,13 +68,13 @@ public class CardsPageController implements Initializable {
     
     public int card;
     
-    public void displayCard(String accNum){
+    public void displayCard(){
         String query = "SELECT card.AccountNum, card.Card_Number,card.Expiration_Date, account.Name_Customer FROM card INNER JOIN account ON card.AccountNum=account.AccountNum WHERE card.AccountNum = ?;";
         this.card = 1;
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setString(1, accNum);
+            ps.setString(1, cust.getKey());
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
                 if(card == 1){
@@ -102,6 +108,36 @@ public class CardsPageController implements Initializable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void displayBarchart(){
+        XYChart.Series credit = new XYChart.Series();
+        credit.setName("Credit Card");
+        credit.getData().add(new XYChart.Data("Sun", cust.getSumCard(credit.getName(), "Sunday")));
+        credit.getData().add(new XYChart.Data("Mon", cust.getSumCard(credit.getName(), "Monday")));
+        credit.getData().add(new XYChart.Data("Teu", cust.getSumCard(credit.getName(), "Teusday")));
+        credit.getData().add(new XYChart.Data("Wed", cust.getSumCard(credit.getName(), "Wednesday")));
+        credit.getData().add(new XYChart.Data("Thu", cust.getSumCard(credit.getName(), "Thursday")));
+        credit.getData().add(new XYChart.Data("Fri", cust.getSumCard(credit.getName(), "Friday")));
+        credit.getData().add(new XYChart.Data("Sat", cust.getSumCard(credit.getName(), "Saturday")));
+        
+        XYChart.Series debit = new XYChart.Series();
+        debit.setName("Debit Card");
+        debit.getData().add(new XYChart.Data("Sun", cust.getSumCard(debit.getName(), "Sunday")));
+        debit.getData().add(new XYChart.Data("Mon", cust.getSumCard(debit.getName(), "Monday")));
+        debit.getData().add(new XYChart.Data("Tue", cust.getSumCard(debit.getName(), "Teusday")));
+        debit.getData().add(new XYChart.Data("Wed", cust.getSumCard(debit.getName(), "Wednesday")));
+        debit.getData().add(new XYChart.Data("Thu", cust.getSumCard(debit.getName(), "Thursday")));
+        debit.getData().add(new XYChart.Data("Fri", cust.getSumCard(debit.getName(), "Friday")));
+        debit.getData().add(new XYChart.Data("Sat", cust.getSumCard(debit.getName(), "Saturday")));
+        
+        
+        barchartCard.getData().addAll(credit, debit);
+    }
+    
+    public void display(){
+        displayBarchart();
+        displayCard();
     }
     
     @FXML

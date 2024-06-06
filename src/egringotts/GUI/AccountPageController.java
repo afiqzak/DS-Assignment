@@ -57,6 +57,7 @@ public class AccountPageController implements Initializable {
     
     private Customer cust;
     private Admin admin;
+    private Pane lastClickedPane = null;
     
     public void setCustomer(Customer cust){
         this.cust = cust;
@@ -103,19 +104,48 @@ public class AccountPageController implements Initializable {
         pane.setMaxWidth(188.0);
         pane.setMinHeight(74.0);
         pane.setMinWidth(188.0);
-        
-        pane.setStyle("-fx-border-color: black; -fx-border-width: 1;");
 
         Label usernameLabel = new Label(username);
+        usernameLabel.setId("username");
         usernameLabel.setLayoutX(14.0);
         usernameLabel.setLayoutY(14.0);
 
         Label phoneLabel = new Label(phoneNumber);
         phoneLabel.setLayoutX(14.0);
         phoneLabel.setLayoutY(33.0);
-
+        
+        pane.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 1;");
+        
+        pane.setOnMouseEntered(e -> {
+            if (lastClickedPane != pane) {
+                pane.setStyle("-fx-background-color: lightgray;");
+            }
+        });
+        pane.setOnMouseExited(e -> {
+            if (lastClickedPane != pane) {
+                pane.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 1;");
+            }
+        });
+        pane.setOnMouseClicked(e -> {
+            if (lastClickedPane != null) {
+                lastClickedPane.setStyle("-fx-background-color: transparent; -fx-border-color: black; -fx-border-width: 1;");
+            }
+            pane.setStyle("-fx-background-color: coral;");
+            lastClickedPane = pane;
+        });
         pane.getChildren().addAll(usernameLabel, phoneLabel);
         return pane;
+    }
+    
+    @FXML
+    void transferButton(ActionEvent event) {
+        Label username = (Label) lastClickedPane.lookup("#username");
+
+        if (username != null) {
+          double amount = Double.valueOf(transferField.getText());
+          String currency = currencyChoice1.getValue();
+          Customer receipet = Account.getCustomerByUsername(username.getText());
+        }
     }
     
     @FXML
@@ -151,8 +181,8 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.displayCard(cust.getKey());
         cards.setCustomer(cust);
+        cards.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
