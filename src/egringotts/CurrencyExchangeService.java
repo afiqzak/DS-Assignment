@@ -5,16 +5,16 @@ package egringotts;
  * @author wenhu
  */
 public class CurrencyExchangeService {
-    private currencyExchange exchange;
+    private CurrencyExchange exchange;
 
     public CurrencyExchangeService() {
-        exchange = new currencyExchange();
+        exchange = new CurrencyExchange();
     }
 
     //perform currency exchange
     public void performCurrencyExchange(Customer sender, String recipientAccountNum, String fromCurrency, String toCurrency, double amount) throws Exception {
-        double convertedAmount = exchange.convert(fromCurrency, toCurrency, amount).getConvertedAmount();
-        double totalFee = exchange.convert(fromCurrency, toCurrency, amount).getTotalFee();
+        double convertedAmount = exchange.exchange(fromCurrency, toCurrency, amount);
+        double totalFee = exchange.getProcessingFee(fromCurrency, toCurrency) * amount;
 
         // Fetch sender's current balance
         double currentBalanceSender = sender.getBalance(fromCurrency);

@@ -21,6 +21,7 @@ public class Customer implements User{
     private String address;
     private Map<String, Double> balances;
     private String tier;
+    private CurrencyExchange exchange;
 
     public Customer() {
     }
@@ -48,6 +49,7 @@ public class Customer implements User{
         this.address = address;
         this.balances = balances;
         this.tier = tier;
+        this.exchange = new CurrencyExchange();
     }
     
     
@@ -266,6 +268,47 @@ public class Customer implements User{
         }
         return (double) numType / total * 100;
     }
+    
+    public double getTotalSpendByDay(String day){
+        double sum = 0.0;
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        
+        int index = -1; // Initialize with an invalid index
+
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].equals(day)) {
+                index = i+1;
+                break; // Exit the loop once found
+            }
+        }
+        String SQL_Command = "SELECT DATE(Date) AS day, "
+                + "SUBSTRING_INDEX(amount, ' ', -1) AS currency, "
+                + "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend "
+                + "FROM transaction "
+                + "WHERE DAYOFWEEK(Date)=? AND DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND Sender=? "
+                + "GROUP BY DATE(Date), currency;";
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
+            double amount = 0.0;
+
+            stmt.setString(1, String.valueOf(index)); // Set parameter with prepared statement
+            stmt.setString(2, this.accountNum);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                if(!(rs.getString("currency").equalsIgnoreCase("K"))){
+                    amount = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
+                    System.out.println(amount);
+                }else
+                    amount = rs.getDouble("totalSpend");
+                sum += amount;
+            }
+            return sum;
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        return sum;
+    }
 
     @Override
     public void setName(String name) {
@@ -274,7 +317,7 @@ public class Customer implements User{
     
     public static void main(String[] args) {
         Customer cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getPercentageType("entertainment"));
+        System.out.println(cust.getTotalSpendByDay("Wednesday"));
     }
 }
 
