@@ -22,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Random;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -260,33 +262,34 @@ public class Transaction implements Printable{
     
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
-        if (pageIndex > 0) {
-            return NO_SUCH_PAGE;
-        }
-
-        Graphics2D g2d = (Graphics2D) graphics;
-        g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-        g2d.translate(pageFormat.getImageableX() + 50, pageFormat.getImageableY() + 50);
-
-        Font titleFont = new Font("Serif", Font.BOLD, 18);
-        Font bodyFont = new Font("Monospaced", Font.PLAIN, 12);
-
-        int y = 0;
-        int titleLineHeight = 20;
-        int bodyLineHeight = 15;
-
-        g2d.setFont(titleFont);
-        g2d.drawString("E-GRINGOTTS RECEIPT", 0, y);
-        y += titleLineHeight;
-
-        g2d.setFont(bodyFont);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        date.getTime();
-        String[] receipt = {
-                "Transaction ID: " + this.transactionID,
-                "Date: " + dateFormat.format(this.date),
+        try {
+            if (pageIndex > 0) {
+                return NO_SUCH_PAGE;
+            }
+            
+            Graphics2D g2d = (Graphics2D) graphics;
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            
+            g2d.translate(pageFormat.getImageableX() + 50, pageFormat.getImageableY() + 50);
+            
+            Font titleFont = new Font("Serif", Font.BOLD, 18);
+            Font bodyFont = new Font("Monospaced", Font.PLAIN, 12);
+            
+            int y = 0;
+            int titleLineHeight = 20;
+            int bodyLineHeight = 15;
+            
+            g2d.setFont(titleFont);
+            g2d.drawString("E-GRINGOTTS RECEIPT", 0, y);
+            y += titleLineHeight;
+            
+            g2d.setFont(bodyFont);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            date.getTime();
+            String[] receipt = {
+                "Transaction ID: " + generateTransactionId(),
+                "Date: " + dateFormat.format(date),
                 "Account Number: " + this.receipent,
                 "Amount: " + String.format("%.2f", amount),
                 "Type: " + type,
@@ -295,14 +298,18 @@ public class Transaction implements Printable{
                 "completed.",
                 "For any inquiries or further assistance, owl us at support@egringotts.com",
                 "May your galleons multiply like Fizzing Whizbees!"
-        };
-
-        for (String line : receipt) {
-            g2d.drawString(line, 0, y);
-            y += bodyLineHeight;
+            };
+            
+            for (String line : receipt) {
+                g2d.drawString(line, 0, y);
+                y += bodyLineHeight;
+            }
+            
+            return PAGE_EXISTS;
+        } catch (SQLException ex) {
+            Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return PAGE_EXISTS;
+        return 0;
     }
 
     public void printReceipt() {

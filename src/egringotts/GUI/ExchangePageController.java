@@ -61,11 +61,10 @@ public class ExchangePageController implements Initializable {
     }
     
     public void historyTable(){
-        amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
-        //receivedColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("balance"));
         descColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("description"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
+        //receivedColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("balance"));  //processing Fee
         dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
-        balanceColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currBalance"));
         
         history.setItems(list);
     }
@@ -82,7 +81,11 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("MainDashboard.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
+        root = loader.load();
+        MainDashboardController main = loader.getController();
+        main.setCustomer(cust);
+        main.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
