@@ -175,22 +175,19 @@ public class Customer extends User{
     
     public double getPercentageType(String type){
         int total = 0, numType = 0;
-        String SQL_Command = "SELECT COUNT(*) FROM transaction WHERE sender='" + this.accountNum + "';";
+        String SQL_Command = "SELECT\n" +
+            "  COUNT(*) AS total_transactions,\n" +
+            "  SUM(CASE WHEN Type = '" + type + "' THEN 1 ELSE 0 END) AS numType\n" +
+            "FROM transaction\n" +
+            "WHERE MONTH(Date) = MONTH(CURDATE());";
         try (Connection con = DBConnection.openConn();
-             Statement stmt = con.prepareStatement(SQL_Command)) {
+            PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
 
             ResultSet rs = stmt.executeQuery(SQL_Command);
 
             if(rs.next()){
                 total = rs.getInt(1);
-            }
-            
-            SQL_Command = "SELECT COUNT(*) FROM transaction WHERE sender='" + this.accountNum + "' AND Type='" + type + "';";
-            
-            rs = stmt.executeQuery(SQL_Command);
-            
-            if(rs.next()){
-                numType = rs.getInt(1);
+                numType = rs.getInt(2);
             }
         } catch (SQLException e) {
           e.printStackTrace();
@@ -210,12 +207,12 @@ public class Customer extends User{
                 break; // Exit the loop once found
             }
         }
-        String SQL_Command = "SELECT DATE(Date) AS day, "
-                + "SUBSTRING_INDEX(amount, ' ', -1) AS currency, "
-                + "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend "
-                + "FROM transaction "
-                + "WHERE DAYOFWEEK(Date)=? AND DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND Sender=? "
-                + "GROUP BY DATE(Date), currency;";
+        String SQL_Command = "SELECT DATE(Date) AS day, \n" +
+            "SUBSTRING_INDEX(amount, ' ', -1) AS currency, \n" +
+            "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend \n" +
+            "FROM transaction \n" +
+            "WHERE DAYOFWEEK(Date)=? AND WEEK(Date) = WEEK(CURDATE()) AND Sender=? \n" +
+            "GROUP BY DATE(Date), currency;";
         try (Connection con = DBConnection.openConn();
                PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
             double amount = 0.0;
@@ -277,7 +274,7 @@ public class Customer extends User{
             "SUBSTRING_INDEX(amount, ' ', -1) AS currency, \n" +
             "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend \n" +
             "FROM transaction \n" +
-            "WHERE DAYOFWEEK(Date)=? AND DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND Sender=? AND method=? \n" +
+            "WHERE DAYOFWEEK(Date)=? AND WEEK(Date) = WEEK(CURDATE()) AND Sender=? AND method=? \n" +
             "GROUP BY DATE(Date), currency;";
         try (Connection con = DBConnection.openConn();
                PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
@@ -309,7 +306,7 @@ public class Customer extends User{
         String SQL_Command = "SELECT SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend,\n" +
             "       SUBSTRING_INDEX(amount, ' ', -1) AS currency\n" +
             "FROM transaction\n" +
-            "WHERE DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)\n" +
+            "WHERE YEAR(Date) = YEAR(CURDATE())\n" +
             "  AND Sender = ?\n" +
             "  AND MONTH(Date) = ?\n" +
             "GROUP BY YEAR(Date), MONTH(Date), currency";
@@ -338,7 +335,7 @@ public class Customer extends User{
     
     public static void main(String[] args) {
         Customer cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getMonthlySpend(6));
+        System.out.println(cust.getPercentageType("entertainment"));
     }
 
 }
