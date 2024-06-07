@@ -60,6 +60,7 @@ public class Transaction implements Printable{
     }
 
     public Transaction(String sender, String receipent, String type, String description, String method, Double amount) {
+        
         this.sender = sender;
         this.receipent = receipent;
         this.type = type;
@@ -72,7 +73,7 @@ public class Transaction implements Printable{
     
     
     
-    public String getTransactionId() throws SQLException {
+    public String generateTransactionId() throws SQLException {
         
         String newId = "1"; // Default starting ID if no existing IDs are found
         try(Connection con = DBConnection.openConn();
@@ -102,7 +103,7 @@ public class Transaction implements Printable{
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()) {
             // Generate a transaction ID
-            transactionID = getTransactionId();
+            transactionID = generateTransactionId();
             String mathod = "Transfer";
             
             // Fetch sender current balance from database
@@ -226,7 +227,7 @@ public class Transaction implements Printable{
         try (Connection connection = DBConnection.openConn();
             Statement statement = connection.createStatement();){
             // Generate a transaction ID
-            transactionID = getTransactionId();
+            transactionID = generateTransactionId();
 
             // Get current date and time
             LocalDate currentDate = LocalDate.now();
@@ -315,24 +316,6 @@ public class Transaction implements Printable{
                 e.printStackTrace();
             }
         }
-    }
-
-    //generate random transaction id with 3 alphabets and 6 digits
-    public static String generateTransactionId() {
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < 3; i++) {
-            char c = (char) (random.nextInt(26) + 'A');
-            sb.append(c);
-        }
-
-        for (int i = 0; i < 6; i++) {
-            int digit = random.nextInt(10);
-            sb.append(digit);
-        }
-
-        return sb.toString();
     }
 
     //check if the account number exists before the transaction proceed
