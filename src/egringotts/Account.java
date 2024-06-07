@@ -32,6 +32,11 @@ public class Account <E extends User>{
                                     "VALUES ('" + account.generateKey() + "','" + account.getName() + "','" + account.getUsername() + "','" + account.getPhoneNum() + "','" +
                                     account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ")";
                        statement.executeUpdate(SQL_Command);
+
+                    
+                    EmailNotification emailNotification = new EmailNotification();
+                    // Send sign-up email
+                    emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
                 }
                 return true;
             }
@@ -59,13 +64,29 @@ public class Account <E extends User>{
             Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
+            SQL_Command = "SELECT Name_Admin, Email_Admin FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
-            if(Rslt.next()) user = "admin";
+            if(Rslt.next()){
+                user = "admin";
+                
+                // email from the result set
+                String email = Rslt.getString("Email_Admin");
+                EmailNotification emailNotification = new EmailNotification();
+                // send sign-in email for Admin
+                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
+            }
             else {
-                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
+                SQL_Command = "SELECT Name_Customer, Email_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
                 Rslt = statement.executeQuery(SQL_Command);
-                if(Rslt.next()) user = "customer";
+                if(Rslt.next()) {
+                user = "customer";
+                    
+                // email from the result set
+                String email = Rslt.getString("Email_Customer");
+                EmailNotification emailNotification = new EmailNotification();
+                // send sign-in email
+                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
+                }
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e);

@@ -24,6 +24,8 @@ import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 /**
  *
@@ -134,7 +136,7 @@ public class Transaction implements Printable{
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, method, Type, Description) "
                     + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', '" + this.currAmount + "', '" + this.currBalance + "', '" + method + "', '" + this.type + "', '" + this.description + "')";
             statement.executeUpdate(sql);
-            
+
             // Update the balance in the account table
             String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + this.balance + " WHERE AccountNum = '" + this.sender + "'";
             statement.executeUpdate(updateSenderBalanceQuery);
@@ -145,6 +147,7 @@ public class Transaction implements Printable{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        sendTransactionEmail(); //send email after transaction
         return transactionID;
     }
 
@@ -244,22 +247,28 @@ public class Transaction implements Printable{
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
             + "VALUES ('" + transactionID + "', '" + sender + "', '" + recipient + "', " + amount + ", " + senderBalance + ", 'Currency Exchange', '" + formattedDate + " " + formattedTime + "', 'Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee + "')";
             statement.executeUpdate(sql);
-//
-//            // Update sender's balance
-//            String updateSenderBalanceQuery = "UPDATE account SET Balance = " + senderBalance + " WHERE AccountNum = '" + sender + "'";
-//            statement.executeUpdate(updateSenderBalanceQuery);
-//
-//            // Update recipient's balance
-//            String updateRecipientBalanceQuery = "UPDATE account SET Balance = " + recipientBalance + " WHERE AccountNum = '" + recipient + "'";
-//            statement.executeUpdate(updateRecipientBalanceQuery);
 
+            //send email after transaction
+            try {
+            String transactionDetails = "Transaction ID: " + transactionID +
+                                        "\nSender: " + sender +
+                                        "\nRecipient: " + recipient +
+                                        "\nAmount: " + amount +
+                                        "\nType: Currency Exchange" +
+                                        "\nDescription: Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee;
+            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
+        
+            
+            } catch (MessagingException e) {
+            e.printStackTrace();
+        }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return transactionID;
     }
-    
+
     @Override
     public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
         try {
@@ -340,5 +349,20 @@ public class Transaction implements Printable{
             e.printStackTrace();
         }
         return false;
+    }
+    
+    // Method to send transaction email notification
+    private void sendTransactionEmail() {
+        try {
+            String transactionDetails = "Transaction ID: " + transactionID +
+                                        "\nSender: " + sender +
+                                        "\nRecipient: " + receipent +
+                                        "\nAmount: " + amount +
+                                        "\nType: " + type +
+                                        "\nDescription: " + description;
+            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }
