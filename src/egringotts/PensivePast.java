@@ -8,45 +8,74 @@ import java.util.ArrayList;
 import java.util.List;
     
 public class PensivePast {
-    private final Connection connection;
-
-    public PensivePast(Connection connection) {
-        this.connection = connection;
-    }
+    private Customer cust;
     
-    public void printTable(ResultSet rs) throws SQLException{
-        String format = "|%-15s |%-16s |%-10s |%-15s |%-13s |%-31s |%n";
-        System.out.format("+----------------+-----------------+-----------+----------------+--------------+--------------------------------+%n");
-        System.out.format("| Transaction ID | Account ID      | Amount    | Type           | Date         | Description                    |%n");
-        System.out.format("+----------------+-----------------+-----------+----------------+--------------+--------------------------------+%n");
-
-        while (rs.next()){
-            int TransactionID = rs.getInt("ID_Transaction");
-            String Receipent = rs.getString("Receipent");
-            double Amount = rs.getDouble("Amount");
-            String Type = rs.getString("Type");
-            String Date = rs.getDate("Date").toString();
-            String Desc = rs.getString("Description");
-            
-            System.out.format(format, TransactionID, Receipent, Amount, Type, Date, Desc);
-        }
-    }
-    
-    public void history(String Searchkey){
-        String query = "SELECT ID_Transaction,Receipent,Amount,Type,Date,Description FROM transaction WHERE Sender = ? ORDER BY Date DESC";
+    public static ArrayList<Transaction> history(String accountNum){
+        ArrayList<Transaction> trans = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE Sender = ? ORDER BY Date DESC";
         
-        try (PreparedStatement ps = connection.prepareStatement(query)) {
-            ps.setString(1, Searchkey);
+        try (Connection connection = DBConnection.openConn();
+            PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, accountNum);
             ResultSet rs = ps.executeQuery();
-            printTable(rs);
+            if (rs.next()) {
+                do {
+                  // Process the result set and create Transaction objects
+                  trans.add(new Transaction(
+                      rs.getString("ID_Transaction"),
+                      accountNum, // Assuming sender should be the provided accNum
+                      rs.getString("Receipent"),
+                      rs.getString("Type"),
+                      rs.getString("Description"),
+                      rs.getString("method"),
+                      rs.getString("amount"),
+                      rs.getString("balance"),
+                      rs.getString("Date")
+                  ));
+                } while (rs.next());
+              }
+            //printTable(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return trans;
+    }
+    
+    public static ArrayList<Transaction> historyExchange(String accountNum){
+        ArrayList<Transaction> trans = new ArrayList<>();
+        String query = "SELECT * FROM transaction WHERE Sender = ? AND Receipent = ?";
+        
+        try (Connection connection = DBConnection.openConn();
+            PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, accountNum);
+            ps.setString(2, accountNum);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                do {
+                  // Process the result set and create Transaction objects
+                  trans.add(new Transaction(
+                      rs.getString("amount"),
+                      accountNum, // Assuming sender should be the provided accNum
+                      accountNum,
+                      rs.getString("Type"),
+                      rs.getString("Description"),
+                      rs.getString("method"),
+                      rs.getString("amount"),
+                      rs.getString("balance"),
+                      rs.getString("Date")
+                  ));
+                } while (rs.next());
+              }
+            //printTable(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return trans;
     }
     
     public void filter(String accNum, int minAmount, int maxAmount, String filterDate, String filterDateBy, String filterType) {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT ID_Transaction, Receipent, Amount, Type, Date, Description FROM transaction WHERE Sender = ? RDER BY Date DESC");
+        query.append("SELECT ID_Transaction, Receipent, Amount, Type, Date, Description FROM transaction WHERE Sender = ? ORDER BY Date DESC");
 
         List<String> filterConditions = new ArrayList<>();
 
@@ -85,7 +114,8 @@ public class PensivePast {
           query.append(")");
         }
 
-        try (PreparedStatement ps = connection.prepareStatement(query.toString())) {
+        try (Connection connection = DBConnection.openConn();
+             PreparedStatement ps = connection.prepareStatement(query.toString())) {
           int parameterIndex = 1;
           ps.setString(parameterIndex++, accNum); // Set sender filter
 
@@ -106,11 +136,8 @@ public class PensivePast {
           }
 
           ResultSet rs = ps.executeQuery();
-          printTable(rs);
         } catch (SQLException e) {
           e.printStackTrace();
         }
     }
-
-
 }

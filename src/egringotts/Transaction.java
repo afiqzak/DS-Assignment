@@ -9,6 +9,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.Vector;
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 /**
  *
@@ -16,32 +18,57 @@ import java.util.Vector;
  */
 public class Transaction {
 
-    private String transactionID, sender, receipent, type, description;
-    private int amount, sbalance, rbalance;
-    private LocalDate date;
+    private String transactionID, sender, receipent, type, description, method, currAmount, currBalance, date;
+    private Double amount, balance;
 
     public Transaction() {
     }
-    
 
-    public Transaction(String sender, String receipent, int amount, String type, String description) {
+    public Transaction(String transactionID, String sender, String receipent, String type, String method, String description, double amount, double balance, String date) {
+        this.transactionID = transactionID;
         this.sender = sender;
         this.receipent = receipent;
-        this.amount = amount;
         this.type = type;
+        this.method = method;
         this.description = description;
+        this.amount = amount;
+        this.balance = balance;
+        this.date = date;
     }
 
+    public Transaction(String transactionID, String sender, String receipent, String type, String description, String method, String currAmount, String currBalance, String date) {
+        this.transactionID = transactionID;
+        this.sender = sender;
+        this.receipent = receipent;
+        this.type = type;
+        this.description = description;
+        this.method = method;
+        this.currAmount = currAmount;
+        this.currBalance = currBalance;
+        this.date = date;
+    }
+
+    public Transaction(String sender, String receipent, String type, String description, String method, Double amount) {
+        this.sender = sender;
+        this.receipent = receipent;
+        this.type = type;
+        this.description = description;
+        this.method = method;
+        this.amount = amount;
+    }
+    
+    
+    
+    
     
     public String getTransactionId() throws SQLException {
         
-        String newId = "1001"; // Default starting ID if no existing IDs are found
+        String newId = "1"; // Default starting ID if no existing IDs are found
         try(Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
             String SQL_Command = "SELECT MAX(ID_Transaction) FROM transaction";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
 
-        
             if (Rslt.next()) {
             String lastId = Rslt.getString(1);
             if (lastId != null) {
@@ -57,59 +84,54 @@ public class Transaction {
 }
 
     
-    public String recordTransaction(String userPin) throws SQLException {
+    public String recordTransaction(String currency) throws SQLException {
+        double rbalance = 0.0;
         String transactionID = null;
         
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()) {
             // Generate a transaction ID
             transactionID = getTransactionId();
-            
-            // Get current date
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String formattedDate = currentDate.format(dateFormatter);
-
-            // Get current time
-            LocalTime currentTime = LocalTime.now();
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String formattedTime = currentTime.format(timeFormatter);
+            String method = "Transfer";
             
             // Fetch sender current balance from database
-            String senderBalance = "SELECT Balance FROM account WHERE AccountNum = '" + sender + "'";
+            String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.sender + "'";
             ResultSet SBalanceResult = statement.executeQuery(senderBalance);
             if (SBalanceResult.next()) {
-                sbalance = SBalanceResult.getInt("Balance");
+                this.balance = SBalanceResult.getDouble(currency);
             }
             // Update balance
-            sbalance -= amount;
+            this.balance -= this.amount;
+            this.currBalance = String.valueOf(this.balance) + " " + currency.charAt(0);
+            this.currAmount = String.valueOf(this.amount) + " " + currency.charAt(0);
             
             // Fetch receipent current balance from database
-            String receipentBalance = "SELECT Balance FROM account WHERE AccountNum = '" + receipent + "'";
+            String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.receipent + "'";
             ResultSet RBalanceResult = statement.executeQuery(receipentBalance);
             if (RBalanceResult.next()) {
-                rbalance = RBalanceResult.getInt("Balance");
+                rbalance = RBalanceResult.getInt(currency);
             }
             
             // Update balance
-            rbalance += amount;
+            rbalance += this.amount;
 
             
             // Insert transaction into database
-            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
-                    + "VALUES ('" + transactionID + "', '" + sender + "', '" + receipent + "', " + amount + ", " + sbalance + ", '" + type + "', '" + formattedDate + " " + formattedTime + "', '" + description + "')";
+            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, method, Type, Description) "
+                    + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', '" + this.currAmount + "', '" + this.currBalance + "', '" + method + "', '" + this.type + "', '" + this.description + "')";
             statement.executeUpdate(sql);
-            
+
             // Update the balance in the account table
-            String updateSenderBalanceQuery = "UPDATE account SET Balance = " + sbalance + " WHERE AccountNum = '" + sender + "'";
+            String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + this.balance + " WHERE AccountNum = '" + this.sender + "'";
             statement.executeUpdate(updateSenderBalanceQuery);
             
-            String updateReceipentBalanceQuery = "UPDATE account SET Balance = " + rbalance + " WHERE AccountNum = '" + receipent + "'";
+            String updateReceipentBalanceQuery = "UPDATE account SET " + currency + " = " + rbalance + " WHERE AccountNum = '" + this.receipent + "'";
             statement.executeUpdate(updateReceipentBalanceQuery);
             
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        sendTransactionEmail(); //send email after transaction
         return transactionID;
     }
 
@@ -141,7 +163,7 @@ public class Transaction {
         return transactionRecords;
     }
     
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -149,14 +171,101 @@ public class Transaction {
         return type;
     }
 
-    public LocalDate getDate() {
+    public String getDate() {
         return date;
     }
 
     public String getDescription() {
         return description;
     }
+
+    public String getTransactionID() {
+        return transactionID;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public String getReceipent() {
+        return receipent;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getCurrAmount() {
+        return currAmount;
+    }
+
+    public String getCurrBalance() {
+        return currBalance;
+    }
     
     
     
+    //modification
+     // Method to record a transaction for currency exchange
+    public String recordCurrencyExchange(String sender, String recipient, double amount, double convertedAmount, double processingFee, double senderBalance, double recipientBalance) throws SQLException {
+        String transactionID = null;
+        try (Connection connection = DBConnection.openConn();
+            Statement statement = connection.createStatement();){
+            // Generate a transaction ID
+            transactionID = getTransactionId();
+
+            // Get current date and time
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String formattedDate = currentDate.format(dateFormatter);
+
+            LocalTime currentTime = LocalTime.now();
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String formattedTime = currentTime.format(timeFormatter);
+
+            // Record the currency exchange transaction
+            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
+            + "VALUES ('" + transactionID + "', '" + sender + "', '" + recipient + "', " + amount + ", " + senderBalance + ", 'Currency Exchange', '" + formattedDate + " " + formattedTime + "', 'Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee + "')";
+            statement.executeUpdate(sql);
+
+            //send email after transaction
+            try {
+            String transactionDetails = "Transaction ID: " + transactionID +
+                                        "\nSender: " + sender +
+                                        "\nRecipient: " + recipient +
+                                        "\nAmount: " + amount +
+                                        "\nType: Currency Exchange" +
+                                        "\nDescription: Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee;
+            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
+        
+            
+            } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+            statement.close();
+            dbConnection.closeConn();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return transactionID;
+    }
+
+    // Method to send transaction email notification
+    private void sendTransactionEmail() {
+        try {
+            String transactionDetails = "Transaction ID: " + transactionID +
+                                        "\nSender: " + sender +
+                                        "\nRecipient: " + receipent +
+                                        "\nAmount: " + amount +
+                                        "\nType: " + type +
+                                        "\nDescription: " + description;
+            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

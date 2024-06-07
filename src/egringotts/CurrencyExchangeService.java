@@ -5,16 +5,16 @@ package egringotts;
  * @author wenhu
  */
 public class CurrencyExchangeService {
-    private currencyExchange exchange;
+    private CurrencyExchange exchange;
 
     public CurrencyExchangeService() {
-        exchange = new currencyExchange();
+        exchange = new CurrencyExchange();
     }
 
     //perform currency exchange
     public void performCurrencyExchange(Customer sender, String recipientAccountNum, String fromCurrency, String toCurrency, double amount) throws Exception {
-        double convertedAmount = exchange.convert(fromCurrency, toCurrency, amount).getConvertedAmount();
-        double totalFee = exchange.convert(fromCurrency, toCurrency, amount).getTotalFee();
+        double convertedAmount = exchange.exchange(fromCurrency, toCurrency, amount);
+        double totalFee = exchange.getProcessingFee(fromCurrency, toCurrency) * amount;
 
         // Fetch sender's current balance
         double currentBalanceSender = sender.getBalance(fromCurrency);
@@ -27,15 +27,15 @@ public class CurrencyExchangeService {
         double newBalanceSender = currentBalanceSender - (amount + totalFee);
 
         // Update sender's balance
-        sender.updateBalanceSender((int) newBalanceSender, fromCurrency);
+        sender.updateBalanceSender((double) newBalanceSender, fromCurrency);
 
         // Fetch recipient's customer account
-        Customer recipient = CustomerDatabase.getCustomerByAccountNumber(recipientAccountNum);
+        Customer recipient = Account.getCustomerByAccountNumber(recipientAccountNum);
         double currentBalanceRecipient = recipient.getBalance(toCurrency);
 
         // Update recipient's balance
         double newBalanceRecipient = currentBalanceRecipient + convertedAmount;
-        recipient.updateBalanceRecipient((int) newBalanceRecipient, toCurrency, recipient.getAccountN());
+        recipient.updateBalanceRecipient((double) newBalanceRecipient, toCurrency, recipient.getAccountN());
 
         // Record transaction
         Transaction transaction = new Transaction();
