@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -64,7 +66,6 @@
                         <Font name="Copperplate Gothic Bold" size="15.0" />
                      </font>
                   </Label>
-                  <PieChart layoutX="18.0" layoutY="242.0" prefHeight="290.0" prefWidth="290.0" style="-fx-background-color: #0d1f2d; -fx-background-radius: 15;" />
                   <Label layoutX="327.0" layoutY="203.0" prefHeight="38.0" prefWidth="213.0" text="+ Add New Card">
                      <font>
                         <Font name="Copperplate Gothic Bold" size="15.0" />
@@ -77,7 +78,7 @@
                               <Font name="Bank Gothic Medium BT" size="12.0" />
                            </font></Button>
                         <TextField fx:id="cardNumField" layoutX="14.0" layoutY="44.0" />
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="95.0" text="Card Number" textFill="#fbf5f3">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="17.0" prefWidth="146.0" text="Card Number" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font></Label>
@@ -213,6 +214,18 @@
                               <Font size="16.0" />
                            </font>
                         </Label>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="20.0" layoutY="241.0" prefHeight="290.0" prefWidth="289.0" style="-fx-background-radius: 15; -fx-background-color: #0d1f2d;">
+                     <children>
+                        <BarChart fx:id="barchartCard" prefHeight="290.0" prefWidth="289.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
                      </children>
                   </Pane>
                </children>

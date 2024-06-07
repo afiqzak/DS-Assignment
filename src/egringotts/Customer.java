@@ -175,22 +175,19 @@ public class Customer extends User{
     
     public double getPercentageType(String type){
         int total = 0, numType = 0;
-        String SQL_Command = "SELECT COUNT(*) FROM transaction WHERE sender='" + this.accountNum + "';";
+        String SQL_Command = "SELECT\n" +
+            "  COUNT(*) AS total_transactions,\n" +
+            "  SUM(CASE WHEN Type = '" + type + "' THEN 1 ELSE 0 END) AS numType\n" +
+            "FROM transaction\n" +
+            "WHERE MONTH(Date) = MONTH(CURDATE());";
         try (Connection con = DBConnection.openConn();
-             Statement stmt = con.prepareStatement(SQL_Command)) {
+            PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
 
             ResultSet rs = stmt.executeQuery(SQL_Command);
 
             if(rs.next()){
                 total = rs.getInt(1);
-            }
-            
-            SQL_Command = "SELECT COUNT(*) FROM transaction WHERE sender='" + this.accountNum + "' AND Type='" + type + "';";
-            
-            rs = stmt.executeQuery(SQL_Command);
-            
-            if(rs.next()){
-                numType = rs.getInt(1);
+                numType = rs.getInt(2);
             }
         } catch (SQLException e) {
           e.printStackTrace();
@@ -210,12 +207,12 @@ public class Customer extends User{
                 break; // Exit the loop once found
             }
         }
-        String SQL_Command = "SELECT DATE(Date) AS day, "
-                + "SUBSTRING_INDEX(amount, ' ', -1) AS currency, "
-                + "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend "
-                + "FROM transaction "
-                + "WHERE DAYOFWEEK(Date)=? AND DATE(Date) >= DATE_SUB(CURDATE(), INTERVAL 1 WEEK) AND Sender=? "
-                + "GROUP BY DATE(Date), currency;";
+        String SQL_Command = "SELECT DATE(Date) AS day, \n" +
+            "SUBSTRING_INDEX(amount, ' ', -1) AS currency, \n" +
+            "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend \n" +
+            "FROM transaction \n" +
+            "WHERE DAYOFWEEK(Date)=? AND WEEK(Date) = WEEK(CURDATE()) AND Sender=? \n" +
+            "GROUP BY DATE(Date), currency;";
         try (Connection con = DBConnection.openConn();
                PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
             double amount = 0.0;
@@ -238,11 +235,6 @@ public class Customer extends User{
         return sum;
     } 
     
-    public static void main(String[] args) {
-        Customer cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getTotalSpendByDay("Wednesday"));
-    }
-
     @Override
     public String generateKey() {
         String accountNum;
@@ -265,5 +257,86 @@ public class Customer extends User{
 
         return accountNum;
     }
+    
+    public double getSumCard(String method, String day){
+        double sum = 0.0;
+        String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        
+        int index = -1; // Initialize with an invalid index
+
+        for (int i = 0; i < days.length; i++) {
+            if (days[i].equals(day)) {
+                index = i+1;
+                break; // Exit the loop once found
+            }
+        }
+        String SQL_Command = "SELECT DATE(Date) AS day, \n" +
+            "SUBSTRING_INDEX(amount, ' ', -1) AS currency, \n" +
+            "SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend \n" +
+            "FROM transaction \n" +
+            "WHERE DAYOFWEEK(Date)=? AND WEEK(Date) = WEEK(CURDATE()) AND Sender=? AND method=? \n" +
+            "GROUP BY DATE(Date), currency;";
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
+            double amount = 0.0;
+
+            stmt.setString(1, String.valueOf(index)); // Set parameter with prepared statement
+            stmt.setString(2, this.accountNum);
+            stmt.setString(3, method);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                if(!(rs.getString("currency").equalsIgnoreCase("K"))){
+                    amount = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
+                }else
+                    amount = rs.getDouble("totalSpend");
+                sum += amount;
+                System.out.println(amount);
+            }
+            return sum;
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        return sum;
+    }
+    
+    public double getMonthlySpend(int month){
+        double sum = 0.0;
+
+        String SQL_Command = "SELECT SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend,\n" +
+            "       SUBSTRING_INDEX(amount, ' ', -1) AS currency\n" +
+            "FROM transaction\n" +
+            "WHERE YEAR(Date) = YEAR(CURDATE())\n" +
+            "  AND Sender = ?\n" +
+            "  AND MONTH(Date) = ?\n" +
+            "GROUP BY YEAR(Date), MONTH(Date), currency";
+        try (Connection con = DBConnection.openConn();
+               PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
+            double amount = 0.0;
+
+            stmt.setString(1, this.accountNum); // Set parameter with prepared statement
+            stmt.setInt(2, month);
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                if(!(rs.getString("currency").equalsIgnoreCase("K"))){
+                    amount = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
+                }else
+                    amount = rs.getDouble("totalSpend");
+                sum += amount;
+                
+            }
+            return sum;
+          } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        return sum;
+    }
+    
+    public static void main(String[] args) {
+        Customer cust = Account.getCustomerByUsername("ali");
+        System.out.println(cust.getPercentageType("entertainment"));
+    }
+
 }
 

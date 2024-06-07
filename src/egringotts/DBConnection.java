@@ -20,7 +20,7 @@ public class DBConnection {
     }
 
     public static Connection openConn() throws SQLException {
-        return DriverManager.getConnection(URL, "root", "Afiq041108");
+        return DriverManager.getConnection(URL, "root", "123456");
     }
 
     public static void closeConn(Connection connection) {

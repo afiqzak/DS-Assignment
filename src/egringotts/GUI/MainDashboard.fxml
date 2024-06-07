@@ -178,7 +178,7 @@
                   </Label>
                   <Pane layoutX="491.0" layoutY="227.0" prefHeight="150.0" prefWidth="222.0" style="-fx-background-color: #F5F3BB; -fx-background-radius: 15;">
                      <children>
-                        <PieChart fx:id="piechartType" labelLineLength="10.0" layoutY="-2.0" legendSide="LEFT" legendVisible="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="157.0" prefWidth="222.0" style="-fx-background-size: 200px 200px;" />
+                        <PieChart fx:id="piechartType" legendSide="LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="150.0" prefWidth="222.0" titleSide="LEFT" />
                      </children>
                   </Pane>
                   <Pane layoutX="14.0" layoutY="182.0" prefHeight="197.0" prefWidth="459.0" style="-fx-background-color: #540b0e; -fx-background-radius: 15;">

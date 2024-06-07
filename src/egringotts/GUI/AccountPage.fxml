@@ -106,7 +106,7 @@
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font></Label>
                         <TextField fx:id="transferField" layoutX="77.0" layoutY="105.0" prefHeight="25.0" prefWidth="137.0" style="-fx-background-radius: 30;" />
-                        <Button layoutX="135.0" layoutY="105.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 30; -fx-background-color: #4fb176;" text="Transfer">
+                        <Button fx:id="transferButton" layoutX="135.0" layoutY="105.0" mnemonicParsing="false" onAction="#transferButton" prefHeight="25.0" prefWidth="81.0" style="-fx-background-radius: 30; -fx-background-color: #4fb176;" text="Transfer">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font></Button>

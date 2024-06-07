@@ -86,3 +86,14 @@
     -fx-text-fill: white;
     border-collapse: collapse;
 }
+
+.custom-pane {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+.custom-pane:hover {
+    -fx-background-color: lightgray;
+}
+.custom-pane.clicked {
+    -fx-background-color: coral;
+}

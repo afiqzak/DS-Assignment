@@ -96,7 +96,7 @@ public class Transaction implements Printable{
 }
 
     
-    public String recordTransaction(String sender,String receipent,double amount,String currency,String type,String description) throws SQLException {
+    public String recordTransaction(String currency) throws SQLException {
         double rbalance = 0.0;
         String transactionID = null;
         
@@ -107,37 +107,37 @@ public class Transaction implements Printable{
             String mathod = "Transfer";
             
             // Fetch sender current balance from database
-            String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + sender + "'";
+            String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.sender + "'";
             ResultSet SBalanceResult = statement.executeQuery(senderBalance);
             if (SBalanceResult.next()) {
-                balance = SBalanceResult.getDouble(currency);
+                this.balance = SBalanceResult.getDouble(currency);
             }
             // Update balance
-            balance -= amount;
-            this.currBalance = String.valueOf(balance) + " " + currency.charAt(0);
-            this.currAmount = String.valueOf(amount) + " " + currency.charAt(0);
+            this.balance -= this.amount;
+            this.currBalance = String.valueOf(this.balance) + " " + currency.charAt(0);
+            this.currAmount = String.valueOf(this.amount) + " " + currency.charAt(0);
             
             // Fetch receipent current balance from database
-            String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + receipent + "'";
+            String receipentBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.receipent + "'";
             ResultSet RBalanceResult = statement.executeQuery(receipentBalance);
             if (RBalanceResult.next()) {
                 rbalance = RBalanceResult.getInt(currency);
             }
             
             // Update balance
-            rbalance += amount;
+            rbalance += this.amount;
 
             
             // Insert transaction into database
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, method, Type, Description) "
-                    + "VALUES ('" + transactionID + "', '" + sender + "', '" + receipent + "', '" + currAmount + "', '" + currBalance + "', '" + method + "', '" + type + "', '" + description + "')";
+                    + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', '" + this.currAmount + "', '" + this.currBalance + "', '" + method + "', '" + this.type + "', '" + this.description + "')";
             statement.executeUpdate(sql);
             
             // Update the balance in the account table
-            String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + balance + " WHERE AccountNum = '" + sender + "'";
+            String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + this.balance + " WHERE AccountNum = '" + this.sender + "'";
             statement.executeUpdate(updateSenderBalanceQuery);
             
-            String updateReceipentBalanceQuery = "UPDATE account SET " + currency + " = " + rbalance + " WHERE AccountNum = '" + receipent + "'";
+            String updateReceipentBalanceQuery = "UPDATE account SET " + currency + " = " + rbalance + " WHERE AccountNum = '" + this.receipent + "'";
             statement.executeUpdate(updateReceipentBalanceQuery);
             
         } catch (SQLException e) {
