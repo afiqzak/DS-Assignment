@@ -14,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-class CurrencyExchange {
+public class CurrencyExchange {
     private Map<String, Map<String, Double>> graph = new HashMap<>();
     private Map<String, Double> processingFees = new HashMap<>();
 

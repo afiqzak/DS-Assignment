@@ -341,36 +341,4 @@ public class Transaction implements Printable{
         }
         return false;
     }
-
-    //try to add transactions and print receipt
-    /*public static void addTransAndPrint(String accountNum, double amount, String type, String description) {
-    if (!accExist(accountNum)) {
-    System.out.println("Account number " + accountNum + " does not exist. Cannot add transaction.");
-    return;
-    }
-    
-    String insertSQL = "INSERT INTO transaction (ID_Transaction, AccountNum, Amount, Type, Description, Date) VALUES (?, ?, ?, ?, ?, ?)";
-    Date transactionDate = new Date();
-    String transactionId = generateTransactionId();
-    
-    try (Connection connection = DBConnection.openConn();
-    PreparedStatement ps = connection.prepareStatement(insertSQL)) {
-    
-    ps.setString(1, transactionId);
-    ps.setString(2, accountNum);
-    ps.setDouble(3, amount);
-    ps.setString(4, type);
-    ps.setString(5, description);
-    ps.setTimestamp(6, new java.sql.Timestamp(transactionDate.getTime()));
-    
-    int affectedRows = ps.executeUpdate();
-    
-    if (affectedRows > 0) {
-    receipt receipt = new receipt(transactionId, accountNum, amount, type, description, transactionDate);
-    receipt.printReceipt();
-    }
-    } catch (SQLException e) {
-    e.printStackTrace();
-    }
-    }*/
 }

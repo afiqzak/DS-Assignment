@@ -334,8 +334,8 @@ public class Customer extends User{
     }
     
     public static void main(String[] args) {
-        Customer cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getPercentageType("entertainment"));
+        Customer cust = Account.getCustomerByUsername("ali123");
+        System.out.println(cust.getTotalSpendByDay("Wednesday"));
     }
 
 }

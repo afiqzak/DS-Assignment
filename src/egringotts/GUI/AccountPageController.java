@@ -109,7 +109,7 @@ public class AccountPageController implements Initializable {
         String type = typeChoice.getValue();
         String desc = descField.getText();
         
-        if(receipt.accExist(receipent)==true){
+        if(trans.accExist(receipent)==true){
             trans = new Transaction(cust.getKey(), receipent, type, desc, "Transfer", amount);
 
             trans.recordTransaction(currency);
