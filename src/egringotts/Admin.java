@@ -98,28 +98,28 @@ public class Admin extends User {
       String sqlGetExistingId = "SELECT code INTO @existing_currency_id FROM currency WHERE display_name = ?";
       String sqlInsertExchangeRate = "INSERT INTO exchange_rate (currency_code_from, currency_code_to, rate, fee_rate) VALUES (?, @existing_currency_id, ?, ?)";
 
-      try (Connection connection = DBConnection.openConn()) {
-        // Separate prepared statements for security
-        try (PreparedStatement psInsertCurrency = connection.prepareStatement(sqlInsertCurrency);
-             PreparedStatement psGetExistingId = connection.prepareStatement(sqlGetExistingId);
-             PreparedStatement psInsertExchangeRate = connection.prepareStatement(sqlInsertExchangeRate)) {
-          // Set parameters for insert currency
-          psInsertCurrency.setInt(1, newCode);
-          psInsertCurrency.setString(2, symbol);
-          psInsertCurrency.setString(3, newCurrName);
-          psInsertCurrency.executeUpdate();
+        try (Connection connection = DBConnection.openConn()) {
+            // Separate prepared statements for security
+            try (PreparedStatement psInsertCurrency = connection.prepareStatement(sqlInsertCurrency);
+                 PreparedStatement psGetExistingId = connection.prepareStatement(sqlGetExistingId);
+                 PreparedStatement psInsertExchangeRate = connection.prepareStatement(sqlInsertExchangeRate)) {
+              // Set parameters for insert currency
+              psInsertCurrency.setInt(1, newCode);
+              psInsertCurrency.setString(2, symbol);
+              psInsertCurrency.setString(3, newCurrName);
+              psInsertCurrency.executeUpdate();
 
-          // Get existing currency ID
-          psGetExistingId.setString(1, existingCurrency);
-          psGetExistingId.executeQuery(); // Ignoring result as we use OUT parameter
+              // Get existing currency ID
+              psGetExistingId.setString(1, existingCurrency);
+              psGetExistingId.executeQuery(); // Ignoring result as we use OUT parameter
 
-          // Set parameters for insert exchange rate
-          psInsertExchangeRate.setInt(1, newCode);
-          psInsertExchangeRate.setDouble(2, rate);
-          psInsertExchangeRate.setDouble(3, proFee);
-          psInsertExchangeRate.executeUpdate();
+              // Set parameters for insert exchange rate
+              psInsertExchangeRate.setInt(1, newCode);
+              psInsertExchangeRate.setDouble(2, rate);
+              psInsertExchangeRate.setDouble(3, proFee);
+              psInsertExchangeRate.executeUpdate();
+            }
         }
-      }
     }
     
     public ArrayList<Customer> tableUser() {

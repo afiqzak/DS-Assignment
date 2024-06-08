@@ -110,6 +110,14 @@ public class CurrencyExchange {
     public double getProcessingFee(String from, String to) {
         return processingFees.getOrDefault(from + "-" + to, 0.0);
     }
+    
+    public double totalFee (String from, String to, double amount){
+        double before = exchange(from,to,amount);
+        double proFee = getProcessingFee(from, to);
+        double fee = before*proFee;
+        
+        return fee;
+    }
 
     private static class Pair {
         String currency;
@@ -120,7 +128,7 @@ public class CurrencyExchange {
             this.amount = amount;
         }
     }
-
+    
     public static void main(String[] args) {
         // Example usage:
         CurrencyExchange exchange = new CurrencyExchange();

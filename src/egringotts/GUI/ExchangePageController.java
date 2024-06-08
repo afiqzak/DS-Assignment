@@ -56,6 +56,7 @@ public class ExchangePageController implements Initializable {
     private Admin admin;
     private PensivePast pensive;
     private CurrencyExchange exchange;
+    private Transaction trans;
     
     ObservableList<Transaction> list;
     
@@ -92,13 +93,22 @@ public class ExchangePageController implements Initializable {
     }
     
     @FXML
-    private void exchangeButton(ActionEvent event) throws IOException{
+    private void exchangeButton(ActionEvent event) throws IOException, SQLException{
+        System.out.println("clicked");
         double amount = Double.parseDouble(amountField.getText());
         String from = currencyChoice1.getValue();
         String to = currencyChoice2.getValue();
+        double converted = Double.parseDouble(convertedField.getText());
+        double fee = exchange.totalFee(from, to, amount);
+        double total = exchange.totalFee(from, to, amount);
+        String desc  = amount + " " + from + " convert to " + converted + " " + to;
         
-        convertedField.setText(to);
+        trans = new Transaction(cust.getKey(), cust.getKey(), "Others", desc, "Transfer", fee);
+        trans.performCurrencyExchange(cust.getKey(), from, to, total, fee, converted, trans.generateTransactionId(), desc);
+        
+        displayBalance();
     }
+    
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));

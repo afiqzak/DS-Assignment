@@ -34,9 +34,9 @@ public class Account <E extends User>{
                        statement.executeUpdate(SQL_Command);
 
                     
-                    EmailNotification emailNotification = new EmailNotification();
+                    //EmailNotification emailNotification = new EmailNotification();
                     // Send sign-up email
-                    emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
+                    //emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
                 }
                 return true;
             }
@@ -71,9 +71,9 @@ public class Account <E extends User>{
                 
                 // email from the result set
                 String email = Rslt.getString("Email_Admin");
-                EmailNotification emailNotification = new EmailNotification();
+                //EmailNotification emailNotification = new EmailNotification();
                 // send sign-in email for Admin
-                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
+                //emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
             }
             else {
                 SQL_Command = "SELECT Name_Customer, Email_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
@@ -83,9 +83,9 @@ public class Account <E extends User>{
                     
                 // email from the result set
                 String email = Rslt.getString("Email_Customer");
-                EmailNotification emailNotification = new EmailNotification();
+                //EmailNotification emailNotification = new EmailNotification();
                 // send sign-in email
-                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
+                //emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
                 }
             }
         } catch (SQLException e) {

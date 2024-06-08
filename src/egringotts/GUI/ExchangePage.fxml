@@ -89,7 +89,7 @@
                            </font>
                         </Label>
                         <ChoiceBox fx:id="currencyChoice2" layoutX="257.0" layoutY="180.0" prefHeight="25.0" prefWidth="86.0" />
-                        <Button fx:id="exchangeButton" layoutX="29.0" layoutY="227.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #e09f3e;" text="Exchange">
+                        <Button fx:id="exchangeButton" layoutX="29.0" layoutY="227.0" mnemonicParsing="false" onAction="#exchangeButton" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #e09f3e;" text="Exchange">
                            <font>
                               <Font name="Bank Gothic Medium BT" size="13.0" />
                            </font>
