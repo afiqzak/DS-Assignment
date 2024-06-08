@@ -68,6 +68,8 @@ public class MainDashboardController implements Initializable{
     public void displayCard(){
         String query = "SELECT card.AccountNum, card.Card_Number,card.Expiration_Date, account.Name_Customer FROM card INNER JOIN account ON card.AccountNum=account.AccountNum WHERE card.AccountNum = ?;";
         this.card = 1;
+        card1.setVisible(false);
+        card2.setVisible(false);
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -86,9 +88,6 @@ public class MainDashboardController implements Initializable{
                     numField2.setText(masking(rs.getString("Card_Number")));
                     card1.setVisible(true);
                     card2.setVisible(true);
-                }else if(card==0){
-                    card1.setVisible(false);
-                    card2.setVisible(false);
                 }
                 this.card++;
             }
@@ -221,8 +220,13 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        analytics.setUser(plat);
+        if(cust.getTier().equals("Platinum Patronus")){
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(plat);
+        }else{
+            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(gold);
+        } 
         analytics.displayPiechart();
         analytics.displayLinechart();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

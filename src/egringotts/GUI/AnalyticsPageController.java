@@ -22,6 +22,7 @@ import javafx.scene.control.Label;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.BarChart;
@@ -58,12 +59,17 @@ public class AnalyticsPageController implements Initializable {
     private PieChart piechartType;
     
     private List<String> months;
-    private PlatinumPatronus cust;
+    private PlatinumPatronus plat;
+    private GoldenGalleon gold;
     private String monthSelected;
     private LocalDate currentDate = LocalDate.now();
     
-    public void setUser(PlatinumPatronus cust){
-        this.cust = cust;
+    public void setUser(PlatinumPatronus plat){
+        this.plat = plat;
+    }
+    
+    public void setUser(GoldenGalleon gold){
+        this.gold = gold;
     }
     
     public void getMonth(ActionEvent e){
@@ -75,39 +81,69 @@ public class AnalyticsPageController implements Initializable {
     public void displayPiechart(){
         LocalDate currentDate = LocalDate.now();
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        int month = months.indexOf(monthSelected) + 1;
-        
-        ObservableList<PieChart.Data> pieData = 
-                FXCollections.observableArrayList(
-                        new PieChart.Data("ent", cust.getPercentageTypeForMonth("entertainment", month)),
-                        new PieChart.Data("bill", cust.getPercentageTypeForMonth("bill", month)),
-                        new PieChart.Data("grocery", cust.getPercentageTypeForMonth("grocery", month)),
-                        new PieChart.Data("food", cust.getPercentageTypeForMonth("food", month)),
-                        new PieChart.Data("other", cust.getPercentageTypeForMonth("other", month))
-                );
-        
-        piechartType.setData(pieData);
-        
-        entertainmentField.setText("Entertainment: " + cust.getTypeSpendForMonth("entertainment", month) + "K");
-        foodField.setText("Food: " + cust.getTypeSpendForMonth("food", month) + "K");
-        groceryField.setText("Grocery: " + cust.getTypeSpendForMonth("grocery", month) + "K");
-        billField.setText("Bill: " + cust.getTypeSpendForMonth("bill", month) + "K");
-        otherField.setText("Other: " + cust.getTypeSpendForMonth("other", month) + "K");
-        
-        if(month == months.size()){
-            totalField.setText("Spent So Far\n" + cust.getTotalSpendForMonth(month) + "K");
-            daySpendField.setText("Daily average spending\n" + (cust.getTotalSpendForMonth(month)/currentDate.getDayOfMonth()) + "K");
-        }
-        else{
-            totalField.setText("This month's spending\n" + cust.getTotalSpendForMonth(month) + "K");
-            daySpendField.setText("Daily average spending\n" + decimalFormat.format((cust.getTotalSpendForMonth(month)/LocalDate.of(currentDate.getYear(), month, 1).lengthOfMonth())) + "K");
+        if(plat != null){
+            monthChoice.setVisible(true);
+            int month = months.indexOf(monthSelected) + 1;
+
+            ObservableList<PieChart.Data> pieData = 
+                    FXCollections.observableArrayList(
+                            new PieChart.Data("ent", plat.getPercentageTypeForMonth("entertainment", month)),
+                            new PieChart.Data("bill", plat.getPercentageTypeForMonth("bill", month)),
+                            new PieChart.Data("grocery", plat.getPercentageTypeForMonth("grocery", month)),
+                            new PieChart.Data("food", plat.getPercentageTypeForMonth("food", month)),
+                            new PieChart.Data("other", plat.getPercentageTypeForMonth("other", month))
+                    );
+
+            piechartType.setData(pieData);
+
+            entertainmentField.setText("Entertainment: " + plat.getTypeSpendForMonth("entertainment", month) + "K");
+            foodField.setText("Food: " + plat.getTypeSpendForMonth("food", month) + "K");
+            groceryField.setText("Grocery: " + plat.getTypeSpendForMonth("grocery", month) + "K");
+            billField.setText("Bill: " + plat.getTypeSpendForMonth("bill", month) + "K");
+            otherField.setText("Other: " + plat.getTypeSpendForMonth("other", month) + "K");
+
+            if(month == months.size()){
+                totalField.setText("Spent So Far\n" + plat.getTotalSpendForMonth(month) + "K");
+                daySpendField.setText("Daily average spending\n" + (plat.getTotalSpendForMonth(month)/currentDate.getDayOfMonth()) + "K");
+            }
+            else{
+                totalField.setText("This month's spending\n" + plat.getTotalSpendForMonth(month) + "K");
+                daySpendField.setText("Daily average spending\n" + decimalFormat.format((plat.getTotalSpendForMonth(month)/LocalDate.of(currentDate.getYear(), month, 1).lengthOfMonth())) + "K");
+            }
+        }else{
+            monthChoice.setVisible(false);
+            ObservableList<PieChart.Data> pieData = 
+                    FXCollections.observableArrayList(
+                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("entertainment")),
+                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("bill")),
+                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("grocery")),
+                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("food")),
+                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("other"))
+                    );
+
+            piechartType.setData(pieData);
+
+            entertainmentField.setText("Entertainment: " + gold.getTypeSpendForCurrentMonth("entertainment") + "K");
+            foodField.setText("Food: " + gold.getTypeSpendForCurrentMonth("food") + "K");
+            groceryField.setText("Grocery: " + gold.getTypeSpendForCurrentMonth("grocery") + "K");
+            billField.setText("Bill: " + gold.getTypeSpendForCurrentMonth("bill") + "K");
+            otherField.setText("Other: " + gold.getTypeSpendForCurrentMonth("other") + "K");
+            
+            totalField.setText("Spent So Far\n" + gold.getTotalSpendForCurrentMonth() + "K");
+            daySpendField.setText("Daily average spending\n" + (gold.getTotalSpendForCurrentMonth()/currentDate.getDayOfMonth()) + "K");
         }
     }
     
     public void displayLinechart(){
         XYChart.Series series = new XYChart.Series();
-        for(int i = 0; i<months.size(); i++){
-            series.getData().add(new XYChart.Data(months.get(i), cust.getMonthlySpend(i+1)));
+        if(plat != null){
+            for(int i = 0; i<months.size(); i++){
+                series.getData().add(new XYChart.Data(months.get(i), plat.getMonthlySpend(i+1)));
+            }
+        }else{
+            for(int i = 0; i<months.size(); i++){
+                series.getData().add(new XYChart.Data(months.get(i), gold.getMonthlySpend(i+1)));
+            }
         }
         
         linechartMonthly.getData().addAll(series);
@@ -118,8 +154,13 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
-        main.setCustomer(cust);
-        main.display(cust);
+        if(plat != null){
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), plat.getBalances(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            main.display(cust);
+        }else{
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), gold.getBalances(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            main.display(cust);
+        }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -132,7 +173,13 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
         root = loader.load();
         AccountPageController acc = loader.getController();
-        acc.display(cust);
+        if(plat != null){
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), plat.getBalances(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            acc.display(cust);
+        }else{
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), gold.getBalances(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            acc.display(cust);
+        }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -145,7 +192,13 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
         root = loader.load();
         TransactionPageController trans = loader.getController();
-        trans.display(cust);
+        if(plat != null){
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), plat.getBalances(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            trans.display(cust);
+        }else{
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), gold.getBalances(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            trans.display(cust);
+        }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -158,7 +211,13 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.display(cust);
+        if(plat != null){
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), plat.getBalances(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            cards.display(cust);
+        }else{
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), gold.getBalances(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            cards.display(cust);
+        }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -171,7 +230,13 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.display(cust);
+        if(plat != null){
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), plat.getBalances(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            exchange.display(cust);
+        }else{
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), gold.getBalances(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            exchange.display(cust);
+        }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -184,7 +249,13 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
         root = loader.load();
         SettingsPageController setting = loader.getController();
-        setting.setCustomer(cust);
+        if(plat != null){
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), plat.getBalances(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            setting.setCustomer(cust);
+        }else{
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), gold.getBalances(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            setting.setCustomer(cust);
+        }
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

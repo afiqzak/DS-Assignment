@@ -70,6 +70,9 @@ public class CardsPageController implements Initializable {
     public void displayCard(){
         String query = "SELECT card.AccountNum, card.Card_Number,card.Expiration_Date, account.Name_Customer FROM card INNER JOIN account ON card.AccountNum=account.AccountNum WHERE card.AccountNum = ?;";
         this.card = 1;
+        card1.setVisible(false);
+        card2.setVisible(false);
+        card3.setVisible(false);
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -97,10 +100,6 @@ public class CardsPageController implements Initializable {
                     card1.setVisible(true);
                     card2.setVisible(true);
                     card3.setVisible(true);
-                }else if(card==0){
-                    card1.setVisible(false);
-                    card2.setVisible(false);
-                    card3.setVisible(false);
                 }
                 this.card++;
             }
