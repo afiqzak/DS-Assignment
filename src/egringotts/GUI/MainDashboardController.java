@@ -58,10 +58,10 @@ public class MainDashboardController implements Initializable{
     @FXML
     private BarChart<String, Double> barchartSpending;
     
-    private Customer cust;
+    private GoldenGalleon cust;
     public int card;
     
-    public void setCustomer(Customer cust){
+    public void setCustomer(GoldenGalleon cust){
         this.cust = cust;
     }
     
@@ -159,7 +159,7 @@ public class MainDashboardController implements Initializable{
         
     }
     
-    public void display(Customer cust){
+    public void display(GoldenGalleon cust){
         setCustomer(cust);
         displayCard();
         displayRecentTrans();

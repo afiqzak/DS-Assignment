@@ -57,10 +57,10 @@ public class AccountPageController implements Initializable {
     
     private String[] Type = {"Food","Bill","Grocery","Entertainment","Others"};
     
-    private Customer cust;
+    private GoldenGalleon cust;
     private Pane lastClickedPane = null;
     
-    public void setCustomer(Customer cust){
+    public void setCustomer(GoldenGalleon cust){
         this.cust = cust;
     }
     
@@ -73,7 +73,7 @@ public class AccountPageController implements Initializable {
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
-    public void display(Customer cust){
+    public void display(GoldenGalleon cust){
         setCustomer(cust);
         displayBalance();
     }
@@ -164,7 +164,7 @@ public class AccountPageController implements Initializable {
         if (username != null) {
           double amount = Double.valueOf(transferField.getText());
           String currency = currencyChoice1.getValue();
-          Customer receipent = Account.getCustomerByUsername(username.getText());
+          GoldenGalleon receipent = Account.getCustomerByUsername(username.getText());
           
           Transaction trans = new Transaction(cust.getKey(), receipent.getKey(), "Other", "Instant transfer to " + receipent.getName(), "Transfer", amount);
           

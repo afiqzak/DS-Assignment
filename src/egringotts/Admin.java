@@ -122,8 +122,8 @@ public class Admin extends User {
       }
     }
     
-    public ArrayList<Customer> tableUser() {
-        ArrayList<Customer> users = new ArrayList<>();
+    public ArrayList<GoldenGalleon> tableUser() {
+        ArrayList<GoldenGalleon> users = new ArrayList<>();
         String query = "SELECT * FROM account";
         
         try (Connection connection = DBConnection.openConn();

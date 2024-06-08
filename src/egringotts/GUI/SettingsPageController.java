@@ -63,17 +63,17 @@ public class SettingsPageController implements Initializable {
     private DatePicker dobF;
     
     @FXML
-    private TableView<Customer> userTable;
+    private TableView<GoldenGalleon> userTable;
         
     @FXML
-    private TableColumn<Customer, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
+    private TableColumn<GoldenGalleon, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
     
-    private egringotts.Customer cust;
+    private egringotts.GoldenGalleon cust;
     private Admin admin;
     
-    ObservableList<Customer> list ;
+    ObservableList<GoldenGalleon> list ;
     
-    public void setCustomer(egringotts.Customer cust){
+    public void setCustomer(egringotts.GoldenGalleon cust){
         this.cust = cust;
         customerPane.setVisible(true);
         adminPane.setVisible(false);
@@ -112,13 +112,13 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         user.setVisible(true);
 
-        accNumColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("accountNum"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("name"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("phoneNum"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("email"));
-        dobColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("DOB"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("address"));
-        tierColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("tier"));
+        accNumColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("accountNum"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("name"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("phoneNum"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("email"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("DOB"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("address"));
+        tierColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("tier"));
         
         userTable.setItems(list);
     }

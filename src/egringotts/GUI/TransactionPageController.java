@@ -51,11 +51,11 @@ public class TransactionPageController implements Initializable {
     private Pane monthltExpense;
     
     private PensivePast pensive;
-    private Customer cust;
+    private GoldenGalleon cust;
     
     ObservableList<Transaction> list;
     
-    public void setCustomer(egringotts.Customer cust){
+    public void setCustomer(egringotts.GoldenGalleon cust){
         this.cust = cust;
         
         list = FXCollections.observableArrayList(pensive.history(cust.getKey()));
@@ -91,7 +91,7 @@ public class TransactionPageController implements Initializable {
         
     }
     
-    public void display(Customer cust){
+    public void display(GoldenGalleon cust){
         setCustomer(cust);
         historyTable();
         displayLineChart();

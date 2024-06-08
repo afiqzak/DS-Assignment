@@ -48,13 +48,13 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private ChoiceBox<String> currencyChoice;
-    private Customer cust;
+    private GoldenGalleon cust;
     private Admin admin;
     private PensivePast pensive;
     
     ObservableList<Transaction> list;
     
-    public void setCustomer(Customer cust){
+    public void setCustomer(GoldenGalleon cust){
         this.cust = cust;
         
         list = FXCollections.observableArrayList(pensive.historyExchange(cust.getKey()));
@@ -79,7 +79,7 @@ public class ExchangePageController implements Initializable {
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
-    public void display(Customer cust){
+    public void display(GoldenGalleon cust){
         setCustomer(cust);
         historyTable();
         displayBalance();

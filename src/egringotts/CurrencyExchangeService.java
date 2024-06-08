@@ -12,7 +12,7 @@ public class CurrencyExchangeService {
     }
 
     //perform currency exchange
-    public void performCurrencyExchange(Customer sender, String recipientAccountNum, String fromCurrency, String toCurrency, double amount) throws Exception {
+    public void performCurrencyExchange(GoldenGalleon sender, String recipientAccountNum, String fromCurrency, String toCurrency, double amount) throws Exception {
         double convertedAmount = exchange.exchange(fromCurrency, toCurrency, amount);
         double totalFee = exchange.getProcessingFee(fromCurrency, toCurrency) * amount;
 
@@ -30,7 +30,7 @@ public class CurrencyExchangeService {
         sender.updateBalanceSender((double) newBalanceSender, fromCurrency);
 
         // Fetch recipient's customer account
-        Customer recipient = Account.getCustomerByAccountNumber(recipientAccountNum);
+        GoldenGalleon recipient = Account.getCustomerByAccountNumber(recipientAccountNum);
         double currentBalanceRecipient = recipient.getBalance(toCurrency);
 
         // Update recipient's balance

@@ -11,30 +11,30 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-public class Customer extends User{
+public class GoldenGalleon extends User{
     private String accountNum;
     private Map<String, Double> balances;
     private String tier;
     private CurrencyExchange exchange = new CurrencyExchange();
 
-    public Customer(String accountNum, Map<String, Double> balances, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public GoldenGalleon(String accountNum, Map<String, Double> balances, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
         this.balances = balances;
         this.tier = tier;
     }
 
-    public Customer(String username, String password) {
+    public GoldenGalleon(String username, String password) {
         super(username, password);
     }
 
-    public Customer(String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public GoldenGalleon(String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = generateAccountNum();
         this.tier = setTier();
     } 
 
-    public Customer(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public GoldenGalleon(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
         this.balances = balances;
@@ -348,7 +348,7 @@ public class Customer extends User{
     }
     
     public static void main(String[] args) {
-        Customer cust = Account.getCustomerByUsername("ali");
+        GoldenGalleon cust = Account.getCustomerByUsername("ali");
         System.out.println(cust.getPercentageType("entertainment"));
     }
 

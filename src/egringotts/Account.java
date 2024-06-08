@@ -117,8 +117,8 @@ public class Account <E extends User>{
         return admin;
     }
     
-    public static Customer getCustomerByAccountNumber(String accountNumber) {
-        Customer customer = null;
+    public static GoldenGalleon getCustomerByAccountNumber(String accountNumber) {
+        GoldenGalleon customer = null;
 
         try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE AccountNum = ?";
@@ -140,7 +140,7 @@ public class Account <E extends User>{
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
 
-                customer = new Customer(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new GoldenGalleon(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -151,8 +151,8 @@ public class Account <E extends User>{
         return customer;
     }
     
-    public static Customer getCustomerByUsername(String username) {
-        Customer customer = null;
+    public static GoldenGalleon getCustomerByUsername(String username) {
+        GoldenGalleon customer = null;
 
         try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE username = ?";
@@ -173,7 +173,7 @@ public class Account <E extends User>{
                 balances.put("Knut", resultSet.getDouble("Knut"));
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
-                customer = new Customer(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new GoldenGalleon(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 

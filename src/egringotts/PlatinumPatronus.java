@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author afiqz
  */
-public class PlatinumPatronus extends Customer{
+public class PlatinumPatronus extends GoldenGalleon{
     private CurrencyExchange exchange = new CurrencyExchange();
 
     public PlatinumPatronus(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
@@ -57,7 +57,7 @@ public class PlatinumPatronus extends Customer{
     }
     
     public static void main(String[] args) {
-        Customer cust = Account.getCustomerByUsername("ali");
+        GoldenGalleon cust = Account.getCustomerByUsername("ali");
         PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
         System.out.println(plat.getPercentageTypeForMonth("entertainment", 5));
     }

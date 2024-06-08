@@ -10,7 +10,7 @@ import java.util.Map;
  *
  * @author afiqz
  */
-public class SilverSnitch extends Customer{
+public class SilverSnitch extends GoldenGalleon{
 
     public SilverSnitch(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(accountNum, balances, username, name, password, phoneNum, email, dob, address);
