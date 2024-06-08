@@ -58,10 +58,10 @@ public class MainDashboardController implements Initializable{
     @FXML
     private BarChart<String, Double> barchartSpending;
     
-    private GoldenGalleon cust;
+    private SilverSnitch cust;
     public int card;
     
-    public void setCustomer(GoldenGalleon cust){
+    public void setCustomer(SilverSnitch cust){
         this.cust = cust;
     }
     
@@ -159,7 +159,7 @@ public class MainDashboardController implements Initializable{
         
     }
     
-    public void display(GoldenGalleon cust){
+    public void display(SilverSnitch cust){
         setCustomer(cust);
         displayCard();
         displayRecentTrans();
@@ -223,6 +223,8 @@ public class MainDashboardController implements Initializable{
         AnalyticsPageController analytics = loader.getController();
         PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
         analytics.setUser(plat);
+        analytics.displayPiechart();
+        analytics.displayLinechart();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

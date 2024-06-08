@@ -114,8 +114,8 @@ public class SignupController implements Initializable {
             return;
         }
         
-        egringotts.GoldenGalleon cust = new egringotts.GoldenGalleon(username, name, phoneNum, email, password, dobString, address + ", " + poscode + ", " + state);
-        egringotts.Account<egringotts.GoldenGalleon> acc = new egringotts.Account<>(cust);
+        egringotts.SilverSnitch cust = new egringotts.SilverSnitch(username, name, phoneNum, email, password, dobString, address + ", " + poscode + ", " + state);
+        egringotts.Account<egringotts.SilverSnitch> acc = new egringotts.Account<>(cust);
         
         //check if username already exist or not
         if(!acc.signUp(currency.getTypeSelector(), Double.parseDouble(amountField.getText()))){

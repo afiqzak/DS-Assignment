@@ -63,17 +63,17 @@ public class SettingsPageController implements Initializable {
     private DatePicker dobF;
     
     @FXML
-    private TableView<GoldenGalleon> userTable;
+    private TableView<SilverSnitch> userTable;
         
     @FXML
-    private TableColumn<GoldenGalleon, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
+    private TableColumn<SilverSnitch, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
     
-    private egringotts.GoldenGalleon cust;
+    private egringotts.SilverSnitch cust;
     private Admin admin;
     
-    ObservableList<GoldenGalleon> list ;
+    ObservableList<SilverSnitch> list ;
     
-    public void setCustomer(egringotts.GoldenGalleon cust){
+    public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
         customerPane.setVisible(true);
         adminPane.setVisible(false);
@@ -112,13 +112,13 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         user.setVisible(true);
 
-        accNumColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("accountNum"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("name"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("phoneNum"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("email"));
-        dobColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("DOB"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("address"));
-        tierColumn.setCellValueFactory(new PropertyValueFactory<GoldenGalleon,String>("tier"));
+        accNumColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("accountNum"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("name"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("phoneNum"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("email"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("DOB"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("address"));
+        tierColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("tier"));
         
         userTable.setItems(list);
     }

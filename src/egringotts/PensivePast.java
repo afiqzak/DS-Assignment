@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
     
 public class PensivePast {
-    private GoldenGalleon cust;
+    private SilverSnitch cust;
     
     public static ArrayList<Transaction> history(String accountNum){
         ArrayList<Transaction> trans = new ArrayList<>();

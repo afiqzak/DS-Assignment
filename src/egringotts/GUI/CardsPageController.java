@@ -57,13 +57,13 @@ public class CardsPageController implements Initializable {
     
     @FXML
     private Pane card1, card2, card3;
-    private GoldenGalleon cust;  
+    private SilverSnitch cust;  
     
     private String[] type = {"Credit Card","Debit Card"};
     
     public int card;
     
-    public void setCustomer(egringotts.GoldenGalleon cust){
+    public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
     }
     
@@ -134,7 +134,7 @@ public class CardsPageController implements Initializable {
         barchartCard.getData().addAll(credit, debit);
     }
     
-    public void display(GoldenGalleon cust){
+    public void display(SilverSnitch cust){
         setCustomer(cust);
         displayBarchart();
         displayCard();

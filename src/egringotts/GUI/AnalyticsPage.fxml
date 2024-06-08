@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -58,15 +57,22 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
-                  <ChoiceBox fx:id="monthChoice" layoutX="606.0" layoutY="14.0" prefHeight="25.0" prefWidth="110.0" />
-                  <Pane layoutX="26.0" layoutY="57.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                  <Pane layoutX="26.0" layoutY="57.0" prefHeight="258.0" prefWidth="664.0" style="-fx-background-color: white; -fx-background-radius: 20;">
                      <children>
                         <PieChart fx:id="piechartType" prefHeight="258.0" prefWidth="308.0" />
+                        <ChoiceBox fx:id="monthChoice" layoutX="540.0" layoutY="14.0" prefHeight="25.0" prefWidth="110.0" />
+                        <Label fx:id="entertainmentField" layoutX="318.0" layoutY="18.0" prefHeight="31.0" prefWidth="135.0" text="Label" />
+                        <Label fx:id="groceryField" layoutX="318.0" layoutY="70.0" prefHeight="17.0" prefWidth="135.0" text="Label" />
+                        <Label fx:id="billField" layoutX="318.0" layoutY="112.0" prefHeight="17.0" prefWidth="135.0" text="Label" />
+                        <Label fx:id="foodField" layoutX="318.0" layoutY="154.0" prefHeight="17.0" prefWidth="135.0" text="Label" />
+                        <Label fx:id="otherField" layoutX="318.0" layoutY="196.0" prefHeight="17.0" prefWidth="135.0" text="Label" />
+                        <Label fx:id="totalField" alignment="TOP_LEFT" layoutX="506.0" layoutY="67.0" prefHeight="40.0" prefWidth="145.0" text="Label" />
+                        <Label fx:id="daySpendField" alignment="TOP_LEFT" layoutX="506.0" layoutY="151.0" prefHeight="40.0" prefWidth="145.0" text="Label" />
                      </children>
                   </Pane>
-                  <Pane layoutX="365.0" layoutY="85.0" prefHeight="229.0" prefWidth="323.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                  <Pane layoutX="26.0" layoutY="330.0" prefHeight="178.0" prefWidth="664.0" style="-fx-background-color: white; -fx-background-radius: 20;">
                      <children>
-                        <LineChart fx:id="linechartWeekly" prefHeight="229.0" prefWidth="323.0">
+                        <LineChart fx:id="linechartMonthly" prefHeight="178.0" prefWidth="664.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -74,18 +80,6 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </LineChart>
-                     </children>
-                  </Pane>
-                  <Pane layoutX="26.0" layoutY="330.0" prefHeight="178.0" prefWidth="664.0" style="-fx-background-color: white; -fx-background-radius: 20;">
-                     <children>
-                        <BarChart fx:id="barchartMethod" prefHeight="178.0" prefWidth="664.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </BarChart>
                      </children>
                   </Pane>
                </children>

@@ -117,8 +117,8 @@ public class Account <E extends User>{
         return admin;
     }
     
-    public static GoldenGalleon getCustomerByAccountNumber(String accountNumber) {
-        GoldenGalleon customer = null;
+    public static SilverSnitch getCustomerByAccountNumber(String accountNumber) {
+        SilverSnitch customer = null;
 
         try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE AccountNum = ?";
@@ -140,7 +140,7 @@ public class Account <E extends User>{
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
 
-                customer = new GoldenGalleon(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -151,8 +151,8 @@ public class Account <E extends User>{
         return customer;
     }
     
-    public static GoldenGalleon getCustomerByUsername(String username) {
-        GoldenGalleon customer = null;
+    public static SilverSnitch getCustomerByUsername(String username) {
+        SilverSnitch customer = null;
 
         try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE username = ?";
@@ -173,7 +173,7 @@ public class Account <E extends User>{
                 balances.put("Knut", resultSet.getDouble("Knut"));
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
-                customer = new GoldenGalleon(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 

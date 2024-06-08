@@ -65,7 +65,7 @@ public class LoginController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
                 root = loader.load();
                 MainDashboardController main = loader.getController();
-                egringotts.GoldenGalleon cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
+                egringotts.SilverSnitch cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
                 main.display(cust);
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 mainDashboard = new Scene(root);

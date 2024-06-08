@@ -51,11 +51,11 @@ public class TransactionPageController implements Initializable {
     private Pane monthltExpense;
     
     private PensivePast pensive;
-    private GoldenGalleon cust;
+    private SilverSnitch cust;
     
     ObservableList<Transaction> list;
     
-    public void setCustomer(egringotts.GoldenGalleon cust){
+    public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
         
         list = FXCollections.observableArrayList(pensive.history(cust.getKey()));
@@ -72,29 +72,9 @@ public class TransactionPageController implements Initializable {
         history.setItems(list);
     }
     
-    public void displayLineChart(){
-        XYChart.Series series = new XYChart.Series();
-        series.getData().add(new XYChart.Data("Jan", cust.getMonthlySpend(1)));
-        series.getData().add(new XYChart.Data("Feb", cust.getMonthlySpend(2)));
-        series.getData().add(new XYChart.Data("Mar", cust.getMonthlySpend(3)));
-        series.getData().add(new XYChart.Data("Apr", cust.getMonthlySpend(4)));
-        series.getData().add(new XYChart.Data("May", cust.getMonthlySpend(5)));
-        series.getData().add(new XYChart.Data("Jun", cust.getMonthlySpend(6)));
-        series.getData().add(new XYChart.Data("Jul", cust.getMonthlySpend(7)));
-        series.getData().add(new XYChart.Data("Aug", cust.getMonthlySpend(8)));
-        series.getData().add(new XYChart.Data("Sep", cust.getMonthlySpend(9)));
-        series.getData().add(new XYChart.Data("Okt", cust.getMonthlySpend(10)));
-        series.getData().add(new XYChart.Data("Nov", cust.getMonthlySpend(11)));
-        series.getData().add(new XYChart.Data("Dis", cust.getMonthlySpend(12)));
-        
-        linechartMonthly.getData().addAll(series);
-        
-    }
-    
-    public void display(GoldenGalleon cust){
+    public void display(SilverSnitch cust){
         setCustomer(cust);
         historyTable();
-        displayLineChart();
     }
     
     @FXML
