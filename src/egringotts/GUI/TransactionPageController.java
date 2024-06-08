@@ -19,6 +19,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -46,20 +47,18 @@ public class TransactionPageController implements Initializable {
     @FXML
     private LineChart<String, Double> linechartMonthly;
     
+    @FXML
+    private Pane monthltExpense;
+    
     private PensivePast pensive;
-    private Admin admin;
-    private Customer cust;
+    private SilverSnitch cust;
     
     ObservableList<Transaction> list;
     
-    public void setCustomer(egringotts.Customer cust){
+    public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
         
         list = FXCollections.observableArrayList(pensive.history(cust.getKey()));
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
     
     public void historyTable(){
@@ -73,23 +72,9 @@ public class TransactionPageController implements Initializable {
         history.setItems(list);
     }
     
-    public void displayLineChart(){
-        XYChart.Series series = new XYChart.Series();
-        series.getData().add(new XYChart.Data("Jan", cust.getMonthlySpend(1)));
-        series.getData().add(new XYChart.Data("Feb", cust.getMonthlySpend(2)));
-        series.getData().add(new XYChart.Data("Mar", cust.getMonthlySpend(3)));
-        series.getData().add(new XYChart.Data("Apr", cust.getMonthlySpend(4)));
-        series.getData().add(new XYChart.Data("May", cust.getMonthlySpend(5)));
-        series.getData().add(new XYChart.Data("Jun", cust.getMonthlySpend(6)));
-        series.getData().add(new XYChart.Data("Jul", cust.getMonthlySpend(7)));
-        series.getData().add(new XYChart.Data("Aug", cust.getMonthlySpend(8)));
-        series.getData().add(new XYChart.Data("Sep", cust.getMonthlySpend(9)));
-        series.getData().add(new XYChart.Data("Okt", cust.getMonthlySpend(10)));
-        series.getData().add(new XYChart.Data("Nov", cust.getMonthlySpend(11)));
-        series.getData().add(new XYChart.Data("Dis", cust.getMonthlySpend(12)));
-        
-        linechartMonthly.getData().addAll(series);
-        
+    public void display(SilverSnitch cust){
+        setCustomer(cust);
+        historyTable();
     }
     
     @FXML
@@ -98,7 +83,7 @@ public class TransactionPageController implements Initializable {
         root = loader.load();
         MainDashboardController main = loader.getController();
         main.setCustomer(cust);
-        main.display();
+        main.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -111,8 +96,7 @@ public class TransactionPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
         root = loader.load();
         AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        acc.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -125,8 +109,7 @@ public class TransactionPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.setCustomer(cust);
-        cards.display();
+        cards.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -139,9 +122,7 @@ public class TransactionPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.setCustomer(cust);
-        exchange.historyTable();
-        exchange.displayBalance();
+        exchange.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -154,7 +135,8 @@ public class TransactionPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        analytics.setCustomer(cust);
+        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+        analytics.setUser(plat);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -168,7 +150,6 @@ public class TransactionPageController implements Initializable {
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
-        if(admin != null) setting.setAdmin(admin);
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

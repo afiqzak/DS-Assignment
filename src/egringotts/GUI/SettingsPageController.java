@@ -63,17 +63,17 @@ public class SettingsPageController implements Initializable {
     private DatePicker dobF;
     
     @FXML
-    private TableView<Customer> userTable;
+    private TableView<SilverSnitch> userTable;
         
     @FXML
-    private TableColumn<Customer, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
+    private TableColumn<SilverSnitch, String> accNumColumn, addressColumn,dobColumn, emailColumn,nameColumn,phoneColumn,tierColumn;
     
-    private egringotts.Customer cust;
+    private egringotts.SilverSnitch cust;
     private Admin admin;
     
-    ObservableList<Customer> list ;
+    ObservableList<SilverSnitch> list ;
     
-    public void setCustomer(egringotts.Customer cust){
+    public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
         customerPane.setVisible(true);
         adminPane.setVisible(false);
@@ -112,13 +112,13 @@ public class SettingsPageController implements Initializable {
         security.setVisible(false);
         user.setVisible(true);
 
-        accNumColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("accountNum"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("name"));
-        phoneColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("phoneNum"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("email"));
-        dobColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("DOB"));
-        addressColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("address"));
-        tierColumn.setCellValueFactory(new PropertyValueFactory<Customer,String>("tier"));
+        accNumColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("accountNum"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("name"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("phoneNum"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("email"));
+        dobColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("DOB"));
+        addressColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("address"));
+        tierColumn.setCellValueFactory(new PropertyValueFactory<SilverSnitch,String>("tier"));
         
         userTable.setItems(list);
     }
@@ -174,8 +174,7 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
-        main.setCustomer(cust);
-        main.display();
+        main.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -187,8 +186,7 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
         root = loader.load();
         AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        acc.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -200,8 +198,7 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
         root = loader.load();
         TransactionPageController trans = loader.getController();
-        trans.setCustomer(cust);
-        trans.historyTable();
+        trans.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -213,7 +210,7 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.display();
+        cards.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -225,9 +222,7 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.setCustomer(cust);
-        exchange.historyTable();
-        exchange.displayBalance();
+        exchange.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -239,7 +234,8 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        analytics.setCustomer(cust);
+        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+        analytics.setUser(plat);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

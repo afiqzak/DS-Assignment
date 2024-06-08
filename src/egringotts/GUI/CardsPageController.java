@@ -57,20 +57,22 @@ public class CardsPageController implements Initializable {
     
     @FXML
     private Pane card1, card2, card3;
-    private Admin admin;
-    private Customer cust;
-    
-    public void setCustomer(egringotts.Customer cust){
-        this.cust = cust;
-    }
+    private SilverSnitch cust;  
     
     private String[] type = {"Credit Card","Debit Card"};
     
     public int card;
     
+    public void setCustomer(egringotts.SilverSnitch cust){
+        this.cust = cust;
+    }
+    
     public void displayCard(){
         String query = "SELECT card.AccountNum, card.Card_Number,card.Expiration_Date, account.Name_Customer FROM card INNER JOIN account ON card.AccountNum=account.AccountNum WHERE card.AccountNum = ?;";
         this.card = 1;
+        card1.setVisible(false);
+        card2.setVisible(false);
+        card3.setVisible(false);
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -98,10 +100,6 @@ public class CardsPageController implements Initializable {
                     card1.setVisible(true);
                     card2.setVisible(true);
                     card3.setVisible(true);
-                }else if(card==0){
-                    card1.setVisible(false);
-                    card2.setVisible(false);
-                    card3.setVisible(false);
                 }
                 this.card++;
             }
@@ -135,7 +133,8 @@ public class CardsPageController implements Initializable {
         barchartCard.getData().addAll(credit, debit);
     }
     
-    public void display(){
+    public void display(SilverSnitch cust){
+        setCustomer(cust);
         displayBarchart();
         displayCard();
     }
@@ -158,7 +157,7 @@ public class CardsPageController implements Initializable {
         root = loader.load();
         MainDashboardController main = loader.getController();
         main.setCustomer(cust);
-        main.display();
+        main.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -170,8 +169,7 @@ public class CardsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
         root = loader.load();
         AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        acc.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -183,8 +181,7 @@ public class CardsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
         root = loader.load();
         TransactionPageController trans = loader.getController();
-        trans.setCustomer(cust);
-        trans.historyTable();
+        trans.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -196,8 +193,7 @@ public class CardsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.setCustomer(cust);
-        exchange.historyTable();
+        exchange.display(cust);
         exchange.displayBalance();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -210,7 +206,8 @@ public class CardsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        analytics.setCustomer(cust);
+        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+        analytics.setUser(plat);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -223,7 +220,6 @@ public class CardsPageController implements Initializable {
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
-        if(admin != null) setting.setAdmin(admin);
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

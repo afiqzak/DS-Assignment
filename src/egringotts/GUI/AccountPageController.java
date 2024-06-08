@@ -59,18 +59,12 @@ public class AccountPageController implements Initializable {
     private VBox vbox;
     
     private String[] Type = {"Food","Bill","Grocery","Entertainment","Others"};
-    
-    private Customer cust;
-    private Admin admin;
     private Transaction trans;
+    private SilverSnitch cust;
     private Pane lastClickedPane = null;
     
-    public void setCustomer(Customer cust){
+    public void setCustomer(SilverSnitch cust){
         this.cust = cust;
-    }
-    
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
     
     public void displayBalance(){
@@ -82,6 +76,11 @@ public class AccountPageController implements Initializable {
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
+    public void display(SilverSnitch cust){
+        setCustomer(cust);
+        displayBalance();
+    }
+
     @FXML
     private void findFriend(ActionEvent event) {
         vbox.getChildren().clear();
@@ -185,7 +184,7 @@ public class AccountPageController implements Initializable {
         if (username != null) {
           double amount = Double.valueOf(transferField.getText());
           String currency = currencyChoice1.getValue();
-          Customer receipent = Account.getCustomerByUsername(username.getText());
+          SilverSnitch receipent = Account.getCustomerByUsername(username.getText());
           
           Transaction trans = new Transaction(cust.getKey(), receipent.getKey(), "Other", "Instant transfer to " + receipent.getName(), "Transfer", amount);
           
@@ -199,8 +198,7 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
-        main.setCustomer(cust);
-        main.display();
+        main.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -213,8 +211,7 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
         root = loader.load();
         TransactionPageController trans = loader.getController();
-        trans.setCustomer(cust);
-        trans.historyTable();
+        trans.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -227,8 +224,7 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.setCustomer(cust);
-        cards.display();
+        cards.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -241,9 +237,7 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.setCustomer(cust);
-        exchange.historyTable();
-        exchange.displayBalance();
+        exchange.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -256,7 +250,8 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        analytics.setCustomer(cust);
+        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+        analytics.setUser(plat);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -270,7 +265,6 @@ public class AccountPageController implements Initializable {
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
-        if(admin != null) setting.setAdmin(admin);
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -35,10 +35,11 @@ public class Transaction implements Printable{
 
     private String transactionID, sender, receipent, type, description, method, currAmount, currBalance, date;
     private Double amount, balance;
+    private EmailNotification emailNotification = new EmailNotification();
 
     public Transaction() {
     }
-
+    
     public Transaction(String transactionID, String sender, String receipent, String type, String method, String description, double amount, double balance, String date) {
         this.transactionID = transactionID;
         this.sender = sender;

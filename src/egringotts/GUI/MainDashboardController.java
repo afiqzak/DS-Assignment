@@ -24,7 +24,9 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -55,23 +57,19 @@ public class MainDashboardController implements Initializable{
     
     @FXML
     private BarChart<String, Double> barchartSpending;
-
-    private Admin admin;
     
-    private Customer cust;
+    private SilverSnitch cust;
     public int card;
     
-    public void setCustomer(Customer cust){
+    public void setCustomer(SilverSnitch cust){
         this.cust = cust;
-    }
-
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
     }
     
     public void displayCard(){
         String query = "SELECT card.AccountNum, card.Card_Number,card.Expiration_Date, account.Name_Customer FROM card INNER JOIN account ON card.AccountNum=account.AccountNum WHERE card.AccountNum = ?;";
         this.card = 1;
+        card1.setVisible(false);
+        card2.setVisible(false);
         
         try (Connection con = DBConnection.openConn();
              PreparedStatement ps = con.prepareStatement(query)) {
@@ -90,9 +88,6 @@ public class MainDashboardController implements Initializable{
                     numField2.setText(masking(rs.getString("Card_Number")));
                     card1.setVisible(true);
                     card2.setVisible(true);
-                }else if(card==0){
-                    card1.setVisible(false);
-                    card2.setVisible(false);
                 }
                 this.card++;
             }
@@ -146,15 +141,7 @@ public class MainDashboardController implements Initializable{
                         new PieChart.Data("other", cust.getPercentageType("other"))
                 );
         
-        pieData.forEach(data -> 
-                data.nameProperty().bind(
-                        Bindings.concat(
-                                data.getName(), ": ", data.pieValueProperty(), "%"
-                        )
-                )
-        );
-        
-        piechartType.getData().addAll(pieData);
+        piechartType.setData(pieData);
     }
     
     public void displayBarChart(){
@@ -171,7 +158,8 @@ public class MainDashboardController implements Initializable{
         
     }
     
-    public void display(){
+    public void display(SilverSnitch cust){
+        setCustomer(cust);
         displayCard();
         displayRecentTrans();
         displayBalance();
@@ -184,8 +172,7 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
         root = loader.load();
         AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        acc.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -197,9 +184,7 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
         root = loader.load();
         TransactionPageController trans = loader.getController();
-        trans.setCustomer(cust);
-        trans.historyTable();
-        trans.displayLineChart();
+        trans.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -211,8 +196,7 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.setCustomer(cust);
-        cards.display();
+        cards.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -224,9 +208,7 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.setCustomer(cust);
-        exchange.historyTable();
-        exchange.displayBalance();
+        exchange.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -238,7 +220,15 @@ public class MainDashboardController implements Initializable{
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        analytics.setCustomer(cust);
+        if(cust.getTier().equals("Platinum Patronus")){
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(plat);
+        }else{
+            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(gold);
+        } 
+        analytics.displayPiechart();
+        analytics.displayLinechart();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -264,7 +254,6 @@ public class MainDashboardController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.cust = null;
-        this.admin = null;
         currencyChoice.getItems().addAll(Account.getCurrency());
         currencyChoice.getSelectionModel().selectFirst();
         currencyChoice.setOnAction(this::getBalance); 

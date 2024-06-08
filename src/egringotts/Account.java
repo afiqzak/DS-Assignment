@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class Account <E extends User>{
     private E account;
+    private EmailNotification emailNotification = new EmailNotification();
 
     public Account(E account) {
         this.account = account;
@@ -32,9 +33,6 @@ public class Account <E extends User>{
                                     "VALUES ('" + account.generateKey() + "','" + account.getName() + "','" + account.getUsername() + "','" + account.getPhoneNum() + "','" +
                                     account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ")";
                        statement.executeUpdate(SQL_Command);
-
-                    
-                    //EmailNotification emailNotification = new EmailNotification();
                     // Send sign-up email
                     //emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
                 }
@@ -71,7 +69,6 @@ public class Account <E extends User>{
                 
                 // email from the result set
                 String email = Rslt.getString("Email_Admin");
-                //EmailNotification emailNotification = new EmailNotification();
                 // send sign-in email for Admin
                 //emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
             }
@@ -83,7 +80,7 @@ public class Account <E extends User>{
                     
                 // email from the result set
                 String email = Rslt.getString("Email_Customer");
-                //EmailNotification emailNotification = new EmailNotification();
+
                 // send sign-in email
                 //emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
                 }
@@ -122,10 +119,6 @@ public class Account <E extends User>{
                 String password = resultSet.getString("Password_Admin");
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
-                /*Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("KnutBalance"));
-                balances.put("Sickle", resultSet.getDouble("SickleBalance"));
-                balances.put("Galleon", resultSet.getDouble("GalleonBalance"));*/
 
                 admin = new Admin(ID, name, username, phoneNum, email, password, DOB, address);
             }
@@ -138,8 +131,8 @@ public class Account <E extends User>{
         return admin;
     }
     
-    public static Customer getCustomerByAccountNumber(String accountNumber) {
-        Customer customer = null;
+    public static SilverSnitch getCustomerByAccountNumber(String accountNumber) {
+        SilverSnitch customer = null;
 
         try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE AccountNum = ?";
@@ -161,7 +154,7 @@ public class Account <E extends User>{
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
 
-                customer = new Customer(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -172,8 +165,8 @@ public class Account <E extends User>{
         return customer;
     }
     
-    public static Customer getCustomerByUsername(String username) {
-        Customer customer = null;
+    public static SilverSnitch getCustomerByUsername(String username) {
+        SilverSnitch customer = null;
 
         try (Connection conn = DBConnection.openConn();){
             String query = "SELECT * FROM account WHERE username = ?";
@@ -194,7 +187,7 @@ public class Account <E extends User>{
                 balances.put("Knut", resultSet.getDouble("Knut"));
                 balances.put("Sickle", resultSet.getDouble("Sickle"));
                 balances.put("Galleon", resultSet.getDouble("Galleon"));
-                customer = new Customer(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -204,8 +197,6 @@ public class Account <E extends User>{
 
         return customer;
     }
-    
-    
     
     public static ArrayList<String> getCurrency(){
         ArrayList<String> currencys = new ArrayList<>();
