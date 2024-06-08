@@ -66,8 +66,8 @@ CREATE TABLE exchange_rate (
     rate DECIMAL(9, 6) NOT NULL,
     fee_rate decimal(10,4),
     PRIMARY KEY (currency_code_from, currency_code_to),
-    FOREIGN KEY (currency_code_from) REFERENCES currency(code),
-    FOREIGN KEY (currency_code_to) REFERENCES currency(code)
+    FOREIGN KEY (currency_code_from) REFERENCES currency(code) on delete cascade,
+    FOREIGN KEY (currency_code_to) REFERENCES currency(code)  on delete cascade
 );
 
 CREATE TABLE currency (
