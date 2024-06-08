@@ -241,7 +241,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
                <children>
-                  <VBox>
+                  <VBox fx:id="menu">
                      <children>
                         <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000; -fx-border-color: #e09f3e; -fx-border-width: 0px 0px 0px 3px;" text="Dashboard" textFill="#e09f3e">
                            <font>
@@ -280,7 +280,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Analytics" textFill="WHITE">
+                        <Button fx:id="analyticsButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#analyticsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Analytics" textFill="WHITE">
                            <font>
                               <Font name="Century Gothic Bold" size="13.0" />
                            </font>

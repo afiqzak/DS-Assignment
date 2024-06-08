@@ -47,7 +47,7 @@ public class AnalyticsPageController implements Initializable {
     private Parent root;
     
     @FXML
-    private Label billField, otherField, totalField, daySpendField, entertainmentField, foodField, groceryField;
+    private Label billField, otherField, totalField, daySpendField, entertainmentField, foodField, groceryField, exchangeField;
 
     @FXML
     private LineChart<String, Double> linechartMonthly;
@@ -87,24 +87,26 @@ public class AnalyticsPageController implements Initializable {
 
             ObservableList<PieChart.Data> pieData = 
                     FXCollections.observableArrayList(
-                            new PieChart.Data("ent", plat.getPercentageTypeForMonth("entertainment", month)),
-                            new PieChart.Data("bill", plat.getPercentageTypeForMonth("bill", month)),
-                            new PieChart.Data("grocery", plat.getPercentageTypeForMonth("grocery", month)),
-                            new PieChart.Data("food", plat.getPercentageTypeForMonth("food", month)),
-                            new PieChart.Data("other", plat.getPercentageTypeForMonth("other", month))
+                            new PieChart.Data("Ent", plat.getPercentageTypeForMonth("Entertainment", month)),
+                            new PieChart.Data("Bill", plat.getPercentageTypeForMonth("Bill", month)),
+                            new PieChart.Data("Grocery", plat.getPercentageTypeForMonth("Grocery", month)),
+                            new PieChart.Data("Food", plat.getPercentageTypeForMonth("Food", month)),
+                            new PieChart.Data("Exchange", plat.getPercentageTypeForMonth("Exchange", month)),
+                            new PieChart.Data("Others", plat.getPercentageTypeForMonth("Others", month))
                     );
 
             piechartType.setData(pieData);
 
-            entertainmentField.setText("Entertainment: " + plat.getTypeSpendForMonth("entertainment", month) + "K");
-            foodField.setText("Food: " + plat.getTypeSpendForMonth("food", month) + "K");
-            groceryField.setText("Grocery: " + plat.getTypeSpendForMonth("grocery", month) + "K");
-            billField.setText("Bill: " + plat.getTypeSpendForMonth("bill", month) + "K");
-            otherField.setText("Other: " + plat.getTypeSpendForMonth("other", month) + "K");
+            entertainmentField.setText("Entertainment: " + decimalFormat.format(plat.getTypeSpendForMonth("Entertainment", month)) + "K");
+            foodField.setText("Food: " + decimalFormat.format(plat.getTypeSpendForMonth("Food", month)) + "K");
+            groceryField.setText("Grocery: " + decimalFormat.format(plat.getTypeSpendForMonth("Grocery", month)) + "K");
+            billField.setText("Bill: " + decimalFormat.format(plat.getTypeSpendForMonth("Bill", month)) + "K");
+            otherField.setText("Exchange: " + decimalFormat.format(plat.getTypeSpendForMonth("Exchange", month)) + "K");
+            exchangeField.setText("Others: " + decimalFormat.format(plat.getTypeSpendForMonth("Other", month)) + "K");
 
             if(month == months.size()){
                 totalField.setText("Spent So Far\n" + plat.getTotalSpendForMonth(month) + "K");
-                daySpendField.setText("Daily average spending\n" + (plat.getTotalSpendForMonth(month)/currentDate.getDayOfMonth()) + "K");
+                daySpendField.setText("Daily average spending\n" + (decimalFormat.format(plat.getTotalSpendForMonth(month)/currentDate.getDayOfMonth())) + "K");
             }
             else{
                 totalField.setText("This month's spending\n" + plat.getTotalSpendForMonth(month) + "K");
@@ -114,20 +116,21 @@ public class AnalyticsPageController implements Initializable {
             monthChoice.setVisible(false);
             ObservableList<PieChart.Data> pieData = 
                     FXCollections.observableArrayList(
-                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("entertainment")),
-                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("bill")),
-                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("grocery")),
-                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("food")),
-                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("other"))
+                            new PieChart.Data("ent", gold.getPercentageTypeForCurrentMonth("Entertainment")),
+                            new PieChart.Data("Bill", gold.getPercentageTypeForCurrentMonth("Bill")),
+                            new PieChart.Data("Grocery", gold.getPercentageTypeForCurrentMonth("Grocery")),
+                            new PieChart.Data("Food", gold.getPercentageTypeForCurrentMonth("Food")),
+                            new PieChart.Data("Others", gold.getPercentageTypeForCurrentMonth("Others"))
                     );
 
             piechartType.setData(pieData);
 
-            entertainmentField.setText("Entertainment: " + gold.getTypeSpendForCurrentMonth("entertainment") + "K");
-            foodField.setText("Food: " + gold.getTypeSpendForCurrentMonth("food") + "K");
-            groceryField.setText("Grocery: " + gold.getTypeSpendForCurrentMonth("grocery") + "K");
-            billField.setText("Bill: " + gold.getTypeSpendForCurrentMonth("bill") + "K");
-            otherField.setText("Other: " + gold.getTypeSpendForCurrentMonth("other") + "K");
+            entertainmentField.setText("Entertainment: " + decimalFormat.format(gold.getTypeSpendForCurrentMonth("Entertainment")) + "K");
+            foodField.setText("Food: " + decimalFormat.format(gold.getTypeSpendForCurrentMonth("Food")) + "K");
+            groceryField.setText("Grocery: " + decimalFormat.format(gold.getTypeSpendForCurrentMonth("Grocery")) + "K");
+            billField.setText("Bill: " + decimalFormat.format(gold.getTypeSpendForCurrentMonth("Bill")) + "K");
+            exchangeField.setText("Exchange: " + decimalFormat.format(gold.getTypeSpendForCurrentMonth("Exchange")) + "K");
+            otherField.setText("Other: " + decimalFormat.format(gold.getTypeSpendForCurrentMonth("Others")) + "K");
             
             totalField.setText("Spent So Far\n" + gold.getTotalSpendForCurrentMonth() + "K");
             daySpendField.setText("Daily average spending\n" + (gold.getTotalSpendForCurrentMonth()/currentDate.getDayOfMonth()) + "K");
@@ -147,6 +150,11 @@ public class AnalyticsPageController implements Initializable {
         }
         
         linechartMonthly.getData().addAll(series);
+    }
+    
+    public void display(){
+        displayPiechart();
+        displayLinechart();
     }
     
     @FXML

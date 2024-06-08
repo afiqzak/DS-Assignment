@@ -74,6 +74,50 @@ public class Transaction implements Printable{
         this.amount = amount;
     }
     
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getTransactionID() {
+        return transactionID;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public String getReceipent() {
+        return receipent;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public String getCurrAmount() {
+        return currAmount;
+    }
+
+    public String getCurrBalance() {
+        return currBalance;
+    }
+    
     public String generateTransactionId() throws SQLException {
         
         String newId = "1"; // Default starting ID if no existing IDs are found
@@ -94,8 +138,7 @@ public class Transaction implements Printable{
             e.printStackTrace();
         }
         return newId;
-}
-
+    }
     
     public String recordTransaction(String currency) throws SQLException {
         double rbalance = 0.0;
@@ -176,94 +219,61 @@ public class Transaction implements Printable{
         return transactionRecords;
     }
     
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getTransactionID() {
-        return transactionID;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public String getReceipent() {
-        return receipent;
-    }
-
-    public String getMethod() {
-        return method;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    public String getCurrAmount() {
-        return currAmount;
-    }
-
-    public String getCurrBalance() {
-        return currBalance;
-    }
-    
-    
-    
     //modification
      // Method to record a transaction for currency exchange
-    public String recordCurrencyExchange(String sender, String recipient, double amount, double convertedAmount, double processingFee, double senderBalance, double recipientBalance) throws SQLException {
+    public String recordCurrencyExchange(String accountNum, String from, String to, double toBalance) throws SQLException {
         String transactionID = null;
         try (Connection connection = DBConnection.openConn();
             Statement statement = connection.createStatement();){
             // Generate a transaction ID
             transactionID = generateTransactionId();
 
-            // Get current date and time
-            LocalDate currentDate = LocalDate.now();
-            DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String formattedDate = currentDate.format(dateFormatter);
-
-            LocalTime currentTime = LocalTime.now();
-            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-            String formattedTime = currentTime.format(timeFormatter);
-
             // Record the currency exchange transaction
-            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
-            + "VALUES ('" + transactionID + "', '" + sender + "', '" + recipient + "', " + amount + ", " + senderBalance + ", 'Currency Exchange', '" + formattedDate + " " + formattedTime + "', 'Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee + "')";
+            String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, method, Description) "
+            + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', " + this.amount + " " + from + "' , " + toBalance + " " + to + ", '" + this.type + "', '" + this.method + "', '" + this.description + "')";
             statement.executeUpdate(sql);
 
             //send email after transaction
             try {
-            String transactionDetails = "Transaction ID: " + transactionID +
-                                        "\nSender: " + sender +
-                                        "\nRecipient: " + recipient +
-                                        "\nAmount: " + amount +
-                                        "\nType: Currency Exchange" +
-                                        "\nDescription: Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee;
-            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
-        
-            
+                String transactionDetails = "Transaction ID: " + transactionID +
+                "\nSender: " + this.sender +
+                "\nRecipient: " + this.receipent +
+                "\nAmount: " + this.amount +
+                "\nType: Currency Exchange" +
+                "\nDescription: " + this.description;
+                emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(accountNum).getEmail(), Account.getCustomerByAccountNumber(accountNum).getUsername(), transactionDetails);
+
+
             } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+                e.printStackTrace();
+            }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return transactionID;
+    }
+    
+    public boolean performCurrencyExchange(SilverSnitch cust, String from, String to, double total, double converted) throws SQLException {
+        
+        //get from currency balance form the cust
+        double fromBalance = cust.getBalance(from);
+        
+        //get to currency balance from the cut
+        double toBalance = cust.getBalance(to);
+        
+        //check if the balance enough to convert
+        if(fromBalance > total){
+            //update from currency balance
+            cust.updateBalanceSender((fromBalance - total), from);
+            
+            //update to currency balance
+            cust.updateBalanceSender((toBalance + converted), to);
+            
+            recordCurrencyExchange(cust.getKey(), from, to, toBalance);
+            
+            return true;
+        }else return false;
     }
 
     @Override
@@ -352,11 +362,11 @@ public class Transaction implements Printable{
     private void sendTransactionEmail() {
         try {
             String transactionDetails = "Transaction ID: " + transactionID +
-                                        "\nSender: " + sender +
-                                        "\nRecipient: " + receipent +
-                                        "\nAmount: " + amount +
-                                        "\nType: " + type +
-                                        "\nDescription: " + description;
+            "\nSender: " + sender +
+            "\nRecipient: " + receipent +
+            "\nAmount: " + amount +
+            "\nType: " + type +
+            "\nDescription: " + description;
             emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
         } catch (MessagingException e) {
             e.printStackTrace();

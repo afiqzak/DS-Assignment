@@ -50,13 +50,16 @@ public class AccountPageController implements Initializable {
     private ChoiceBox<String> currencyChoice, currencyChoice1, currencyChoice2, typeChoice;
 
     @FXML
-    private Button findButton, transferButton;
+    private Button findButton, transferButton, analyticsButton;
 
     @FXML
     private TextField findField, transferField, receipentField, amountField, descField;
     
     @FXML
     private VBox vbox;
+    
+    @FXML
+    private VBox menu;
     
     private String[] Type = {"Food","Bill","Grocery","Entertainment","Others"};
     private Transaction trans;
@@ -65,6 +68,9 @@ public class AccountPageController implements Initializable {
     
     public void setCustomer(SilverSnitch cust){
         this.cust = cust;
+        if(cust.getTier().equals("Silver Snitch"))
+            menu.getChildren().remove(analyticsButton);
+            
     }
     
     public void displayBalance(){
@@ -250,8 +256,14 @@ public class AccountPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        analytics.setUser(plat);
+        if(cust.getTier().equals("Platinum Patronus")){
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(plat);
+        }else{
+            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(gold);
+        } 
+        analytics.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

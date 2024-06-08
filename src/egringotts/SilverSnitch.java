@@ -95,8 +95,6 @@ public class SilverSnitch extends User{
             if (rowsAffected == 0) {
                 throw new SQLException("Failed to update balance, no rows affected.");
             }
-        
-            System.out.println("Balance updated successfully for account: " + accountNum);
             pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -313,11 +311,5 @@ public class SilverSnitch extends User{
           }
         return sum;
     }
-    
-    public static void main(String[] args) {
-        SilverSnitch cust = Account.getCustomerByUsername("ali");
-        System.out.println(cust.getPercentageType("entertainment"));
-    }
-
 }
 

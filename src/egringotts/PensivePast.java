@@ -9,6 +9,10 @@ import java.util.List;
     
 public class PensivePast {
     private SilverSnitch cust;
+
+    public PensivePast(SilverSnitch cust) {
+        this.cust = cust;
+    }
     
     public static ArrayList<Transaction> history(String accountNum){
         ArrayList<Transaction> trans = new ArrayList<>();
@@ -139,5 +143,9 @@ public class PensivePast {
         } catch (SQLException e) {
           e.printStackTrace();
         }
+    }
+    
+    public static void main(String[] args) {
+        
     }
 }

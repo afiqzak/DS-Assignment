@@ -76,12 +76,13 @@ public class Account <E extends User>{
                 SQL_Command = "SELECT Name_Customer, Email_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
                 Rslt = statement.executeQuery(SQL_Command);
                 if(Rslt.next()) {
-                user = "customer";
-                    
-                // email from the result set
-                String email = Rslt.getString("Email_Customer");
-                // send sign-in email
-                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
+                    user = "customer";
+
+                    // email from the result set
+                    String email = Rslt.getString("Email_Customer");
+
+                    // send sign-in email
+                    emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
                 }
             }
         } catch (SQLException e) {

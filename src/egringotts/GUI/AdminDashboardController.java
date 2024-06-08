@@ -37,7 +37,7 @@ public class AdminDashboardController implements Initializable {
     private TextField nameField, symbolField, rateField,proFeeField;
     
     @FXML
-    private Label successLabel;
+    private Label successLabel, totalUserField, weekTransactionField;
     
     @FXML
     private ChoiceBox<String> currencyChoice;
@@ -46,6 +46,11 @@ public class AdminDashboardController implements Initializable {
 
     public void setAdmin(Admin admin) {
         this.admin = admin;
+    }
+    
+    public void display(){
+        totalUserField.setText(admin.getTotalUser());
+        weekTransactionField.setText(admin.getWeekTrans());
     }
     
     @FXML

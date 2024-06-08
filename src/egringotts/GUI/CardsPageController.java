@@ -21,10 +21,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -57,6 +59,13 @@ public class CardsPageController implements Initializable {
     
     @FXML
     private Pane card1, card2, card3;
+    
+    @FXML
+    private Button analyticsButton;
+    
+    @FXML 
+    private VBox menu;
+    
     private SilverSnitch cust;  
     
     private String[] type = {"Credit Card","Debit Card"};
@@ -65,6 +74,8 @@ public class CardsPageController implements Initializable {
     
     public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
+        if(cust.getTier().equals("Silver Snitch"))
+            menu.getChildren().remove(analyticsButton);
     }
     
     public void displayCard(){
@@ -206,8 +217,14 @@ public class CardsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        analytics.setUser(plat);
+        if(cust.getTier().equals("Platinum Patronus")){
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(plat);
+        }else{
+            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(gold);
+        } 
+        analytics.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

@@ -22,10 +22,12 @@ import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -58,11 +60,19 @@ public class MainDashboardController implements Initializable{
     @FXML
     private BarChart<String, Double> barchartSpending;
     
+    @FXML
+    private VBox menu;
+    
+    @FXML
+    private Button analyticsButton;
+    
     private SilverSnitch cust;
     public int card;
     
     public void setCustomer(SilverSnitch cust){
         this.cust = cust;
+        if(cust.getTier().equals("Silver Snitch"))
+            menu.getChildren().remove(analyticsButton);
     }
     
     public void displayCard(){
@@ -134,11 +144,11 @@ public class MainDashboardController implements Initializable{
     public void displayPieChart(){
         ObservableList<PieChart.Data> pieData = 
                 FXCollections.observableArrayList(
-                        new PieChart.Data("ent", cust.getPercentageType("entertainment")),
-                        new PieChart.Data("bill", cust.getPercentageType("bill")),
-                        new PieChart.Data("grocery", cust.getPercentageType("grocery")),
-                        new PieChart.Data("food", cust.getPercentageType("food")),
-                        new PieChart.Data("other", cust.getPercentageType("other"))
+                        new PieChart.Data("ent", cust.getPercentageType("Entertainment")),
+                        new PieChart.Data("bill", cust.getPercentageType("Bill")),
+                        new PieChart.Data("grocery", cust.getPercentageType("Grocery")),
+                        new PieChart.Data("food", cust.getPercentageType("Food")),
+                        new PieChart.Data("other", cust.getPercentageType("Others"))
                 );
         
         piechartType.setData(pieData);

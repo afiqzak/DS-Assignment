@@ -25,7 +25,7 @@ public class EmailNotification {
         this.username = "egringotts50@gmail.com";       //this is a real email created
         this.appSpecificPassword = "svdgororcqecftym"; //this is a real password
         this.props = new Properties();
-        
+
         // Configure properties for the mail session
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");

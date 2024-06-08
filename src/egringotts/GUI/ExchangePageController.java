@@ -14,12 +14,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -52,9 +54,17 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private ChoiceBox<String> currencyChoice,currencyChoice1, currencyChoice2;
+    
+    @FXML
+    private Button analyticsButton;
+    
+    @FXML
+    private VBox menu;
+    
     private SilverSnitch cust;
     private PensivePast pensive;
     private CurrencyExchange exchange;
+    private Transaction trans;
     
     ObservableList<Transaction> list;
     
@@ -62,6 +72,8 @@ public class ExchangePageController implements Initializable {
         this.cust = cust;
         
         list = FXCollections.observableArrayList(pensive.historyExchange(cust.getKey()));
+        if(cust.getTier().equals("Silver Snitch"))
+            menu.getChildren().remove(analyticsButton);
     }
     
     public void historyTable(){
@@ -97,13 +109,21 @@ public class ExchangePageController implements Initializable {
     }
     
     @FXML
-    private void exchangeButton(ActionEvent event) throws IOException{
+    private void exchangeButton(ActionEvent event) throws IOException, SQLException{
         double amount = Double.parseDouble(amountField.getText());
         String from = currencyChoice1.getValue();
         String to = currencyChoice2.getValue();
+        double converted = Double.parseDouble(convertedField.getText());
+        double fee = exchange.totalFee(from, to, amount);
+        double total = exchange.totalFee(from, to, amount);
+        String desc  = "Convert " + amount + " to " + converted;
         
-        convertedField.setText(to);
+        trans = new Transaction(cust.getKey(), cust.getKey(), "Exchange", desc, "Transfer", fee);
+        trans.performCurrencyExchange(cust, from, to, total, converted);
+        
+        displayBalance();
     }
+    
     @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));

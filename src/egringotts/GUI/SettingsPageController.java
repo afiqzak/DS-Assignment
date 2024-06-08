@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -50,7 +51,7 @@ public class SettingsPageController implements Initializable {
     private PasswordField passField, newPassField, passF;
     
     @FXML
-    private Button profileButton, securityButton, userButton;
+    private Button profileButton, securityButton, userButton, analyticsButton;
     
     @FXML
     private Label accNumLabel, tierLabel, nameLabel, emailLabel, phoneLabel, usernameLabel, addressLabel, 
@@ -61,6 +62,9 @@ public class SettingsPageController implements Initializable {
     
     @FXML
     private DatePicker dobF;
+    
+    @FXML 
+    private VBox menu;
     
     @FXML
     private TableView<SilverSnitch> userTable;
@@ -84,6 +88,9 @@ public class SettingsPageController implements Initializable {
         adminPane.setVisible(true);
         customerPane.setVisible(false);
         list = FXCollections.observableArrayList(admin.tableUser());
+        
+        if(cust.getTier().equals("Silver Snitch"))
+            menu.getChildren().remove(analyticsButton);
     }
     
     public void checkAdmin(){
@@ -234,8 +241,14 @@ public class SettingsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        analytics.setUser(plat);
+        if(cust.getTier().equals("Platinum Patronus")){
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(plat);
+        }else{
+            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(gold);
+        } 
+        analytics.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

@@ -121,7 +121,7 @@ public class PlatinumPatronus extends SilverSnitch{
     public static void main(String[] args) {
         SilverSnitch cust = Account.getCustomerByUsername("ali");
         PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        System.out.println(plat.getTypeSpendForMonth("entertainment", 6));
+        System.out.println(plat.getTypeSpendForMonth("Food", 6));
     }
 
 }
