@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -11,6 +17,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <StackPane style="-fx-background-color: #E4C3AD;" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="egringotts.GUI.AnalyticsPageController">
@@ -51,63 +58,97 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
+                  <ChoiceBox fx:id="monthChoice" layoutX="606.0" layoutY="14.0" prefHeight="25.0" prefWidth="110.0" />
+                  <Pane layoutX="26.0" layoutY="57.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <PieChart fx:id="piechartType" prefHeight="258.0" prefWidth="308.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="365.0" layoutY="85.0" prefHeight="229.0" prefWidth="323.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <LineChart fx:id="linechartWeekly" prefHeight="229.0" prefWidth="323.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                     </children>
+                  </Pane>
+                  <Pane layoutX="26.0" layoutY="330.0" prefHeight="178.0" prefWidth="664.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                     <children>
+                        <BarChart fx:id="barchartMethod" prefHeight="178.0" prefWidth="664.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children>
+                  </Pane>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
                <children>
-                  <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Dashboard" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="58.0" mnemonicParsing="false" onAction="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Account" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="116.0" mnemonicParsing="false" onAction="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Transaction" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="171.0" mnemonicParsing="false" onAction="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Cards" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="229.0" mnemonicParsing="false" onAction="#exchangeMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Exchange" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="287.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000; -fx-border-width: 0px 0px 0px 3px; -fx-border-color: #e09f3e;" text="Analytics" textFill="#e09f3e">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <Button alignment="BASELINE_LEFT" layoutY="345.0" mnemonicParsing="false" onAction="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Settings" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
+                  <VBox>
+                     <children>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#dashboardMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Dashboard" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#accountsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Account" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#transactionMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Transaction" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#cardsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Cards" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#exchangeMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Exchange" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000; -fx-border-width: 0px 0px 0px 3px; -fx-border-color: #e09f3e;" text="Analytics" textFill="#e09f3e">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                        <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#settingsMenu" prefHeight="58.0" prefWidth="170.0" style="-fx-background-color: #000000;" styleClass="menuItem" text="Settings" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Century Gothic Bold" size="13.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
          </children>

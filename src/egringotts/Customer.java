@@ -3,6 +3,7 @@ package egringotts;
 import java.util.Random;
 import java.sql.*;
 import java.lang.*;
+import java.text.DecimalFormat;
 /**
  *
  * @author USER
@@ -39,8 +40,6 @@ public class Customer extends User{
         this.balances = balances;
     }
     
-    
-  
     public Map<String,Double> getBalances(){
         return balances;
     }
@@ -174,25 +173,40 @@ public class Customer extends User{
     }
     
     public double getPercentageType(String type){
-        int total = 0, numType = 0;
+        double total = 0.0;
+        double spendType = 0.0;
         String SQL_Command = "SELECT\n" +
-            "  COUNT(*) AS total_transactions,\n" +
-            "  SUM(CASE WHEN Type = '" + type + "' THEN 1 ELSE 0 END) AS numType\n" +
+            "    SUM(CASE WHEN Type = '" + type + "' THEN amount ELSE 0 END) AS type_expenses,\n" +
+            "    SUM(CAST(SUBSTRING_INDEX(amount, ' ', 1) AS DECIMAL)) AS totalSpend,\n" +
+            "    SUBSTRING_INDEX(amount, ' ', -1) AS currency\n" +
             "FROM transaction\n" +
-            "WHERE MONTH(Date) = MONTH(CURDATE());";
+            "WHERE MONTH(Date) = MONTH(CURDATE())\n" +
+            "AND Sender='" + this.accountNum + "' \n" +
+            "GROUP BY currency;";
         try (Connection con = DBConnection.openConn();
             PreparedStatement stmt = con.prepareStatement(SQL_Command)) {
 
             ResultSet rs = stmt.executeQuery(SQL_Command);
-
-            if(rs.next()){
-                total = rs.getInt(1);
-                numType = rs.getInt(2);
+            
+            double totalCurr;
+            double spendTypeCurr;
+            while(rs.next()){
+                if(!(rs.getString("currency").equalsIgnoreCase("K"))){
+                    totalCurr = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("totalSpend"));
+                    spendTypeCurr = exchange.exchange(rs.getString("currency"), "K", rs.getDouble("type_expenses"));
+                }else{
+                    totalCurr = rs.getDouble("totalSpend");
+                    spendTypeCurr = rs.getDouble("type_expenses");
+                }
+                total += totalCurr;
+                spendType += spendTypeCurr;
             }
         } catch (SQLException e) {
           e.printStackTrace();
         }
-        return (double) numType / total * 100;
+        double percentage = (spendType / total) * 100;
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        return Double.parseDouble(decimalFormat.format(percentage));
     }
     
     public double getTotalSpendByDay(String day){

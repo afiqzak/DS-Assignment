@@ -58,7 +58,6 @@ public class LoginController implements Initializable {
                 AdminDashboardController admin = loader.getController();
                 egringotts.Admin Admin = egringotts.Account.getAdminByUsername(usernameField.getText());
                 admin.setAdmin(Admin);
-                System.out.println(Admin.getKey());
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 adminDashboard = new Scene(root);
                 stage.setScene(adminDashboard);
@@ -67,8 +66,7 @@ public class LoginController implements Initializable {
                 root = loader.load();
                 MainDashboardController main = loader.getController();
                 egringotts.Customer cust = egringotts.Account.getCustomerByUsername(usernameField.getText());
-                main.setCustomer(cust);
-                main.display();
+                main.display(cust);
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 mainDashboard = new Scene(root);
                 stage.setScene(mainDashboard);

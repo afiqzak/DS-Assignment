@@ -4,6 +4,8 @@ import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.Month;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +14,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 
 /**
  * FXML Controller class
@@ -30,15 +41,44 @@ public class AnalyticsPageController implements Initializable {
     @FXML
     private Parent root;
     
-    private Customer cust;
-    private Admin admin;
+    @FXML
+    private ChoiceBox<String> monthChoice;
     
-    public void setCustomer(Customer cust){
+    @FXML
+    private BarChart<String, Double> barchartMethod;
+
+    @FXML
+    private LineChart<String, Double> linechartWeekly;
+    
+    @FXML
+    private PieChart piechartType;
+
+    
+    private List<String> months;
+    private PlatinumPatronus cust;
+    private String monthSelected;
+    
+    public void setUser(PlatinumPatronus cust){
         this.cust = cust;
     }
     
-    public void setAdmin(Admin admin) {
-        this.admin = admin;
+    public void getMonth(ActionEvent e){
+        this.monthSelected = monthChoice.getValue();
+    }
+    
+    public void displayPiechart(){
+        int month = months.indexOf(monthSelected) + 1;
+        
+        ObservableList<PieChart.Data> pieData = 
+                FXCollections.observableArrayList(
+                        new PieChart.Data("ent", cust.getPercentageTypeForMonth("entertainment", month)),
+                        new PieChart.Data("bill", cust.getPercentageTypeForMonth("bill", month)),
+                        new PieChart.Data("grocery", cust.getPercentageTypeForMonth("grocery", month)),
+                        new PieChart.Data("food", cust.getPercentageTypeForMonth("food", month)),
+                        new PieChart.Data("other", cust.getPercentageTypeForMonth("other", month))
+                );
+        
+        piechartType.setData(pieData);
     }
     
     @FXML
@@ -47,7 +87,7 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         MainDashboardController main = loader.getController();
         main.setCustomer(cust);
-        main.display();
+        main.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -60,8 +100,7 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AccountPage.fxml"));
         root = loader.load();
         AccountPageController acc = loader.getController();
-        acc.setCustomer(cust);
-        acc.displayBalance();
+        acc.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -74,8 +113,7 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("TransactionPage.fxml"));
         root = loader.load();
         TransactionPageController trans = loader.getController();
-        trans.setCustomer(cust);
-        trans.historyTable();
+        trans.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -88,8 +126,7 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("CardsPage.fxml"));
         root = loader.load();
         CardsPageController cards = loader.getController();
-        cards.setCustomer(cust);
-        cards.display();
+        cards.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -102,9 +139,7 @@ public class AnalyticsPageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("ExchangePage.fxml"));
         root = loader.load();
         ExchangePageController exchange = loader.getController();
-        exchange.setCustomer(cust);
-        exchange.historyTable();
-        exchange.displayBalance();
+        exchange.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -118,7 +153,6 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
-        if(admin != null) setting.setAdmin(admin);
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -130,6 +164,17 @@ public class AnalyticsPageController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        this.months = new ArrayList<>();
+        int currentMonthValue = java.time.LocalDate.now().getMonthValue();
+
+        for (int i = 1; i <= currentMonthValue; i++) {
+            String monthName = Month.of(i).name();
+            months.add(monthName);
+        }
+        
+        monthChoice.getItems().addAll(this.months);
+        monthChoice.getSelectionModel().selectLast();
+        monthChoice.setOnAction(this::getMonth);
+        this.monthSelected = months.getLast();
     } 
 }
