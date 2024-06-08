@@ -17,8 +17,8 @@ import java.util.Map;
 public class PlatinumPatronus extends SilverSnitch{
     private CurrencyExchange exchange = new CurrencyExchange();
 
-    public PlatinumPatronus(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
-        super(accountNum, balances, username, name, password, phoneNum, email, dob, address);
+    public PlatinumPatronus(String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(accountNum, username, name, password, phoneNum, email, dob, address);
     }
     
     public double getPercentageTypeForMonth(String type, int targetMonth) {
@@ -116,12 +116,6 @@ public class PlatinumPatronus extends SilverSnitch{
             e.printStackTrace();
           }
         return sum;
-    }
-    
-    public static void main(String[] args) {
-        SilverSnitch cust = Account.getCustomerByUsername("ali");
-        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        System.out.println(plat.getTypeSpendForMonth("Food", 6));
     }
 
 }

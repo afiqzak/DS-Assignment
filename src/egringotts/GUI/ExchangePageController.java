@@ -109,11 +109,11 @@ public class ExchangePageController implements Initializable {
     
     @FXML
     private void exchangeButton(ActionEvent event) throws IOException, SQLException{
-        double amount = Double.parseDouble(amountField.getText());
-        String from = currencyChoice1.getValue();
-        String to = currencyChoice2.getValue();
+        double amount = Double.valueOf(amountField.getText());
+        String from = String.valueOf(currencyChoice1.getValue().charAt(0));
+        String to = String.valueOf(currencyChoice2.getValue().charAt(0));
         double converted = Double.parseDouble(convertedField.getText());
-        double fee = exchange.totalFee(from, to, amount);
+        double fee = exchange.getProcessingFee(from, to);
         double total = exchange.totalFee(from, to, amount);
         String desc  = "Convert " + amount + " " + from + " to " + converted + " " + to;
         
@@ -121,6 +121,7 @@ public class ExchangePageController implements Initializable {
         trans.performCurrencyExchange(cust, from, to, total, converted);
         
         displayBalance();
+        historyTable();
     }
     
     @FXML
@@ -180,8 +181,14 @@ public class ExchangePageController implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("AnalyticsPage.fxml"));
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
-        PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getBalances(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
-        analytics.setUser(plat);
+        if(cust.getTier().equals("Platinum Patronus")){
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(plat);
+        }else{
+            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            analytics.setUser(gold);
+        } 
+        analytics.display();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 

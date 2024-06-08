@@ -149,12 +149,8 @@ public class Account <E extends User>{
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
                 String tier = resultSet.getString("Tier");
-                Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("Knut"));
-                balances.put("Sickle", resultSet.getDouble("Sickle"));
-                balances.put("Galleon", resultSet.getDouble("Galleon"));
 
-                customer = new SilverSnitch(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNumber, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -183,11 +179,7 @@ public class Account <E extends User>{
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
                 String tier = resultSet.getString("Tier");
-                Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("Knut"));
-                balances.put("Sickle", resultSet.getDouble("Sickle"));
-                balances.put("Galleon", resultSet.getDouble("Galleon"));
-                customer = new SilverSnitch(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNum, tier, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 

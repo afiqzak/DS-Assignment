@@ -13,14 +13,12 @@ import java.util.Map;
 import java.util.Random;
 public class SilverSnitch extends User{
     private String accountNum;
-    private Map<String, Double> balances;
     private String tier;
     private CurrencyExchange exchange = new CurrencyExchange();
 
-    public SilverSnitch(String accountNum, Map<String, Double> balances, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public SilverSnitch(String accountNum, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
-        this.balances = balances;
         this.tier = tier;
     }
 
@@ -34,18 +32,9 @@ public class SilverSnitch extends User{
         this.tier = setTier();
     } 
 
-    public SilverSnitch(String accountNum, Map<String, Double> balances, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public SilverSnitch(String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
-        this.balances = balances;
-    }
-    
-    public Map<String,Double> getBalances(){
-        return balances;
-    }
-    
-    public void setBalances(Map<String, Double> balances){
-        this.balances = balances;
     }
 
     public String getKey() {

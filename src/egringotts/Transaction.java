@@ -230,7 +230,8 @@ public class Transaction implements Printable{
 
             // Record the currency exchange transaction
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, method, Description) "
-            + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', " + this.amount + " " + from + "' , " + toBalance + " " + to + ", '" + this.type + "', '" + this.method + "', '" + this.description + "')";
+            + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', '" + this.amount + " " + from + "' , '" + toBalance + " " + to + "', '" + this.type + "', '" + this.method + "', '" + this.description + "')";
+            System.out.println(sql);
             statement.executeUpdate(sql);
 
             //send email after transaction
@@ -270,7 +271,7 @@ public class Transaction implements Printable{
             //update to currency balance
             cust.updateBalanceSender((toBalance + converted), to);
             
-            recordCurrencyExchange(cust.getKey(), from, to, toBalance);
+            recordCurrencyExchange(cust.getKey(), from, to, cust.getBalance(to));
             
             return true;
         }else return false;
