@@ -104,10 +104,9 @@
                   </Label>
                   <TableView fx:id="history" layoutX="14.0" layoutY="306.0" prefHeight="200.0" prefWidth="687.0">
                     <columns>
-                        <TableColumn fx:id="descColumn" editable="false" prefWidth="200.00002098083496" resizable="false" text="Target Currency" />
-                        <TableColumn fx:id="receivedColumn" editable="false" prefWidth="159.99996948242188" resizable="false" text="Converted Amount" />
-                      <TableColumn fx:id="amountColumn" editable="false" prefWidth="137.60003662109375" resizable="false" text="Processing Fee" />
-                        <TableColumn fx:id="dateColumn" editable="false" prefWidth="189.60003662109375" resizable="false" sortType="DESCENDING" text="Date" />
+                        <TableColumn fx:id="descColumn" editable="false" prefWidth="297.6000576019287" resizable="false" text="Activity" />
+                      <TableColumn fx:id="amountColumn" editable="false" prefWidth="187.199951171875" resizable="false" text="Processing Fee" />
+                        <TableColumn fx:id="dateColumn" editable="false" prefWidth="202.39999389648438" resizable="false" sortType="DESCENDING" text="Date" />
                     </columns>
                   </TableView>
                   <Label layoutX="14.0" layoutY="272.0" prefHeight="26.0" prefWidth="86.0" text="History">

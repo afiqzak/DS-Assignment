@@ -4,6 +4,10 @@ import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -16,8 +20,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -45,15 +54,27 @@ public class TransactionPageController implements Initializable {
     private TableColumn<Transaction, String> receipentColumn, descColumn, typeColumn, methodColumn, dateColumn, amountColumn;
     
     @FXML
-    private LineChart<String, Double> linechartMonthly;
+    private Pane filterPane;
     
     @FXML
-    private Pane monthltExpense;
+    private RadioButton dateRadio,categoryRadio,amountRadio;
+    
+    @FXML
+    private ChoiceBox<String> typeChoice, monthChoice;
+    
+    @FXML
+    private TextField minField, maxField;
+    
+    @FXML
+    private Button sortByButton,sortButton;
     
     private PensivePast pensive;
     private SilverSnitch cust;
     
-    ObservableList<Transaction> list;
+    private ArrayList<String> months = new ArrayList<>(Arrays.asList("January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November", "December"));
+    private String[] type = {"Entertainment","Bill","Grocery","Food","Exchange","Others"};
+    
+    ObservableList<Transaction> list,filtered;
     
     public void setCustomer(egringotts.SilverSnitch cust){
         this.cust = cust;
@@ -75,6 +96,33 @@ public class TransactionPageController implements Initializable {
     public void display(SilverSnitch cust){
         setCustomer(cust);
         historyTable();
+    }
+    
+    @FXML
+    private void sortByButton(ActionEvent event) throws IOException {
+        filterPane.setVisible(true);
+    }
+    
+    @FXML
+    private void sortButton(ActionEvent event) throws IOException {
+        int min = 0, max = 0, month = 0;
+        String type = null;
+        
+        if(dateRadio.isSelected()){
+            month = months.indexOf(monthChoice.getValue()) + 1;
+        }
+        if(categoryRadio.isSelected()){
+            type = typeChoice.getValue();
+        }
+        if(amountRadio.isSelected()){
+            if(!minField.getText().isBlank())
+                min = Integer.parseInt(minField.getText());
+            if(!maxField.getText().isBlank())
+                max = Integer.parseInt(maxField.getText());
+        }
+        filtered = FXCollections.observableArrayList(pensive.filter(cust.getKey(), min, max, month, "month", type));
+        history.setItems(filtered);
+        filterPane.setVisible(false);
     }
     
     @FXML
@@ -161,7 +209,9 @@ public class TransactionPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+        filterPane.setVisible(false);
+        monthChoice.getItems().addAll(months);
+        typeChoice.getItems().addAll(type);
     }    
     
     

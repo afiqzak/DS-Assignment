@@ -68,7 +68,6 @@ public class ExchangePageController implements Initializable {
     public void historyTable(){
         descColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("description"));
         amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
-        //receivedColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("balance"));  //processing Fee
         dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
         
         history.setItems(list);
@@ -106,7 +105,7 @@ public class ExchangePageController implements Initializable {
         double converted = Double.parseDouble(convertedField.getText());
         double fee = exchange.totalFee(from, to, amount);
         double total = exchange.totalFee(from, to, amount);
-        String desc  = amount + " " + from + " convert to " + converted + " " + to;
+        String desc  = "Convert " + amount + " " + from + " to " + converted + " " + to;
         
         trans = new Transaction(cust.getKey(), cust.getKey(), "Others", desc, "Transfer", fee);
         trans.performCurrencyExchange(cust.getKey(), from, to, total, fee, converted, trans.generateTransactionId(), desc);

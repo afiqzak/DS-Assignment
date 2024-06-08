@@ -73,10 +73,11 @@ public class PensivePast {
         return trans;
     }
     
-    public void filter(String accNum, int minAmount, int maxAmount, String filterDate, String filterDateBy, String filterType) {
+    public static ArrayList<Transaction> filter(String accNum, int minAmount, int maxAmount, int filterDate, String filterDateBy, String filterType) {
         StringBuilder query = new StringBuilder();
-        query.append("SELECT ID_Transaction, Receipent, Amount, Type, Date, Description FROM transaction WHERE Sender = ? ORDER BY Date DESC");
-
+        query.append("SELECT ID_Transaction, Receipent, Amount, balance, Type, method, Date, Description FROM transaction WHERE Sender = ? ");
+        
+        ArrayList<Transaction> filtered = new ArrayList<>();
         List<String> filterConditions = new ArrayList<>();
 
         // Add filter conditions based on provided parameters
@@ -88,14 +89,9 @@ public class PensivePast {
           filterConditions.add("Amount <= ?"); // Handle filtering by max amount only
         }
 
-        if (filterDate != null && !filterDate.isEmpty()) {
-          if (filterDateBy != null && filterDateBy.equals("month")) {
+        if (filterDate != 0) {
+          if (filterDateBy != null && filterDateBy.equals("month")) 
             filterConditions.add("MONTH(Date) = ?"); // Filter by month
-          } else if (filterDateBy != null && filterDateBy.equals("year")) {
-            filterConditions.add("YEAR(Date) = ?"); // Filter by year
-          } else {
-            filterConditions.add("Date = ?"); // Default to exact date filtering
-          }
         }
 
         if (filterType != null && !filterType.isEmpty()) {
@@ -108,11 +104,13 @@ public class PensivePast {
           for (int i = 0; i < filterConditions.size(); i++) {
             query.append(filterConditions.get(i));
             if (i < filterConditions.size() - 1) {
-              query.append(" OR ");
+              query.append(" AND ");
             }
           }
           query.append(")");
         }
+        
+        query.append("ORDER BY Date DESC");
 
         try (Connection connection = DBConnection.openConn();
              PreparedStatement ps = connection.prepareStatement(query.toString())) {
@@ -129,15 +127,33 @@ public class PensivePast {
                 ps.setInt(parameterIndex++, minAmount); // Or maxAmount if applicable
               }
             } else if (condition.contains("Date")) {
-              ps.setString(parameterIndex++, filterDate); // Modify based on your date format
+                ps.setInt(parameterIndex++, filterDate); // Modify based on your date format
             } else if (condition.contains("Type")) {
-              ps.setString(parameterIndex++, filterType);
+                ps.setString(parameterIndex++, filterType);
             }
           }
-
+          
+            System.out.println(ps.toString());
           ResultSet rs = ps.executeQuery();
+          if (rs.next()) {
+                do {
+                  // Process the result set and create Transaction objects
+                  filtered.add(new Transaction(
+                      rs.getString("amount"),
+                      accNum, // Assuming sender should be the provided accNum
+                      rs.getString("Receipent"),
+                      rs.getString("Type"),
+                      rs.getString("Description"),
+                      rs.getString("method"),
+                      rs.getString("amount"),
+                      rs.getString("balance"),
+                      rs.getString("Date")
+                  ));
+                } while (rs.next());
+              }
         } catch (SQLException e) {
           e.printStackTrace();
         }
+        return filtered;
     }
 }
