@@ -18,6 +18,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -41,16 +42,19 @@ public class ExchangePageController implements Initializable {
     private TableView<Transaction> history;
     
     @FXML
-    private TableColumn<Transaction, String> amountColumn, receivedColumn, descColumn, dateColumn, balanceColumn;
+    private TableColumn<Transaction, String> amountColumn, receivedColumn, descColumn, dateColumn;
     
     @FXML
-    private Label balanceField;
+    private Label balanceField,convertedField;
     
     @FXML
-    private ChoiceBox<String> currencyChoice;
+    private TextField amountField;
+    
+    @FXML
+    private ChoiceBox<String> currencyChoice,currencyChoice1, currencyChoice2;
     private SilverSnitch cust;
-    private Admin admin;
     private PensivePast pensive;
+    private CurrencyExchange exchange;
     
     ObservableList<Transaction> list;
     
@@ -61,11 +65,10 @@ public class ExchangePageController implements Initializable {
     }
     
     public void historyTable(){
-        amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
-        //receivedColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("balance"));
         descColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("description"));
+        amountColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currAmount"));
+        //receivedColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("balance"));  //processing Fee
         dateColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("date"));
-        balanceColumn.setCellValueFactory(new PropertyValueFactory<Transaction,String>("currBalance"));
         
         history.setItems(list);
     }
@@ -79,6 +82,14 @@ public class ExchangePageController implements Initializable {
         balanceField.setText(String.valueOf(cust.getBalance(currency)) + currency.charAt(0));
     }
     
+    public void getConverted(ActionEvent e){
+        double amount = Double.valueOf(amountField.getText());
+        String from = currencyChoice1.getValue();
+        String to = currencyChoice2.getValue();
+        
+        convertedField.setText(Double.toString(exchange.exchange(String.valueOf(from.charAt(0)), String.valueOf(to.charAt(0)), amount)));
+    }
+    
     public void display(SilverSnitch cust){
         setCustomer(cust);
         historyTable();
@@ -86,12 +97,19 @@ public class ExchangePageController implements Initializable {
     }
     
     @FXML
+    private void exchangeButton(ActionEvent event) throws IOException{
+        double amount = Double.parseDouble(amountField.getText());
+        String from = currencyChoice1.getValue();
+        String to = currencyChoice2.getValue();
+        
+        convertedField.setText(to);
+    }
+    @FXML
     private void dashboardMenu(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
         root = loader.load();
         MainDashboardController main = loader.getController();
         main.setCustomer(cust);
-        main.display(cust);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
 
@@ -158,7 +176,6 @@ public class ExchangePageController implements Initializable {
         root = loader.load();
         SettingsPageController setting = loader.getController();
         setting.setCustomer(cust);
-        if(admin != null) setting.setAdmin(admin);
         setting.checkAdmin();
         setting.setProfile();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -173,6 +190,10 @@ public class ExchangePageController implements Initializable {
         currencyChoice.getItems().addAll(Account.getCurrency());
         currencyChoice.getSelectionModel().selectFirst();
         currencyChoice.setOnAction(this::getBalance);
+        currencyChoice1.getItems().addAll(Account.getCurrency());
+        currencyChoice2.getItems().addAll(Account.getCurrency());
+        currencyChoice2.setOnAction(this::getConverted);
+        this.exchange = new CurrencyExchange();
     } 
     
 }

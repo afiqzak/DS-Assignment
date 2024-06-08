@@ -1,27 +1,45 @@
 package egringotts;
 
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import static java.awt.print.Printable.NO_SUCH_PAGE;
+import static java.awt.print.Printable.PAGE_EXISTS;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Random;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 /**
  *
  * @author USER
  */
-public class Transaction {
+public class Transaction implements Printable{
 
     private String transactionID, sender, receipent, type, description, method, currAmount, currBalance, date;
     private Double amount, balance;
+    private EmailNotification emailNotification = new EmailNotification();
 
     public Transaction() {
     }
-
+    
     public Transaction(String transactionID, String sender, String receipent, String type, String method, String description, double amount, double balance, String date) {
         this.transactionID = transactionID;
         this.sender = sender;
@@ -47,6 +65,7 @@ public class Transaction {
     }
 
     public Transaction(String sender, String receipent, String type, String description, String method, Double amount) {
+        
         this.sender = sender;
         this.receipent = receipent;
         this.type = type;
@@ -55,11 +74,7 @@ public class Transaction {
         this.amount = amount;
     }
     
-    
-    
-    
-    
-    public String getTransactionId() throws SQLException {
+    public String generateTransactionId() throws SQLException {
         
         String newId = "1"; // Default starting ID if no existing IDs are found
         try(Connection con = DBConnection.openConn();
@@ -89,8 +104,8 @@ public class Transaction {
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()) {
             // Generate a transaction ID
-            transactionID = getTransactionId();
-            String method = "Transfer";
+            transactionID = generateTransactionId();
+            String mathod = "Transfer";
             
             // Fetch sender current balance from database
             String senderBalance = "SELECT " + currency + " FROM account WHERE AccountNum = '" + this.sender + "'";
@@ -118,7 +133,7 @@ public class Transaction {
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, method, Type, Description) "
                     + "VALUES ('" + transactionID + "', '" + this.sender + "', '" + this.receipent + "', '" + this.currAmount + "', '" + this.currBalance + "', '" + method + "', '" + this.type + "', '" + this.description + "')";
             statement.executeUpdate(sql);
-            
+
             // Update the balance in the account table
             String updateSenderBalanceQuery = "UPDATE account SET " + currency + " = " + this.balance + " WHERE AccountNum = '" + this.sender + "'";
             statement.executeUpdate(updateSenderBalanceQuery);
@@ -129,6 +144,7 @@ public class Transaction {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        sendTransactionEmail(); //send email after transaction
         return transactionID;
     }
 
@@ -213,7 +229,7 @@ public class Transaction {
         try (Connection connection = DBConnection.openConn();
             Statement statement = connection.createStatement();){
             // Generate a transaction ID
-            transactionID = getTransactionId();
+            transactionID = generateTransactionId();
 
             // Get current date and time
             LocalDate currentDate = LocalDate.now();
@@ -228,19 +244,122 @@ public class Transaction {
             String sql = "INSERT INTO transaction (ID_Transaction, Sender, Receipent, Amount, balance, Type, Date, Description) "
             + "VALUES ('" + transactionID + "', '" + sender + "', '" + recipient + "', " + amount + ", " + senderBalance + ", 'Currency Exchange', '" + formattedDate + " " + formattedTime + "', 'Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee + "')";
             statement.executeUpdate(sql);
-//
-//            // Update sender's balance
-//            String updateSenderBalanceQuery = "UPDATE account SET Balance = " + senderBalance + " WHERE AccountNum = '" + sender + "'";
-//            statement.executeUpdate(updateSenderBalanceQuery);
-//
-//            // Update recipient's balance
-//            String updateRecipientBalanceQuery = "UPDATE account SET Balance = " + recipientBalance + " WHERE AccountNum = '" + recipient + "'";
-//            statement.executeUpdate(updateRecipientBalanceQuery);
 
+            //send email after transaction
+            try {
+            String transactionDetails = "Transaction ID: " + transactionID +
+                                        "\nSender: " + sender +
+                                        "\nRecipient: " + recipient +
+                                        "\nAmount: " + amount +
+                                        "\nType: Currency Exchange" +
+                                        "\nDescription: Converted " + amount + " to " + convertedAmount + " with processing fee " + processingFee;
+            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
+        
+            
+            } catch (MessagingException e) {
+            e.printStackTrace();
+        }
             statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return transactionID;
+    }
+
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) {
+        try {
+            if (pageIndex > 0) {
+                return NO_SUCH_PAGE;
+            }
+            
+            Graphics2D g2d = (Graphics2D) graphics;
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+            
+            g2d.translate(pageFormat.getImageableX() + 50, pageFormat.getImageableY() + 50);
+            
+            Font titleFont = new Font("Serif", Font.BOLD, 18);
+            Font bodyFont = new Font("Monospaced", Font.PLAIN, 12);
+            
+            int y = 0;
+            int titleLineHeight = 20;
+            int bodyLineHeight = 15;
+            
+            g2d.setFont(titleFont);
+            g2d.drawString("E-GRINGOTTS RECEIPT", 0, y);
+            y += titleLineHeight;
+            
+            g2d.setFont(bodyFont);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            date.getTime();
+            String[] receipt = {
+                "Transaction ID: " + generateTransactionId(),
+                "Date: " + dateFormat.format(date),
+                "Account Number: " + this.receipent,
+                "Amount: " + String.format("%.2f", amount),
+                "Type: " + type,
+                "Description: " + description,
+                "Thank you for using E-Gringotts! Your magical transfer has been successfully",
+                "completed.",
+                "For any inquiries or further assistance, owl us at support@egringotts.com",
+                "May your galleons multiply like Fizzing Whizbees!"
+            };
+            
+            for (String line : receipt) {
+                g2d.drawString(line, 0, y);
+                y += bodyLineHeight;
+            }
+            
+            return PAGE_EXISTS;
+        } catch (SQLException ex) {
+            Logger.getLogger(Transaction.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public void printReceipt() {
+        PrinterJob job = PrinterJob.getPrinterJob();
+        job.setPrintable(this);
+        boolean doPrint = job.printDialog();
+        if (doPrint) {
+            try {
+                job.print();
+            } catch (PrinterException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    //check if the account number exists before the transaction proceed
+    public static boolean accExist(String accountNum) {
+        String query = "SELECT COUNT(*) FROM account WHERE AccountNum = ?";
+        try (Connection connection = DBConnection.openConn();
+             PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setString(1, accountNum);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    // Method to send transaction email notification
+    private void sendTransactionEmail() {
+        try {
+            String transactionDetails = "Transaction ID: " + transactionID +
+                                        "\nSender: " + sender +
+                                        "\nRecipient: " + receipent +
+                                        "\nAmount: " + amount +
+                                        "\nType: " + type +
+                                        "\nDescription: " + description;
+            emailNotification.sendTransactionEmail(Account.getCustomerByAccountNumber(sender).getEmail(), Account.getCustomerByAccountNumber(sender).getUsername(), transactionDetails);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
     }
 }

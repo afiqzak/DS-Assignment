@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -55,13 +56,45 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="341.0" layoutY="15.0" prefHeight="234.0" prefWidth="358.0" style="-fx-background-color: #fbf5f3; -fx-background-radius: 15;">
+                  <Pane layoutX="341.0" layoutY="15.0" prefHeight="282.0" prefWidth="358.0" style="-fx-background-color: #0D1F2D; -fx-background-radius: 15;">
                      <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="120.0" text="Exchange Booth">
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="133.0" text="Exchange Booth" textFill="#e09f3e">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="amountField" layoutX="14.0" layoutY="49.0" prefHeight="58.0" prefWidth="216.0" promptText="Enter your amount">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </TextField>
+                        <ChoiceBox fx:id="currencyChoice1" layoutX="257.0" layoutY="78.0" prefHeight="25.0" prefWidth="86.0" />
+                        <Label layoutX="263.0" layoutY="49.0" prefHeight="26.0" prefWidth="74.0" text="currency" textFill="#fbf5f3">
                            <font>
                               <Font name="Copperplate Gothic Bold" size="12.0" />
                            </font>
                         </Label>
+                        <Label layoutX="122.0" layoutY="117.0" prefHeight="25.0" prefWidth="99.0" text="Convert to" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="convertedField" layoutX="14.0" layoutY="151.0" prefHeight="58.0" prefWidth="237.0" text="Choose your currency" textFill="#696969">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="263.0" layoutY="151.0" prefHeight="26.0" prefWidth="74.0" text="currency" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Copperplate Gothic Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <ChoiceBox fx:id="currencyChoice2" layoutX="257.0" layoutY="180.0" prefHeight="25.0" prefWidth="86.0" />
+                        <Button fx:id="exchangeButton" layoutX="29.0" layoutY="227.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="120.0" style="-fx-background-color: #e09f3e;" text="Exchange">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="13.0" />
+                           </font>
+                        </Button>
                      </children>
                   </Pane>
                   <Label layoutX="14.0" layoutY="15.0" prefHeight="26.0" prefWidth="120.0" text="Balance">

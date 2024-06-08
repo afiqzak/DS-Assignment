@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class Account <E extends User>{
     private E account;
+    private EmailNotification emailNotification = new EmailNotification();
 
     public Account(E account) {
         this.account = account;
@@ -32,6 +33,8 @@ public class Account <E extends User>{
                                     "VALUES ('" + account.generateKey() + "','" + account.getName() + "','" + account.getUsername() + "','" + account.getPhoneNum() + "','" +
                                     account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ")";
                        statement.executeUpdate(SQL_Command);
+                    // Send sign-up email
+                    emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
                 }
                 return true;
             }
@@ -59,13 +62,27 @@ public class Account <E extends User>{
             Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
+            SQL_Command = "SELECT Name_Admin, Email_Admin FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
-            if(Rslt.next()) user = "admin";
+            if(Rslt.next()){
+                user = "admin";
+                
+                // email from the result set
+                String email = Rslt.getString("Email_Admin");
+                // send sign-in email for Admin
+                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
+            }
             else {
-                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
+                SQL_Command = "SELECT Name_Customer, Email_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
                 Rslt = statement.executeQuery(SQL_Command);
-                if(Rslt.next()) user = "customer";
+                if(Rslt.next()) {
+                user = "customer";
+                    
+                // email from the result set
+                String email = Rslt.getString("Email_Customer");
+                // send sign-in email
+                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
+                }
             }
         } catch (SQLException e) {
             System.out.println("SQLException: " + e);
@@ -101,10 +118,6 @@ public class Account <E extends User>{
                 String password = resultSet.getString("Password_Admin");
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
-                /*Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("KnutBalance"));
-                balances.put("Sickle", resultSet.getDouble("SickleBalance"));
-                balances.put("Galleon", resultSet.getDouble("GalleonBalance"));*/
 
                 admin = new Admin(ID, name, username, phoneNum, email, password, DOB, address);
             }
@@ -183,8 +196,6 @@ public class Account <E extends User>{
 
         return customer;
     }
-    
-    
     
     public static ArrayList<String> getCurrency(){
         ArrayList<String> currencys = new ArrayList<>();
