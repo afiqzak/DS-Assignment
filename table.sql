@@ -6,9 +6,10 @@ create table admin(
     PhoneNum_Admin varchar(50),
     Email_Admin varchar(100),
     username varchar(20),
-    Password_Admin varchar(15),
+    Password_Admin varchar(70),
     DOB date,
     address varchar(100),
+    Encrypted_PIN varchar(70)
     constraint PK_admin primary key(ID_Admin)
 );
 
@@ -18,13 +19,14 @@ create table account(
     username varchar(20),
     PhoneNum_Customer varchar(25),
     Email_Customer varchar(100),
-    Password_Customer varchar(15),
+    Password_Customer varchar(70),
     DOB date,
     Address varchar(100),
     Tier varchar(50),
-    Knut float default 0,
-    Sickle float default 0,
-    Galleon float default 0,
+    Encrypted_PIN varchar(70)
+    K float default 0,
+    S float default 0,
+    G float default 0,
     constraint PK_account primary key(AccountNum)
 );
 
@@ -60,6 +62,13 @@ create table card(
     on delete cascade
 );
 
+CREATE TABLE currency (
+    code int NOT NULL,
+    symbol VARCHAR(3) NOT NULL,
+    display_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (code)
+);
+
 CREATE TABLE exchange_rate (
     currency_code_from int NOT NULL,
     currency_code_to int NOT NULL,
@@ -70,9 +79,4 @@ CREATE TABLE exchange_rate (
     FOREIGN KEY (currency_code_to) REFERENCES currency(code)  on delete cascade
 );
 
-CREATE TABLE currency (
-    code int NOT NULL,
-    symbol VARCHAR(3) NOT NULL,
-    display_name VARCHAR(50) NOT NULL,
-    PRIMARY KEY (code)
-);
+
