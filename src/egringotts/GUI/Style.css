@@ -1,0 +1,99 @@
+/* 
+    Created on : 28 May 2024, 5:00:54 pm
+    Author     : Asus
+*/
+.LoginButton{
+    -fx-background-color: #E09F3E;
+    -fx-background-radius: 8;
+}
+
+.LoginButton:hover{
+    -fx-background-color: #FBF5F3;
+    -fx-background-radius: 8;
+    -fx-border-radius: 7;
+    -fx-border-width: 3;
+    -fx-border-color: #E09F3E;
+}
+
+.SignupButton{
+    -fx-background-color:  #343C6A;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+}
+
+.SignupButton:hover{
+    -fx-background-color:  #000000;
+    -fx-background-radius: 8;
+    -fx-text-fill: #66ffff;
+}
+
+.menuItem:hover{
+    -fx-text-fill: #CECECE;
+    -fx-border-color: #CECECE;
+    -fx-border-width: 0px 0px 0px 3px;
+}
+
+.menuItem{
+    -fx-text-fill: #ffffff;
+}
+
+.settingItem:hover{
+    -fx-text-fill: #CECECE;
+    -fx-border-color: #CECECE;
+    -fx-border-width: 3px 0px 0px 0px;
+    -fx-border-radius: 8;
+}
+
+.settingItem{
+    -fx-background-color:  black;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+}
+
+.LogoutButton:hover{
+    -fx-background-color: #FBF5F3;
+    -fx-border-radius: 7;
+    -fx-border-width: 3;
+    -fx-border-color: #FBF5F3;
+}
+
+.changePassButton:hover{
+    -fx-text-fill: #CECECE;
+    -fx-border-color: #CECECE;
+    -fx-border-width: 2px 2px 2px 2px;
+    -fx-border-radius: 6;
+}
+
+.addAdminButton:hover{
+    -fx-text-fill: #000000;
+    -fx-border-color: #000000;
+    -fx-border-radius: 6;
+    -fx-background-radius: 8;
+    -fx-border-width: 3;
+}
+
+.table-view {
+    -fx-background-color: #A7B0CA;
+    border-collapse: collapse;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #FBF5F3;
+}
+
+.table-view .column-header .label {
+    -fx-background-color: #343C6A;
+    -fx-text-fill: white;
+    border-collapse: collapse;
+}
+
+.custom-pane {
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+.custom-pane:hover {
+    -fx-background-color: lightgray;
+}
+.custom-pane.clicked {
+    -fx-background-color: coral;
+}
