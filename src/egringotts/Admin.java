@@ -15,21 +15,24 @@ import java.util.Vector;
 public class Admin extends User {
 
     private int ID;
+    private String pin;
 
     // Constructor
 
-    public Admin(int ID, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public Admin(String pin, int ID, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.ID = ID;
+        this.pin = pin;
     }
 
     public Admin(String username, String password) {
         super(username, password);
     }
 
-    public Admin(String username, String name, String password, String phoneNum, String email, String dob, String address) throws SQLException {
+    public Admin(String pin, String username, String name, String password, String phoneNum, String email, String dob, String address) throws SQLException {
         super(username, name, password, phoneNum, email, dob, address);
         this.ID = getUserId();
+        this.pin = pin;
     }
 
     // Implement User interface methods

@@ -127,8 +127,9 @@ public class Account<E extends User> {
                 String password = resultSet.getString("Password_Admin");
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
+                String pin = resultSet.getString("Encrypted_PIN");
 
-                admin = new Admin(ID, name, username, phoneNum, email, password, DOB, address);
+                admin = new Admin(pin, ID, name, username, phoneNum, email, password, DOB, address);
             }
             preparedStatement.close();
 
