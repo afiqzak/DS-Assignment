@@ -17,8 +17,8 @@ import java.util.Map;
 public class PlatinumPatronus extends SilverSnitch{
     private CurrencyExchange exchange = new CurrencyExchange();
 
-    public PlatinumPatronus(String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
-        super(accountNum, username, name, password, phoneNum, email, dob, address);
+    public PlatinumPatronus(String pin, String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(pin, accountNum, username, name, password, phoneNum, email, dob, address);
     }
     
     public double getPercentageTypeForMonth(String type, int targetMonth) {

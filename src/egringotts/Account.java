@@ -82,7 +82,6 @@ public class Account<E extends User> {
                 Rslt = statement.executeQuery(SQL_Command);
                 if(Rslt.next()) {
                     encryptedPIN = Rslt.getString("Encrypted_PIN");
-                    System.out.println(encryptedPIN);
                     if (verifyPIN(pin, encryptedPIN)) {
                         user = "customer";
                     }
@@ -108,7 +107,6 @@ public class Account<E extends User> {
             e.printStackTrace();
         }
         // Return the username of the signed-in user
-        System.out.println(user);
         return user;
     }
     

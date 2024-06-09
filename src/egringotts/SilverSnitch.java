@@ -49,6 +49,10 @@ public class SilverSnitch extends User{
     public String getTier() {
         return tier;
     }
+
+    public String getPin() {
+        return pin;
+    }
     
     public double getBalance(String currency) {
     double balance = 0;
@@ -125,13 +129,13 @@ public class SilverSnitch extends User{
     
     @Override
     public String setTier() {
-        if (getBalance("Knut") < 10000) {
+        if (getBalance("K") < 10000) {
             return "Silver Snitch";
         }
-        else if (getBalance("Knut") >= 10000 && getBalance("Knut") < 50000) {
+        else if (getBalance("K") >= 10000 && getBalance("Knut") < 50000) {
             return "Golden Galleon";
         }
-        else if (getBalance("Knut") >= 50000) {
+        else if (getBalance("K") >= 50000) {
             return "Platinum Patronus";
         }
         return null;
