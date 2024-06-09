@@ -47,7 +47,6 @@
                         <Font name="GothicI" size="21.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="669.0" layoutY="5.0" prefHeight="46.0" prefWidth="46.0" style="-fx-background-radius: 50; -fx-background-color: white;" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -57,7 +56,7 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
-                  <Pane layoutX="26.0" layoutY="57.0" prefHeight="258.0" prefWidth="664.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                  <Pane layoutX="26.0" layoutY="57.0" prefHeight="258.0" prefWidth="664.0" style="-fx-background-color: #E5DADA; -fx-background-radius: 20;">
                      <children>
                         <PieChart fx:id="piechartType" prefHeight="258.0" prefWidth="308.0" />
                         <ChoiceBox fx:id="monthChoice" layoutX="540.0" layoutY="14.0" prefHeight="25.0" prefWidth="110.0" />
@@ -71,7 +70,7 @@
                         <Label fx:id="exchangeField" layoutX="318.0" layoutY="171.0" prefHeight="17.0" prefWidth="135.0" text="Label" />
                      </children>
                   </Pane>
-                  <Pane layoutX="26.0" layoutY="330.0" prefHeight="178.0" prefWidth="664.0" style="-fx-background-color: white; -fx-background-radius: 20;">
+                  <Pane layoutX="26.0" layoutY="330.0" prefHeight="178.0" prefWidth="664.0" style="-fx-background-color: #E5DADA; -fx-background-radius: 20;">
                      <children>
                         <LineChart fx:id="linechartMonthly" prefHeight="178.0" prefWidth="664.0">
                           <xAxis>

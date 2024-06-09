@@ -47,7 +47,6 @@
                         <Font name="Gill Sans MT" size="21.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="669.0" layoutY="5.0" prefHeight="46.0" prefWidth="46.0" style="-fx-background-radius: 50; -fx-background-color: white;" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -74,7 +73,7 @@
                   </Label>
                   <Pane layoutX="327.0" layoutY="241.0" prefHeight="290.0" prefWidth="390.0" style="-fx-background-color: #540b0e; -fx-background-radius: 15;">
                      <children>
-                        <Button layoutX="310.0" layoutY="231.0" mnemonicParsing="false" onAction="#addCardButton" prefHeight="38.0" prefWidth="66.0" style="-fx-background-color: #4fb176;" text="Add">
+                        <Button layoutX="310.0" layoutY="231.0" mnemonicParsing="false" onAction="#addCardButton" prefHeight="38.0" prefWidth="66.0" style="-fx-background-color: #4fb176;" styleClass="addAdminButton" text="Add">
                            <font>
                               <Font name="Bank Gothic Medium BT" size="12.0" />
                            </font></Button>

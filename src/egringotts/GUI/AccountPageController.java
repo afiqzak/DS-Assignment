@@ -196,6 +196,7 @@ public class AccountPageController implements Initializable {
           
           trans.recordTransaction(currency);
           displayBalance();
+          receiptPane.setVisible(true);
         }
     }
     
