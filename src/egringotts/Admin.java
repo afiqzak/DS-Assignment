@@ -261,9 +261,4 @@ public class Admin extends User {
         }
         return String.valueOf(newId);
     }
-    
-    public static void main(String[] args) {
-        Admin ad = new Admin("abu", "1234");
-        System.out.println(ad.getTotalUser());
-    }
 }

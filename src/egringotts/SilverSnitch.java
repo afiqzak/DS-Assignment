@@ -53,7 +53,7 @@ public class SilverSnitch extends User{
     public String getPin() {
         return pin;
     }
-    
+
     public double getBalance(String currency) {
     double balance = 0;
     try(Connection DBConn = DBConnection.openConn();

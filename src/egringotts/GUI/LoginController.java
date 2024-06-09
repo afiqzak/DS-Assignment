@@ -47,6 +47,10 @@ public class LoginController implements Initializable {
     @FXML
     private Parent root;
     
+    private boolean isFill = false;
+    private String user;
+    private Account<User> acc;
+    
     private static boolean containsLetter(String str) {
         for (char c : str.toCharArray()) {
             if (Character.isLetter(c)) {
@@ -59,18 +63,15 @@ public class LoginController implements Initializable {
     @FXML
     private void loginAction(ActionEvent event) throws IOException, SQLException {
         errorLabel.setText("");
-        Account<User> acc = new Account(new Admin(usernameField.getText(), passField.getText()));
-        String pin = pinField.getText();
         
-        //check if pin contain letter
-        if(containsLetter(pin)){
-            errorLabel.setText("Pin cannot contains letter");
-            return;
-        }
-        
-        String user = acc.signIn(pin);
-        if(!user.isEmpty()){
-            if(user.equalsIgnoreCase("admin")) {
+        if(this.isFill){
+            //check if pin contain letter
+            if(containsLetter(pinField.getText())){
+                errorLabel.setText("Pin cannot contains letter");
+                return;
+            }
+            this.acc.getAccount().setPin(pinField.getText());
+            if(user.equalsIgnoreCase("admin") && acc.pinVerification(user)){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminDashboard.fxml"));
                 root = loader.load();
                 AdminDashboardController admin = loader.getController();
@@ -80,7 +81,8 @@ public class LoginController implements Initializable {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 adminDashboard = new Scene(root);
                 stage.setScene(adminDashboard);
-            }else{
+                stage.show();
+            }else if(user.equalsIgnoreCase("customer") && acc.pinVerification(user)){
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("MainDashboard.fxml"));
                 root = loader.load();
                 MainDashboardController main = loader.getController();
@@ -89,10 +91,20 @@ public class LoginController implements Initializable {
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 mainDashboard = new Scene(root);
                 stage.setScene(mainDashboard);
-            } 
-            stage.show();
+                stage.show();
+            }else{
+                
+            }
+        }
+        this.acc = new Account(new Admin(usernameField.getText(), passField.getText()));
+
+        this.user = acc.signIn();
+        if(!user.isEmpty()){
+            this.isFill = true;
+            return;
         }else{
             errorLabel.setText("incorrect username or password");
+            return;
         }
     }
     

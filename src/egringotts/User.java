@@ -14,6 +14,7 @@ public abstract class User {
     private String email;
     private String dob;
     private String address;
+    private String pin;
 
     public User(String username, String name, String password, String phoneNum, String email, String dob, String address) {
         this.name = name;
@@ -28,6 +29,14 @@ public abstract class User {
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
     }
 
     public String getName() {

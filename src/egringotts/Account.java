@@ -18,7 +18,11 @@ public class Account<E extends User> {
     
     public Account(E account) {
         this.account = account;
-    } 
+    }
+
+    public E getAccount() {
+        return account;
+    }
  
     public boolean signUp(String currency, double amount, String pin) {
         boolean done = true;
@@ -57,7 +61,7 @@ public class Account<E extends User> {
         return done;
     }
     
-    public String signIn(String pin) {
+    public String signIn() {
         String user = "";
         String encryptedPIN = "";
         try (Connection con = DBConnection.openConn();
@@ -67,30 +71,14 @@ public class Account<E extends User> {
             SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
             if(Rslt.next()){
-                encryptedPIN = Rslt.getString("Encrypted_PIN");
-                if (verifyPIN(pin, encryptedPIN)) {
-                    user = "admin";
-                }
-                
-                // email from the result set
-                String email = Rslt.getString("Email_Admin");
-                // send sign-in email for Admin
-                emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
+                user="admin";
             }
             else {
                 SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
                 Rslt = statement.executeQuery(SQL_Command);
                 if(Rslt.next()) {
                     encryptedPIN = Rslt.getString("Encrypted_PIN");
-                    if (verifyPIN(pin, encryptedPIN)) {
-                        user = "customer";
-                    }
-
-                    // email from the result set
-                    String email = Rslt.getString("Email_Customer");
-
-                    // send sign-in email
-                    emailNotification.sendSignInEmail(email, Rslt.getString("Name_Customer"));
+                    user = "customer";
                 }
             }
         } catch (SQLException e) {
@@ -108,6 +96,57 @@ public class Account<E extends User> {
         }
         // Return the username of the signed-in user
         return user;
+    }
+    
+    public boolean pinVerification(String user){
+        String encryptedPIN = "";
+        String SQL_Command = "";
+        try (Connection con = DBConnection.openConn();
+            Statement statement = con.createStatement()){
+            if(user.equalsIgnoreCase("admin")){
+                // SQL query command
+                SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
+                ResultSet RsltAdmin = statement.executeQuery(SQL_Command);
+                if(RsltAdmin.next()){
+                    encryptedPIN = RsltAdmin.getString("Encrypted_PIN");
+                    if (verifyPIN(account.getPin(), encryptedPIN)) {
+                        // email from the result set
+                        String email = RsltAdmin.getString("Email_Admin");
+                        // send sign-in email for Admin
+                        emailNotification.sendSignInEmail(email, RsltAdmin.getString("Name_Admin"));
+                        return true;
+                    }
+                }
+            }else if(user.equalsIgnoreCase("customer")){
+                SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
+                ResultSet RsltCust = statement.executeQuery(SQL_Command);
+                if(RsltCust.next()) {
+                    encryptedPIN = RsltCust.getString("Encrypted_PIN");
+                    if (verifyPIN(account.getPin(), encryptedPIN)) {
+                        // email from the result set
+                        String email = RsltCust.getString("Email_Customer");
+
+                        // send sign-in email
+                        emailNotification.sendSignInEmail(email, RsltCust.getString("Name_Customer"));
+                        return true;
+                    }
+                }
+            }else return false;
+        } catch (SQLException e) {
+            System.out.println("SQLException: " + e);
+            while (e != null) {
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("Message: " + e.getMessage());
+                System.out.println("Vendor: " + e.getErrorCode());
+                e = e.getNextException();
+                System.out.println("");
+            }
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+            e.printStackTrace();
+        }
+        // Return the username of the signed-in user
+        return false;
     }
     
     public static Admin getAdminByUsername(String username){
@@ -129,7 +168,7 @@ public class Account<E extends User> {
                 String address = resultSet.getString("Address");
                 String pin = resultSet.getString("Encrypted_PIN");
 
-                admin = new Admin(pin, ID, name, username, phoneNum, email, password, DOB, address);
+                admin = new Admin(pin, ID, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -235,6 +274,8 @@ public class Account<E extends User> {
             throw new RuntimeException(e);
         }
     }
+    
+    public 
 
     static boolean verifyPIN(String pin, String encryptedPIN) {
         return encryptPIN(pin).equals(encryptedPIN);
