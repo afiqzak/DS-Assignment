@@ -1,178 +1,84 @@
 package egringotts;
 
-import java.lang.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  *
  * @author USER
  */
-public class Account<T extends User> {
+public class Account {
     
-    private T user;
-    
-    public Account(T user) {
-        this.user = user;
-    }
-   
-    
-
-    
-    public boolean signUp() {
-        boolean done = !user.getUsername().equals("") && !user.getPassword().equals("");
-        if (user instanceof Customer) {
-            Customer customer = (Customer) user;
-            done = !customer.getAddress().equals("") && done && !customer.getName().equals("") && !customer.getPhoneNum().equals("") && !customer.getEmail().equals("") && !customer.getDOB().equals("") && (customer.getBalance("Knut")!=0 || customer.getBalance("Sickle")!=0 || customer.getBalance("Galleon")!= 0);
-        }
-        else if (user instanceof Admin) {
-            Admin admin = (Admin) user;
-            done = done && !admin.getName().equals("") && !admin.getPhoneNum().equals("") && !admin.getEmail().equals("") && !admin.getDOB().equals("") && !admin.getAddress().equals("");
-        }
-        
-        
+    public static boolean signUp(Customer user, String currency, double amount, String pin) {
+        boolean done = true;
+        String encryptedPIN = encryptPIN(pin);
+        String SQL_Command = "SELECT username FROM account WHERE username ='" + user.getUsername() + "'"; 
+        try (Connection con = DBConnection.openConn();
+             Statement statement = con.createStatement()) {
+            
+            ResultSet Rslt = statement.executeQuery(SQL_Command);
+            if (Rslt.next()) return false;
             if (done) {
-                try (Connection con = DBConnection.openConn();
-                    Statement statement = con.createStatement()){
-                    // SQL query command
-                    String SQL_Command = "SELECT username FROM account WHERE username ='" + user.getUsername() + "'"; 
-                    // Inquire if the username exists.
-                    ResultSet Rslt = statement.executeQuery(SQL_Command); 
-                    done = done && !Rslt.next();
-                    if (done) {
-                        // Save the user details based on the type
-                        if (user instanceof Customer) {
-                        Customer customer = (Customer) user;
-                           SQL_Command = "INSERT INTO account(AccountNum, Username, Name_Customer, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, KnutBalance, SickleBalance, GalleonBalance, Tier) " +
-                                        "VALUES ('" + customer.getAccountNum() + "','" + customer.getUsername() + "','" + customer.getName() + "','" + customer.getPhoneNum() + "','" +
-                                        customer.getEmail() + "','" + customer.getPassword() + "','" + customer.getDOB() + "','" + customer.getAddress() + "','" +
-                                        customer.getBalance("Knut") + "','" + customer.getBalance("Sickle") + "','" + customer.getBalance("Galleon") + "','" + 
-                                        customer.getTier() + "')";
+                SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ", Encrypted_PIN) " +
+                              "VALUES ('" + user.getAccountNum() + "','" + user.getName() + "','" + user.getUsername() + "','" + user.getPhoneNum() + "','" +
+                              user.getEmail() + "','" + user.getPassword() + "','" + user.getDOB() + "','" + user.getAddress() + "', '" + user.setTier() + "', " + amount + ", '" + encryptedPIN + "')";
+                statement.executeUpdate(SQL_Command);
+            }
+            return true;
+        } catch (SQLException e) {
+            done = false;
+            e.printStackTrace();
+        }
+        return done;
+    }
 
-                    } else if (user instanceof Admin) {
-                            Admin admin = (Admin) user;
-                            SQL_Command = "INSERT INTO admin(ID_Admin, username, Name_Admin, PhoneNum_Admin, Email_Admin, Password_Admin, DOB, Address) VALUES ('"+admin.getUserId()+ "','"+admin.getUsername()+  "','"+admin.getName()+ "','"+admin.getPhoneNum()+ "','"+admin.getEmail()+ "','"+admin.getPassword()+ "','"+admin.getDOB()+ "','"+admin.getAddress()+ "')"; 
-                        }
-                        statement.executeUpdate(SQL_Command);
+    public static String signIn(String username, String pass, String pin) {
+        String user = "";
+        try (Connection con = DBConnection.openConn();
+             Statement statement = con.createStatement()) {
+            String SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + username + "' AND Password_Admin ='" + pass + "'";
+            ResultSet Rslt = statement.executeQuery(SQL_Command);
+            if (Rslt.next()) {
+                user = "admin";
+            } else {
+                SQL_Command = "SELECT Name_Customer, Encrypted_PIN FROM account WHERE username ='" + username + "' AND Password_Customer ='" + pass + "'";
+                Rslt = statement.executeQuery(SQL_Command);
+                if (Rslt.next()) {
+                    String encryptedPIN = Rslt.getString("Encrypted_PIN");
+                    if (verifyPIN(pin, encryptedPIN)) {
+                        user = "customer";
                     }
                 }
-            catch (SQLException e) {
-               done = false;
-               System.out.println("SQLException: " + e);
-               while (e != null) {
-                   System.out.println("SQLState: " + e.getSQLState());
-                   System.out.println("Message: " + e.getMessage());
-                   System.out.println("Vendor: " + e.getErrorCode());
-                   e = e.getNextException();
-                   System.out.println("");
-               }
-           } catch (Exception e) {
-               done = false;
-               System.out.println("Exception: " + e);
-               e.printStackTrace();
-           }
-           return done;
-        }
-        return false;
-    }
-
-
-    public String signIn() {
-    boolean done = !user.getUsername().equals("") && !user.getPassword().equals("");
-    try (Connection con = DBConnection.openConn();
-        Statement statement = con.createStatement()){
-        if (done) {
-            // SQL query command
-            String SQL_Command;
-            if (user instanceof Customer) {
-                Customer customer = (Customer) user;
-                SQL_Command = "SELECT Name_Customer FROM account WHERE username ='" + customer.getUsername() + "' AND Password_Customer ='" + customer.getPassword() + "'";
-            } else if (user instanceof Admin) {
-                Admin admin = (Admin) user;
-                SQL_Command = "SELECT Name_Admin FROM admin WHERE username ='" + admin.getUsername() + "' AND Password_Admin ='" + admin.getPassword() + "'";
-            } else {
-                return null; // Unsupported user type
             }
-            // Inquire if the username and password exist.
-            ResultSet Rslt = statement.executeQuery(SQL_Command); 
-            done = done && Rslt.next();
-            if (done) {
-                // Retrieve the username from the result set
-                String name = Rslt.getString(1);
-                // Set the username in the user object
-                user.setName(name);
-            }
-        }
-    } catch (SQLException e) {
-        done = false;
-        System.out.println("SQLException: " + e);
-        while (e != null) {
-            System.out.println("SQLState: " + e.getSQLState());
-            System.out.println("Message: " + e.getMessage());
-            System.out.println("Vendor: " + e.getErrorCode());
-            e = e.getNextException();
-            System.out.println("");
-        }
-    } catch (Exception e) {
-        done = false;
-        System.out.println("Exception: " + e);
-        e.printStackTrace();
-    }
-    // Return the username of the signed-in user
-    return done ? user.getName() : null;
-}
-    //modification
-    // Method to get the current balance
-    public int getBalance() throws SQLException {
-        int balance = 0;
-        try {
-            DBConnection ToDB = new DBConnection();
-            Connection DBConn = ToDB.openConn();
-            Statement Stmt = DBConn.createStatement();
-            String SQL_Command = "SELECT Balance FROM account WHERE username ='" + user.getUsername() + "'";
-            ResultSet Rslt = Stmt.executeQuery(SQL_Command);
-            if (Rslt.next()) {
-                balance = Rslt.getInt("Balance");
-            }
-            Stmt.close();
-            ToDB.closeConn();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return balance;
+        return user;
     }
 
-    //get the current balance in Knuts
-    public int getKnutBalance(Connection connection, String accountNum) throws SQLException {
-        return getCurrencyBalance(connection, "KnutBalance", accountNum);
-    }
-
-    // get the current balance in Sickles
-    public int getSickleBalance(Connection connection, String accountNum) throws SQLException {
-        return getCurrencyBalance(connection, "SickleBalance", accountNum);
-    }
-
-    // Method to get the current balance in Galleons
-    public int getGalleonBalance(Connection connection, String accountNum) throws SQLException {
-        return getCurrencyBalance(connection, "GalleonBalance", accountNum);
-}   
-
-    // retrieve balance for specific currency
-    private int getCurrencyBalance(Connection connection, String currencyColumn, String accountNum) throws SQLException {
-        int balance = 0;
-        String SQL_Query = "SELECT " + currencyColumn + " FROM account WHERE AccountNum = ?";
-    
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_Query)) {
-            preparedStatement.setString(1, accountNum);
-        try (ResultSet resultSet = preparedStatement.executeQuery()) {
-            if (resultSet.next()) {
-                balance = resultSet.getInt(currencyColumn);
-                }
+    private static String encryptPIN(String pin) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(pin.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
             }
-        }   
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-        return balance;
+    static boolean verifyPIN(String pin, String encryptedPIN) {
+        return encryptPIN(pin).equals(encryptedPIN);
     }
 }
-
-
 
