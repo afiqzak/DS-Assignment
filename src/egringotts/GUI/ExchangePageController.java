@@ -185,10 +185,10 @@ public class ExchangePageController implements Initializable {
         root = loader.load();
         AnalyticsPageController analytics = loader.getController();
         if(cust.getTier().equals("Platinum Patronus")){
-            PlatinumPatronus plat = new PlatinumPatronus(cust.getKey(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            PlatinumPatronus plat = new PlatinumPatronus(cust.getPin(), cust.getKey(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
             analytics.setUser(plat);
         }else{
-            GoldenGalleon gold = new GoldenGalleon(cust.getKey(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
+            GoldenGalleon gold = new GoldenGalleon(cust.getPin(), cust.getKey(), cust.getUsername(), cust.getName(), cust.getPassword(), cust.getPhoneNum(), cust.getEmail(), cust.getDob(), cust.getAddress());
             analytics.setUser(gold);
         } 
         analytics.display();

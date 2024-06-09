@@ -17,8 +17,8 @@ import java.util.Map;
 public class GoldenGalleon extends SilverSnitch{
     CurrencyExchange exchange = new CurrencyExchange();
 
-    public GoldenGalleon(String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
-        super(accountNum, username, name, password, phoneNum, email, dob, address);
+    public GoldenGalleon(String pin, String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+        super(pin, accountNum, username, name, password, phoneNum, email, dob, address);
     }
     
     public double getPercentageTypeForCurrentMonth(String type) {

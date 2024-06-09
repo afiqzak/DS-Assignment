@@ -163,10 +163,10 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         MainDashboardController main = loader.getController();
         if(plat != null){
-            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getPin(), plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
             main.display(cust);
         }else{
-            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getPin(), gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
             main.display(cust);
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -182,10 +182,10 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         AccountPageController acc = loader.getController();
         if(plat != null){
-            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getPin(), plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
             acc.display(cust);
         }else{
-            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getPin(), gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
             acc.display(cust);
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -201,10 +201,10 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         TransactionPageController trans = loader.getController();
         if(plat != null){
-            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getPin(), plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
             trans.display(cust);
         }else{
-            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getPin(), gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
             trans.display(cust);
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -220,10 +220,10 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         CardsPageController cards = loader.getController();
         if(plat != null){
-            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getPin(), plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
             cards.display(cust);
         }else{
-            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getPin(), gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
             cards.display(cust);
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -239,10 +239,10 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         ExchangePageController exchange = loader.getController();
         if(plat != null){
-            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getPin(), plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
             exchange.display(cust);
         }else{
-            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getPin(), gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
             exchange.display(cust);
         }
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -258,10 +258,10 @@ public class AnalyticsPageController implements Initializable {
         root = loader.load();
         SettingsPageController setting = loader.getController();
         if(plat != null){
-            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
+            SilverSnitch cust = new SilverSnitch(plat.getKey(), "Platinum Patronus", plat.getPin(), plat.getUsername(), plat.getName(), plat.getPassword(), plat.getPhoneNum(), plat.getEmail(), plat.getDob(), plat.getAddress());
             setting.setCustomer(cust);
         }else{
-            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
+            SilverSnitch cust = new SilverSnitch(gold.getKey(), "Golden Galleon", gold.getPin(), gold.getUsername(), gold.getName(), gold.getPassword(), gold.getPhoneNum(), gold.getEmail(), gold.getDob(), gold.getAddress());
             setting.setCustomer(cust);
         }
         setting.checkAdmin();
