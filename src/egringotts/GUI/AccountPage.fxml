@@ -98,7 +98,7 @@
                            </font></Button>
                         <ScrollPane hbarPolicy="NEVER" layoutX="12.0" layoutY="142.0" prefHeight="349.0" prefWidth="200.0" style="-fx-background-color: #fbf5f3;">
                            <content>
-                              <VBox fx:id="vbox" prefHeight="76.0" prefWidth="188.0" style="-fx-background-color: #fbf5f3;" />
+                              <VBox fx:id="vbox" prefHeight="76.0" prefWidth="200.0" style="-fx-background-color: #fbf5f3;" />
                            </content>
                         </ScrollPane>
                         <Label layoutX="10.0" layoutY="109.0" prefHeight="14.0" prefWidth="68.0" text="Amount" textFill="#fbf5f3">
@@ -221,10 +221,5 @@
             </AnchorPane>
          </children>
       </GridPane>
-      <Label fx:id="errorLabel1" prefHeight="15.0" prefWidth="137.0" text="label" textFill="#b0413e">
-         <font>
-            <Font name="Arial Bold Italic" size="12.0" />
-         </font>
-      </Label>
    </children>
 </StackPane>

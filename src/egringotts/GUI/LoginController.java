@@ -108,8 +108,8 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        pinText.setVisible(false);
-        pinField.setVisible(false);
+        //pinText.setVisible(false);
+        //pinField.setVisible(false);
     }    
     
 }

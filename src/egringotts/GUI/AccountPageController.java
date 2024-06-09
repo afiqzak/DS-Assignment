@@ -100,6 +100,7 @@ public class AccountPageController implements Initializable {
             while(rs.next()){
                 Pane accountPane = createAccountPane(rs.getString("username"), rs.getString("PhoneNum_Customer"));
                 vbox.getChildren().add(accountPane);
+                accountPane.setBorder(Border.EMPTY);
             }
           } catch (SQLException e) {
             e.printStackTrace();
