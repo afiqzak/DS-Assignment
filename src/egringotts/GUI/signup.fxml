@@ -36,7 +36,7 @@
             <Label layoutX="294.0" layoutY="146.0" text="Address" />
             <Label layoutX="38.0" layoutY="210.0" text="Date Of Birth" AnchorPane.leftAnchor="40.0" />
             <TextField fx:id="poscodeField" layoutX="294.0" layoutY="229.0" prefHeight="26.0" prefWidth="81.0" promptText="e.g. 56000" style="-fx-background-color: #FBF5F3;" />
-            <DatePicker fx:id="dobField" layoutX="41.0" layoutY="229.0" prefHeight="26.0" prefWidth="199.0" style="-fx-background-color: #FBF5F3;" />
+            <DatePicker fx:id="dobField" layoutX="41.0" layoutY="229.0" prefHeight="26.0" prefWidth="199.0" promptText="Date of Birth" style="-fx-background-color: #FBF5F3;" />
             <Label layoutX="40.0" layoutY="270.0" text="Username" />
             <TextField fx:id="usernameField" layoutX="41.0" layoutY="288.0" prefHeight="26.0" prefWidth="199.0" promptText="e.g. AbuBurn123" style="-fx-background-color: #FBF5F3;" />
             <Label layoutX="294.0" layoutY="210.0" text="Postal Code" />

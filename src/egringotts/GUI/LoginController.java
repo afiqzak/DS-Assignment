@@ -24,7 +24,7 @@ import javafx.stage.Stage;
  */
 public class LoginController implements Initializable {
     @FXML
-    private Label errorLabel;
+    private Label errorLabel, pinText;
 
     @FXML
     private Button login;
@@ -120,6 +120,8 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //pinText.setVisible(false);
+        //pinField.setVisible(false);
     }    
     
 }

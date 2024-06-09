@@ -122,6 +122,7 @@ public class ExchangePageController implements Initializable {
         trans = new Transaction(cust.getKey(), cust.getKey(), "Exchange", desc, "Transfer", fee);
         trans.performCurrencyExchange(cust, from, to, total, converted);
         
+        
         displayBalance();
         historyTable();
     }

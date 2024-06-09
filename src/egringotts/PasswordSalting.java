@@ -1,10 +1,4 @@
 package egringotts;
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 /**
  *
  * @author Seanseann
@@ -31,24 +25,23 @@ public class PasswordSalting {
         return Base64.getEncoder().encodeToString(hash);
     }
      
-     public byte[]createSalt(){
-         byte[]saltByte=new byte[16];
-         new Random().nextBytes(saltByte);
-         return saltByte;
-     }
-     
-     public String bytestoStringBase64(byte[]bytes){
-         return Base64.getEncoder().encodeToString(bytes);
-     }
-     
-     public byte[] stringSaltToByte(String salt){
-         try{
-             return Base64.getDecoder().decode(salt);
-         }catch(IllegalArgumentException e){
-             System.err.println("Error decoding: "+ e.getMessage());
-             e.printStackTrace();
-             return null;
-         }
-     }
+    public byte[]createSalt(){
+        byte[]saltByte=new byte[16];
+        new Random().nextBytes(saltByte);
+        return saltByte;
+    }
 
+    public String bytestoStringBase64(byte[]bytes){
+        return Base64.getEncoder().encodeToString(bytes);
+    }
+
+    public byte[] stringSaltToByte(String salt){
+        try{
+            return Base64.getDecoder().decode(salt);
+        }catch(IllegalArgumentException e){
+            System.err.println("Error decoding: "+ e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

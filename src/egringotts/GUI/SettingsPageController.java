@@ -81,6 +81,8 @@ public class SettingsPageController implements Initializable {
         this.cust = cust;
         customerPane.setVisible(true);
         adminPane.setVisible(false);
+        if(cust.getTier().equals("Silver Snitch"))
+            menu.getChildren().remove(analyticsButton);
     }
 
     public void setAdmin(Admin admin) {
@@ -88,9 +90,6 @@ public class SettingsPageController implements Initializable {
         adminPane.setVisible(true);
         customerPane.setVisible(false);
         list = FXCollections.observableArrayList(admin.tableUser());
-        
-        if(cust.getTier().equals("Silver Snitch"))
-            menu.getChildren().remove(analyticsButton);
     }
     
     public void checkAdmin(){
@@ -161,6 +160,7 @@ public class SettingsPageController implements Initializable {
         
         admin.addAdmin(accountNum, name, phone, email, username, password, dob, address);
         successLabel1.setVisible(false);
+        userTable.setItems(list);
     }
     
     @FXML

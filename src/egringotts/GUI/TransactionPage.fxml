@@ -62,22 +62,46 @@
                       <TableColumn fx:id="descColumn" editable="false" prefWidth="169.5999755859375" resizable="false" text="Description" />
                     </columns>
                   </TableView>
-                  <Pane fx:id="filterPane" layoutX="479.0" layoutY="53.0" prefHeight="218.0" prefWidth="238.0" style="-fx-background-color: #BFBDC1;">
+                  <Pane fx:id="filterPane" layoutX="479.0" layoutY="53.0" prefHeight="218.0" prefWidth="238.0" style="-fx-background-color: #A7B0CA; -fx-border-color: #114B5F;">
                      <children>
-                        <RadioButton fx:id="dateRadio" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" text="Month" />
-                        <RadioButton fx:id="categoryRadio" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="79.0" text="Category" />
-                        <ChoiceBox fx:id="typeChoice" layoutX="99.0" layoutY="51.0" prefHeight="25.0" prefWidth="110.0" />
-                        <RadioButton fx:id="amountRadio" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" text="Amount" />
-                        <Label layoutX="28.0" layoutY="118.0" prefHeight="17.0" prefWidth="54.0" text="Min" />
+                        <RadioButton fx:id="dateRadio" layoutX="13.0" layoutY="14.0" mnemonicParsing="false" text="Month">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></RadioButton>
+                        <RadioButton fx:id="categoryRadio" layoutX="14.0" layoutY="55.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="98.0" text="Category">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></RadioButton>
+                        <ChoiceBox fx:id="typeChoice" layoutX="111.0" layoutY="51.0" prefHeight="25.0" prefWidth="112.0" />
+                        <RadioButton fx:id="amountRadio" layoutX="14.0" layoutY="94.0" mnemonicParsing="false" text="Amount">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></RadioButton>
+                        <Label layoutX="28.0" layoutY="118.0" prefHeight="17.0" prefWidth="54.0" text="Min">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Label>
                         <TextField fx:id="minField" layoutX="26.0" layoutY="134.0" prefHeight="25.0" prefWidth="98.0" />
-                        <Label layoutX="143.0" layoutY="118.0" prefHeight="17.0" prefWidth="54.0" text="Max" />
+                        <Label layoutX="143.0" layoutY="118.0" prefHeight="17.0" prefWidth="54.0" text="Max">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Label>
                         <TextField fx:id="maxField" layoutX="130.0" layoutY="134.0" prefHeight="25.0" prefWidth="98.0" />
-                        <Button layoutX="170.0" layoutY="173.0" mnemonicParsing="false" onAction="#sortButton" prefHeight="25.0" prefWidth="54.0" text="Sort" />
+                        <Button layoutX="160.0" layoutY="173.0" mnemonicParsing="false" onAction="#sortButton" prefHeight="25.0" prefWidth="64.0" style="-fx-background-color: #4fb176;" styleClass="addAdminButton" text="Sort">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Button>
                         <ChoiceBox fx:id="monthChoice" layoutX="95.0" layoutY="10.0" prefHeight="25.0" prefWidth="70.0" />
-                        <Button layoutX="103.0" layoutY="173.0" mnemonicParsing="false" onAction="#historyTable" prefHeight="25.0" prefWidth="54.0" text="Reset" />
+                        <Button layoutX="87.0" layoutY="173.0" mnemonicParsing="false" onAction="#historyTable" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #B0413E;" styleClass="LogoutButton" text="Reset">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font></Button>
                      </children>
                   </Pane>
-                  <Button layoutX="646.0" layoutY="27.0" mnemonicParsing="false" onAction="#sortByButton" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #BFBDC1;" text="Sort by" />
+                  <Button layoutX="646.0" layoutY="27.0" mnemonicParsing="false" onAction="#sortByButton" prefHeight="26.0" prefWidth="70.0" style="-fx-background-color: #A7B0CA;" text="Sort by">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="12.0" />
+                     </font></Button>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000000;" GridPane.columnIndex="1">
@@ -87,7 +111,6 @@
                         <Font name="GothicI" size="21.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="669.0" layoutY="5.0" prefHeight="46.0" prefWidth="46.0" style="-fx-background-radius: 50; -fx-background-color: white;" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">

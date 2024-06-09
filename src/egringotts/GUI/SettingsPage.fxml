@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -39,6 +38,148 @@
                         <Image url="@mainBackground.jpg" />
                      </image>
                   </ImageView>
+                  <Button fx:id="profileButton" layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#profileButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Profile">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font></Button>
+                  <Button fx:id="userButton" layoutX="210.0" layoutY="19.0" mnemonicParsing="false" onAction="#userButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="User">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="securityButton" layoutX="112.0" layoutY="19.0" mnemonicParsing="false" onAction="#securityButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Security">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font></Button>
+                  <Line endX="595.5999145507812" endY="-0.9999961853027344" layoutX="118.0" layoutY="57.0" startX="-100.99999237060547" startY="-0.9999961853027344" strokeWidth="5.0" />
+                  <Button layoutX="626.0" layoutY="493.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="38.0" prefWidth="90.0" style="-fx-background-color: #cc252c; -fx-background-radius: 10;" styleClass="LogoutButton" text="Log Out" textFill="#fbf5f3">
+                     <font>
+                        <Font name="Bank Gothic Medium BT" size="14.0" />
+                     </font>
+                  </Button>
+                  <AnchorPane fx:id="user" layoutX="14.0" layoutY="57.0" prefHeight="432.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="98.0" text="Customer" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="16.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="userTable" layoutX="14.0" layoutY="52.0" prefHeight="200.0" prefWidth="678.0">
+                          <columns>
+                            <TableColumn fx:id="accNumColumn" editable="false" prefWidth="84.00001335144043" sortable="false" text="Acc Num" />
+                            <TableColumn fx:id="nameColumn" editable="false" prefWidth="95.20001983642578" sortable="false" text="Name" />
+                              <TableColumn fx:id="phoneColumn" editable="false" prefWidth="68.0" sortable="false" text="Phone" />
+                              <TableColumn fx:id="emailColumn" editable="false" prefWidth="110.4000244140625" sortable="false" text="Email" />
+                              <TableColumn fx:id="dobColumn" editable="false" minWidth="9.60003662109375" prefWidth="85.5999755859375" sortable="false" text="DOB" />
+                              <TableColumn fx:id="addressColumn" editable="false" prefWidth="147.19998168945312" sortable="false" text="Address" />
+                              <TableColumn fx:id="tierColumn" editable="false" minWidth="0.0" prefWidth="91.2000732421875" sortable="false" text="Tier" />
+                          </columns>
+                        </TableView>
+                        <Label layoutX="14.0" layoutY="262.0" prefHeight="38.0" prefWidth="98.0" text="Add Admin" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="nameF" layoutX="14.0" layoutY="300.0" prefHeight="26.0" prefWidth="186.0" promptText="Name" />
+                        <TextField fx:id="phoneF" layoutX="14.0" layoutY="337.0" prefHeight="26.0" prefWidth="186.0" promptText="Phone Number" />
+                        <TextField fx:id="emailF" layoutX="14.0" layoutY="374.0" prefHeight="26.0" prefWidth="186.0" promptText="Email" />
+                        <TextField fx:id="addressF" layoutX="228.0" layoutY="300.0" prefHeight="26.0" prefWidth="170.0" promptText="Address" />
+                        <TextField fx:id="usernameF" layoutX="442.0" layoutY="300.0" promptText="Username" />
+                        <DatePicker fx:id="dobF" layoutX="228.0" layoutY="337.0" prefHeight="26.0" prefWidth="170.0" promptText="Date of Birth" />
+                        <Button layoutX="604.0" layoutY="375.0" mnemonicParsing="false" onAction="#addAdminButton" prefHeight="38.0" prefWidth="80.0" style="-fx-background-color: #4fb176;" styleClass="addAdminButton" text="Add">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="16.0" />
+                           </font></Button>
+                        <PasswordField fx:id="passF" layoutX="442.0" layoutY="337.0" promptText="Password" />
+                        <Label fx:id="successLabel1" layoutX="479.0" layoutY="392.0" text="Added successfully" textFill="#4fb176">
+                           <font>
+                              <Font name="Arial Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                     </children></AnchorPane>
+                  <AnchorPane fx:id="profile" layoutX="14.0" layoutY="56.0" prefHeight="432.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
+                     <children>
+                        <Label fx:id="accNumLabel" layoutX="32.0" layoutY="92.0" prefHeight="26.0" prefWidth="186.0" text="AccNum" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font></Label>
+                        <Label fx:id="usernameLabel" alignment="TOP_LEFT" layoutX="249.0" layoutY="20.0" prefHeight="30.0" prefWidth="202.0" style="-fx-background-radius: 10;" text="Username" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="25.0" />
+                           </font></Label>
+                        <Label alignment="TOP_CENTER" layoutX="14.0" layoutY="11.0" prefHeight="38.0" prefWidth="235.0" text="WELCOME," textFill="#e09f3e">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="36.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="tierLabel" layoutX="233.0" layoutY="92.0" prefHeight="26.0" prefWidth="269.0" text="Tier" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="233.0" layoutY="65.0" prefHeight="26.0" prefWidth="152.0" text="Tier :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="32.0" layoutY="65.0" prefHeight="26.0" prefWidth="134.0" text="Account Number :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Line endX="595.5999145507812" endY="-0.9999961853027344" layoutX="103.0" layoutY="134.0" startX="-100.99999237060547" startY="-0.9999961853027344" strokeWidth="5.0" />
+                        <Label layoutX="32.0" layoutY="151.0" prefHeight="26.0" prefWidth="134.0" text="Name :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="nameLabel" layoutX="32.0" layoutY="177.0" prefHeight="26.0" prefWidth="235.0" text="NAME" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="32.0" layoutY="216.0" prefHeight="26.0" prefWidth="134.0" text="Phone Number :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="32.0" layoutY="282.0" prefHeight="26.0" prefWidth="134.0" text="Address :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="308.0" layoutY="151.0" prefHeight="26.0" prefWidth="134.0" text="Email :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="308.0" layoutY="216.0" prefHeight="26.0" prefWidth="134.0" text="Date Of Birth :" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="emailLabel" layoutX="308.0" layoutY="177.0" prefHeight="26.0" prefWidth="251.0" text="Email" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="phoneLabel" layoutX="30.0" layoutY="242.0" prefHeight="26.0" prefWidth="202.0" text="Phone" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="dobLabel" layoutX="308.0" layoutY="242.0" prefHeight="26.0" prefWidth="202.0" text="DOB" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="addressLabel" layoutX="30.0" layoutY="308.0" prefHeight="26.0" prefWidth="558.0" text="Address" textFill="#fbf5f3">
+                           <font>
+                              <Font name="Bank Gothic Medium BT" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
                   <AnchorPane fx:id="security" layoutX="14.0" layoutY="55.0" prefHeight="432.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
                      <children>
                         <Button layoutX="163.0" layoutY="205.0" mnemonicParsing="false" onAction="#updatePassButton" style="-fx-background-color: black;" styleClass="changePassButton" text="Update" textFill="#fbf5f3">
@@ -74,78 +215,6 @@
                            </font>
                         </Label>
                      </children></AnchorPane>
-                  <Button fx:id="profileButton" layoutX="14.0" layoutY="19.0" mnemonicParsing="false" onAction="#profileButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Profile">
-                     <font>
-                        <Font name="Bank Gothic Medium BT" size="14.0" />
-                     </font></Button>
-                  <Button fx:id="userButton" layoutX="210.0" layoutY="19.0" mnemonicParsing="false" onAction="#userButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="User">
-                     <font>
-                        <Font name="Bank Gothic Medium BT" size="14.0" />
-                     </font>
-                  </Button>
-                  <Button fx:id="securityButton" layoutX="112.0" layoutY="19.0" mnemonicParsing="false" onAction="#securityButton" prefHeight="38.0" prefWidth="98.0" styleClass="settingItem" text="Security">
-                     <font>
-                        <Font name="Bank Gothic Medium BT" size="14.0" />
-                     </font></Button>
-                  <Line endX="595.5999145507812" endY="-0.9999961853027344" layoutX="118.0" layoutY="57.0" startX="-100.99999237060547" startY="-0.9999961853027344" strokeWidth="5.0" />
-                  <AnchorPane fx:id="profile" layoutX="14.0" layoutY="56.0" prefHeight="432.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
-                     <children>
-                        <Pane layoutX="33.0" layoutY="12.0" prefHeight="120.0" prefWidth="120.0" style="-fx-background-radius: 200; -fx-background-color: white;" />
-                        <Label fx:id="accNumLabel" layoutX="191.0" layoutY="45.0" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="AccNum" />
-                        <Label fx:id="tierLabel" layoutX="191.0" layoutY="81.0" prefHeight="26.0" prefWidth="152.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="Tier" />
-                        <Label fx:id="nameLabel" layoutX="33.0" layoutY="181.0" prefHeight="26.0" prefWidth="202.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="Name" />
-                        <Label fx:id="emailLabel" layoutX="33.0" layoutY="216.0" prefHeight="26.0" prefWidth="202.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="Email" />
-                        <Label fx:id="phoneLabel" layoutX="32.0" layoutY="252.0" prefHeight="26.0" prefWidth="202.0" style="-fx-background-color: White; -fx-background-radius: 10;" text="Phone" />
-                        <Label fx:id="usernameLabel" layoutX="33.0" layoutY="145.0" prefHeight="26.0" prefWidth="201.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="Username" />
-                        <Label fx:id="addressLabel" layoutX="267.0" layoutY="145.0" prefHeight="26.0" prefWidth="202.0" style="-fx-background-color: white; -fx-background-radius: 10;" text="Address" />
-                        <Label fx:id="dobLabel" layoutX="33.0" layoutY="287.0" prefHeight="26.0" prefWidth="202.0" style="-fx-background-color: White; -fx-background-radius: 10;" text="DOB" />
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane fx:id="user" layoutX="14.0" layoutY="57.0" prefHeight="432.0" prefWidth="702.0" style="-fx-background-color: #540b0e;">
-                     <children>
-                        <Label layoutX="14.0" layoutY="14.0" prefHeight="38.0" prefWidth="98.0" text="Customer" textFill="#fbf5f3">
-                           <font>
-                              <Font name="Bank Gothic Medium BT" size="16.0" />
-                           </font>
-                        </Label>
-                        <TableView fx:id="userTable" layoutX="14.0" layoutY="52.0" prefHeight="200.0" prefWidth="678.0">
-                          <columns>
-                            <TableColumn fx:id="accNumColumn" editable="false" prefWidth="84.00001335144043" sortable="false" text="Acc Num" />
-                            <TableColumn fx:id="nameColumn" editable="false" prefWidth="95.20001983642578" sortable="false" text="Name" />
-                              <TableColumn fx:id="phoneColumn" editable="false" prefWidth="68.0" sortable="false" text="Phone" />
-                              <TableColumn fx:id="emailColumn" editable="false" prefWidth="110.4000244140625" sortable="false" text="Email" />
-                              <TableColumn fx:id="dobColumn" editable="false" minWidth="9.60003662109375" prefWidth="85.5999755859375" sortable="false" text="DOB" />
-                              <TableColumn fx:id="addressColumn" editable="false" prefWidth="147.19998168945312" sortable="false" text="Address" />
-                              <TableColumn fx:id="tierColumn" editable="false" minWidth="0.0" prefWidth="91.2000732421875" sortable="false" text="Tier" />
-                          </columns>
-                        </TableView>
-                        <Label layoutX="14.0" layoutY="262.0" prefHeight="38.0" prefWidth="98.0" text="Add Admin" textFill="#fbf5f3">
-                           <font>
-                              <Font name="Bank Gothic Medium BT" size="16.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="nameF" layoutX="14.0" layoutY="300.0" prefHeight="26.0" prefWidth="186.0" promptText="Name" />
-                        <TextField fx:id="phoneF" layoutX="14.0" layoutY="337.0" prefHeight="26.0" prefWidth="186.0" promptText="Phone Number" />
-                        <TextField fx:id="emailF" layoutX="14.0" layoutY="374.0" prefHeight="26.0" prefWidth="186.0" promptText="Email" />
-                        <TextField fx:id="addressF" layoutX="228.0" layoutY="300.0" prefHeight="26.0" prefWidth="170.0" promptText="Address" />
-                        <TextField fx:id="usernameF" layoutX="442.0" layoutY="300.0" promptText="Username" />
-                        <DatePicker fx:id="dobF" layoutX="228.0" layoutY="337.0" prefHeight="26.0" prefWidth="170.0" />
-                        <Button layoutX="604.0" layoutY="375.0" mnemonicParsing="false" onAction="#addAdminButton" prefHeight="38.0" prefWidth="80.0" style="-fx-background-color: #4fb176;" styleClass="addAdminButton" text="Add">
-                           <font>
-                              <Font name="Bank Gothic Medium BT" size="16.0" />
-                           </font></Button>
-                        <PasswordField fx:id="passF" layoutX="442.0" layoutY="337.0" promptText="Password" />
-                        <Label fx:id="successLabel1" layoutX="479.0" layoutY="392.0" text="Added successfully" textFill="#4fb176">
-                           <font>
-                              <Font name="Arial Bold Italic" size="12.0" />
-                           </font>
-                        </Label>
-                     </children></AnchorPane>
-                  <Button layoutX="626.0" layoutY="493.0" mnemonicParsing="false" onAction="#logoutButton" prefHeight="38.0" prefWidth="90.0" style="-fx-background-color: #cc252c; -fx-background-radius: 10;" styleClass="LogoutButton" text="Log Out" textFill="#fbf5f3">
-                     <font>
-                        <Font name="Bank Gothic Medium BT" size="14.0" />
-                     </font>
-                  </Button>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="54.0" prefWidth="189.0" style="-fx-background-color: #000000;">
@@ -164,7 +233,6 @@
                         <Font name="GothicI" size="21.0" />
                      </font>
                   </Label>
-                  <Pane layoutX="669.0" layoutY="5.0" prefHeight="46.0" prefWidth="46.0" style="-fx-background-radius: 50; -fx-background-color: white;" />
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="543.0" prefWidth="176.0" style="-fx-background-color: #000000;" GridPane.rowIndex="1">
