@@ -30,7 +30,7 @@ public class LoginController implements Initializable {
     private Button login;
 
     @FXML
-    private PasswordField passField;
+    private PasswordField passField, pinField;
 
     @FXML
     private Button signup;
@@ -47,10 +47,28 @@ public class LoginController implements Initializable {
     @FXML
     private Parent root;
     
+    private static boolean containsLetter(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isLetter(c)) {
+              return true;
+            }
+        }
+        return false;
+    }
+    
     @FXML
     private void loginAction(ActionEvent event) throws IOException, SQLException {
+        errorLabel.setText("");
         Account<User> acc = new Account(new Admin(usernameField.getText(), passField.getText()));
-        String user = acc.signIn();
+        String pin = pinField.getText();
+        
+        //check if pin contain letter
+        if(containsLetter(pin)){
+            errorLabel.setText("Pin cannot contains letter");
+            return;
+        }
+        
+        String user = acc.signIn(pin);
         if(!user.isEmpty()){
             if(user.equalsIgnoreCase("admin")) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminDashboard.fxml"));

@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class CurrencyExchange {
@@ -127,22 +128,6 @@ public class CurrencyExchange {
             this.currency = currency;
             this.amount = amount;
         }
-    }
-    
-    public static void main(String[] args) {
-        // Example usage:
-        CurrencyExchange exchange = new CurrencyExchange();
-        // Add currencies, rates, and processing fees (e.g., exchange.addCurrency("Knut", "Sickle", 29, 0.01);)
-
-        // Calculate converted amount and processing fee
-        double valueExchange = 100.0;
-        double convertedAmount = exchange.exchange("Knut", "Galleon", valueExchange);
-        double processingFee = exchange.getProcessingFee("Knut", "Galleon");
-        double updatedBalance = 1000.0 - processingFee;
-
-        System.out.println("Converted amount: " + convertedAmount + " Galleons");
-        System.out.println("Processing fee: " + processingFee + " Knuts");
-        System.out.println("Updated balance: " + updatedBalance + " Knuts");
     }
 }
 

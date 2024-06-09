@@ -1,25 +1,26 @@
-
 package egringotts;
 
-import java.lang.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  *
  * @author USER
  */
-public class Account <E extends User>{
+public class Account<E extends User> {
     private E account;
     private EmailNotification emailNotification = new EmailNotification();
-
+    
     public Account(E account) {
         this.account = account;
     } 
  
-    public boolean signUp(String currency, double amount) {
+    public boolean signUp(String currency, double amount, String pin) {
         boolean done = true;
         String SQL_Command = "SELECT username FROM account WHERE username ='" + account.getUsername() + "'"; 
             try (Connection con = DBConnection.openConn();
@@ -29,9 +30,9 @@ public class Account <E extends User>{
                 if(Rslt.next()) return false;
                 if (done) {
                     // Save the user details
-                       SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ") " +
+                       SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ", Encrypted_PIN) " +
                                     "VALUES ('" + account.generateKey() + "','" + account.getName() + "','" + account.getUsername() + "','" + account.getPhoneNum() + "','" +
-                                    account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ")";
+                                    account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ", '" + pin + "')";
                        statement.executeUpdate(SQL_Command);
                     // Send sign-up email
                     emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
@@ -56,16 +57,20 @@ public class Account <E extends User>{
         return done;
     }
     
-    public String signIn() {
+    public String signIn(String pin) {
         String user = "";
+        String encryptedPIN = "";
         try (Connection con = DBConnection.openConn();
             Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            SQL_Command = "SELECT Name_Admin, Email_Admin FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
+            SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
             if(Rslt.next()){
-                user = "admin";
+                encryptedPIN = Rslt.getString("Encrypted_PIN");
+                if (verifyPIN(pin, encryptedPIN)) {
+                    user = "admin";
+                }
                 
                 // email from the result set
                 String email = Rslt.getString("Email_Admin");
@@ -73,10 +78,14 @@ public class Account <E extends User>{
                 emailNotification.sendSignInEmail(email, Rslt.getString("Name_Admin"));
             }
             else {
-                SQL_Command = "SELECT Name_Customer, Email_Customer FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
+                SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
                 Rslt = statement.executeQuery(SQL_Command);
                 if(Rslt.next()) {
-                    user = "customer";
+                    encryptedPIN = Rslt.getString("Encrypted_PIN");
+                    System.out.println(encryptedPIN);
+                    if (verifyPIN(pin, encryptedPIN)) {
+                        user = "customer";
+                    }
 
                     // email from the result set
                     String email = Rslt.getString("Email_Customer");
@@ -99,6 +108,7 @@ public class Account <E extends User>{
             e.printStackTrace();
         }
         // Return the username of the signed-in user
+        System.out.println(user);
         return user;
     }
     
@@ -149,12 +159,9 @@ public class Account <E extends User>{
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
                 String tier = resultSet.getString("Tier");
-                Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("Knut"));
-                balances.put("Sickle", resultSet.getDouble("Sickle"));
-                balances.put("Galleon", resultSet.getDouble("Galleon"));
+                String pin = resultSet.getString("Encrypted_PIN");
 
-                customer = new SilverSnitch(accountNumber, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                customer = new SilverSnitch(accountNumber, tier, pin, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -183,11 +190,8 @@ public class Account <E extends User>{
                 String DOB = resultSet.getString("DOB");
                 String address = resultSet.getString("Address");
                 String tier = resultSet.getString("Tier");
-                Map<String, java.lang.Double> balances = new HashMap<>();
-                balances.put("Knut", resultSet.getDouble("Knut"));
-                balances.put("Sickle", resultSet.getDouble("Sickle"));
-                balances.put("Galleon", resultSet.getDouble("Galleon"));
-                customer = new SilverSnitch(accountNum, balances, tier, username, name, password, phoneNum, email, DOB, address);
+                String pin = resultSet.getString("Encrypted_PIN");
+                customer = new SilverSnitch(accountNum, tier, pin, username, name, password, phoneNum, email, DOB, address);
             }
             preparedStatement.close();
 
@@ -207,7 +211,7 @@ public class Account <E extends User>{
             int i = 1;
             while(Rslt.next()){
                 i++;
-                if(i>10)
+                if(i>11)
                     currencys.add(Rslt.getString("Field"));
             }
         } catch (Exception e) {
@@ -216,7 +220,29 @@ public class Account <E extends User>{
         }
         return currencys;
     }
+
+    private static String encryptPIN(String pin) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(pin.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    static boolean verifyPIN(String pin, String encryptedPIN) {
+        return encryptPIN(pin).equals(encryptedPIN);
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(verifyPIN("1234","03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"));
+    }
 }
-
-
 

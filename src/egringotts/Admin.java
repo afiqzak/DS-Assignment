@@ -86,6 +86,22 @@ public class Admin extends User {
         return null;
     }
     
+    public int getMonthTrans(int month){
+        String sql = "SELECT COUNT(*) from transaction\n" +
+            "where MONTH(Date) = " + month + ";";
+        try (Connection con = DBConnection.openConn();
+             Statement statement = con.createStatement();
+             ResultSet rs = statement.executeQuery(sql)) {
+          if (rs.next()) {
+            return rs.getInt(1);
+          } 
+        }catch (Exception e) {
+           System.out.println("Exception: " + e);
+           e.printStackTrace();
+       }
+        return 0;
+    }
+    
     public void addAdmin(String accountNum, String name, String phoneNum, String email, String username, String password, String dob, String address){
         try (Connection con = DBConnection.openConn();
                 Statement statement = con.createStatement()){
@@ -124,31 +140,58 @@ public class Admin extends User {
     }
 
     public void addCurrency(String newCurrName, String symbol, String existingCurrency, float rate, double proFee) throws SQLException {
-      int newCode = getNewCode();
-      String sqlInsertCurrency = "INSERT INTO currency (code, symbol, display_name) VALUES (?, ?, ?)";
-      String sqlGetExistingId = "SELECT code INTO @existing_currency_id FROM currency WHERE display_name = ?";
-      String sqlInsertExchangeRate = "INSERT INTO exchange_rate (currency_code_from, currency_code_to, rate, fee_rate) VALUES (?, @existing_currency_id, ?, ?)";
+      int code = 0;
+      boolean duplicateName = false;
+      
+      try (Connection con = DBConnection.openConn();
+           Statement statement = con.createStatement();
+           ResultSet rs = statement.executeQuery("SELECT symbol, code from currency")) {
+        while(rs.next()){
+            if(rs.getString("symbol").equals(symbol)){
+                duplicateName = true;
+                code = rs.getInt("code");
+            }
+        }
+      }
+      
+      String sqlInsertCurrency = "INSERT INTO currency (code, symbol, display_name) VALUES (?, ?, ?);";
+      String sqlGetExistingId = "SELECT code FROM currency WHERE symbol = '" + existingCurrency + "';";
+      String sqlInsertExchangeRate = "INSERT INTO exchange_rate (currency_code_from, currency_code_to, rate, fee_rate) VALUES (?, ?, ?, ?);";
+      String sqlInsertCurrencyAccount = "ALTER TABLE account ADD " + symbol + " float default 0.0;";
 
         try (Connection connection = DBConnection.openConn()) {
             // Separate prepared statements for security
             try (PreparedStatement psInsertCurrency = connection.prepareStatement(sqlInsertCurrency);
                  PreparedStatement psGetExistingId = connection.prepareStatement(sqlGetExistingId);
-                 PreparedStatement psInsertExchangeRate = connection.prepareStatement(sqlInsertExchangeRate)) {
-              // Set parameters for insert currency
-              psInsertCurrency.setInt(1, newCode);
-              psInsertCurrency.setString(2, symbol);
-              psInsertCurrency.setString(3, newCurrName);
-              psInsertCurrency.executeUpdate();
+                 PreparedStatement psInsertExchangeRate = connection.prepareStatement(sqlInsertExchangeRate);
+                 PreparedStatement psInsertCurrencyAcc = connection.prepareStatement(sqlInsertCurrencyAccount)) {
+                
+                if(!duplicateName){
+                    // Set parameters for insert currency
+                    code = getNewCode();
+                    psInsertCurrency.setInt(1, code);
+                    psInsertCurrency.setString(2, symbol);
+                    psInsertCurrency.setString(3, newCurrName);
+                    psInsertCurrency.executeUpdate();
+                    
+                    System.out.println(psInsertCurrencyAcc);
+                    psInsertCurrencyAcc.executeUpdate();
+                }
 
-              // Get existing currency ID
-              psGetExistingId.setString(1, existingCurrency);
-              psGetExistingId.executeQuery(); // Ignoring result as we use OUT parameter
+                // Get existing currency ID
+                ResultSet rs = psGetExistingId.executeQuery(sqlGetExistingId);
+                int codeTo = 0;
+                if(rs.next())
+                    codeTo = rs.getInt("code");
 
-              // Set parameters for insert exchange rate
-              psInsertExchangeRate.setInt(1, newCode);
-              psInsertExchangeRate.setDouble(2, rate);
-              psInsertExchangeRate.setDouble(3, proFee);
-              psInsertExchangeRate.executeUpdate();
+                // Set parameters for insert exchange rate
+                psInsertExchangeRate.setInt(1, code);
+                psInsertExchangeRate.setInt(2, codeTo);
+                psInsertExchangeRate.setDouble(3, rate);
+                psInsertExchangeRate.setDouble(4, proFee);
+                psInsertExchangeRate.executeUpdate();
+
+                
             }
         }
     }

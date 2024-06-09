@@ -36,16 +36,7 @@ public class SignupController implements Initializable {
     private Parent root;
     
     @FXML
-    private Label err;
-
-    @FXML
-    private Label errPass;
-
-    @FXML
-    private Label errPoscode;
-    
-    @FXML
-    private Label errUsername;
+    private Label err, errPass, errPoscode, errUsername, errPin;
     
     @FXML
     private TextField nameField,addressField,emailField,phoneNumField,poscodeField,usernameField;
@@ -54,7 +45,7 @@ public class SignupController implements Initializable {
     private DatePicker dobField;
 
     @FXML
-    private PasswordField passwordField, passwordConfirmField;
+    private PasswordField passwordField, passwordConfirmField, pinField, pinConfirmField;
     
     @FXML
     private ChoiceBox<String> currency;
@@ -85,8 +76,8 @@ public class SignupController implements Initializable {
             err.setText("Please fill in all of the information");
             return;
         }
-        String name, email, address, phoneNum, username, password, confirmPass, state, pc;
-        int poscode = 0;
+        String name, email, address, phoneNum, username, password, confirmPass, state, pc, pin, confirmPin;
+        int poscode;
         LocalDate dob;
         name = nameField.getText();
         email = emailField.getText();
@@ -97,6 +88,8 @@ public class SignupController implements Initializable {
         username = usernameField.getText();
         password = passwordField.getText();
         confirmPass = passwordConfirmField.getText();
+        pin = pinField.getText();
+        confirmPin = pinConfirmField.getText();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");  // Adjust format as needed
         String dobString = dob.format(formatter);
         
@@ -108,17 +101,28 @@ public class SignupController implements Initializable {
             return;
         }
         
+        //chechk if pin contain letter
+        if(containsLetter(pin) || containsLetter(confirmPin)){
+            errPin.setText("Number Only");
+        }
+        
         //chechk if password match
         if(!confirmPass.equals(password)){
             errPass.setText("Password does not match");
             return;
         }
         
-        egringotts.SilverSnitch cust = new egringotts.SilverSnitch(username, name, phoneNum, email, password, dobString, address + ", " + poscode + ", " + state);
+        //chechk if pin match
+        if(!confirmPin.equals(pin)){
+            errPass.setText("Pin does not match");
+            return;
+        }
+        
+        egringotts.SilverSnitch cust = new egringotts.SilverSnitch(pin, username, name, password, phoneNum, email, dobString, address + ", " + state);
         egringotts.Account<egringotts.SilverSnitch> acc = new egringotts.Account<>(cust);
         
         //check if username already exist or not
-        if(!acc.signUp(currency.getTypeSelector(), Double.parseDouble(amountField.getText()))){
+        if(!acc.signUp(currency.getTypeSelector(), Double.parseDouble(amountField.getText()), pin)){
             errUsername.setText("username already exist");
             return;
         }
@@ -131,5 +135,12 @@ public class SignupController implements Initializable {
         stage.show();
     }
     
-    
+    private static boolean containsLetter(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isLetter(c)) {
+              return true;
+            }
+        }
+        return false;
+    }
 }
