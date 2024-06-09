@@ -84,7 +84,7 @@ public class SignupController implements Initializable {
         phoneNum = phoneNumField.getText();
         dob = dobField.getValue();
         address = addressField.getText();
-        state = stateField.getTypeSelector();
+        state = stateField.getValue();
         username = usernameField.getText();
         password = passwordField.getText();
         confirmPass = passwordConfirmField.getText();
@@ -122,7 +122,7 @@ public class SignupController implements Initializable {
         egringotts.Account<egringotts.SilverSnitch> acc = new egringotts.Account<>(cust);
         
         //check if username already exist or not
-        if(!acc.signUp(currency.getTypeSelector(), Double.parseDouble(amountField.getText()), pin)){
+        if(!acc.signUp(currency.getValue(), Double.parseDouble(amountField.getText()), pin)){
             errUsername.setText("username already exist");
             return;
         }

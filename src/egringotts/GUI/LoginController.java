@@ -93,7 +93,14 @@ public class LoginController implements Initializable {
                 stage.setScene(mainDashboard);
                 stage.show();
             }else{
-                
+               errorLabel.setText("incorrect pin"); 
+               this.isFill = false;
+                pinText.setVisible(false);
+                pinField.setVisible(false);
+                usernameField.setText("");
+                passField.setText("");
+                pinField.setText("");
+                return;
             }
         }
         this.acc = new Account(new Admin(usernameField.getText(), passField.getText()));
@@ -101,6 +108,9 @@ public class LoginController implements Initializable {
         this.user = acc.signIn();
         if(!user.isEmpty()){
             this.isFill = true;
+            System.out.println(this.isFill);
+            pinText.setVisible(true);
+            pinField.setVisible(true);
             return;
         }else{
             errorLabel.setText("incorrect username or password");
@@ -120,8 +130,8 @@ public class LoginController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //pinText.setVisible(false);
-        //pinField.setVisible(false);
+        pinText.setVisible(false);
+        pinField.setVisible(false);
     }    
     
 }

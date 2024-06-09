@@ -36,10 +36,11 @@ public class Account<E extends User> {
                     // Save the user details
                        SQL_Command = "INSERT INTO account(AccountNum, Name_Customer, username, PhoneNum_Customer, Email_Customer, Password_Customer, DOB, Address, Tier, " + currency + ", Encrypted_PIN) " +
                                     "VALUES ('" + account.generateKey() + "','" + account.getName() + "','" + account.getUsername() + "','" + account.getPhoneNum() + "','" +
-                                    account.getEmail() + "','" + account.getPassword() + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ", '" + pin + "')";
+                                    account.getEmail() + "','" + encryptPIN(account.getPassword()) + "','" + account.getDob() + "','" + account.getAddress() + "', '" + account.setTier() + "', " + amount + ", '" + encryptPIN(pin) + "')";
+                       
                        statement.executeUpdate(SQL_Command);
-                    // Send sign-up email
-                    emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
+                        // Send sign-up email
+                        emailNotification.sendSignUpEmail(account.getEmail(), account.getUsername());
                 }
                 return true;
             }
@@ -68,13 +69,13 @@ public class Account<E extends User> {
             Statement statement = con.createStatement()){
             // SQL query command
             String SQL_Command;
-            SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
+            SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + encryptPIN(account.getPassword()) + "'";
             ResultSet Rslt = statement.executeQuery(SQL_Command);
             if(Rslt.next()){
                 user="admin";
             }
             else {
-                SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
+                SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + encryptPIN(account.getPassword()) + "'";
                 Rslt = statement.executeQuery(SQL_Command);
                 if(Rslt.next()) {
                     encryptedPIN = Rslt.getString("Encrypted_PIN");
@@ -105,7 +106,7 @@ public class Account<E extends User> {
             Statement statement = con.createStatement()){
             if(user.equalsIgnoreCase("admin")){
                 // SQL query command
-                SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + account.getPassword() + "'";
+                SQL_Command = "SELECT Name_Admin, Email_Admin, Encrypted_PIN FROM admin WHERE username ='" + account.getUsername() + "' AND Password_Admin ='" + encryptPIN(account.getPassword()) + "'";
                 ResultSet RsltAdmin = statement.executeQuery(SQL_Command);
                 if(RsltAdmin.next()){
                     encryptedPIN = RsltAdmin.getString("Encrypted_PIN");
@@ -118,7 +119,7 @@ public class Account<E extends User> {
                     }
                 }
             }else if(user.equalsIgnoreCase("customer")){
-                SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + account.getPassword() + "'";
+                SQL_Command = "SELECT Name_Customer, Email_Customer, Encrypted_PIN FROM account WHERE username ='" + account.getUsername() + "' AND Password_Customer ='" + encryptPIN(account.getPassword()) + "'";
                 ResultSet RsltCust = statement.executeQuery(SQL_Command);
                 if(RsltCust.next()) {
                     encryptedPIN = RsltCust.getString("Encrypted_PIN");
@@ -259,7 +260,7 @@ public class Account<E extends User> {
         return currencys;
     }
 
-    private static String encryptPIN(String pin) {
+    public static String encryptPIN(String pin) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             byte[] hash = md.digest(pin.getBytes());
@@ -282,8 +283,7 @@ public class Account<E extends User> {
     }
     
     public static void main(String[] args) {
-        System.out.println(encryptPIN("1234"));
-        System.out.println(verifyPIN("1234","d5083e34522626dd10e151c78c1ba502a3d67427b752c3fd43bd3b944072d1e7"));
+        System.out.println(encryptPIN("1234"));;
     }
 }
 

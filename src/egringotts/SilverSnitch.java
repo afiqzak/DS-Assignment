@@ -122,9 +122,11 @@ public class SilverSnitch extends User{
         Connection DBConn = ToDB.openConn();
         PreparedStatement pstmt = null;
         
-        String SQL_Command ="UPDATE account SET password = " + password + "WHERE AccounntNum = ?";
+        String SQL_Command ="UPDATE account SET Password_Customer = '" + Account.encryptPIN(password) + "' WHERE AccountNum = ?;";
         pstmt = DBConn.prepareStatement(SQL_Command);
         pstmt.setString(1, this.accountNum);
+        System.out.println(pstmt.toString());
+        pstmt.executeUpdate();
     }
     
     @Override

@@ -132,11 +132,11 @@ public class SettingsPageController implements Initializable {
     @FXML
     private void updatePassButton(ActionEvent event) throws IOException, SQLException {
         String password = newPassField.getText();
-        if (cust != null && passField.getText().equals(cust.getPassword())){
+        if (cust != null && Account.encryptPIN(passField.getText()).equals(cust.getPassword())){
             cust.updateCustomerPassword(password);
             incorrectLabel.setVisible(false);
             successLabel.setVisible(true);
-        }else if (admin!=null && passField.getText().equals(admin.getPassword())){
+        }else if (admin!=null && Account.encryptPIN(passField.getText()).equals(admin.getPassword())){
             admin.getPassword();
             admin.updateAdminPassword(password);
             incorrectLabel.setVisible(false);

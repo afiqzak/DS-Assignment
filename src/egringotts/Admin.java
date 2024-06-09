@@ -219,11 +219,11 @@ public class Admin extends User {
     }
     
     public void updateAdminPassword(String password) throws SQLException {
-        String SQL_Command ="UPDATE admin SET Password_Admin = '" + password + "' WHERE AccountNum = ?";
+        String SQL_Command ="UPDATE admin SET Password_Admin = '" + Account.encryptPIN(password) + "' WHERE AccountNum = ?";
         try(Connection con = DBConnection.openConn();
             PreparedStatement statement = con.prepareStatement(SQL_Command)){
             statement.setString(1, String.valueOf(this.ID));
-            System.out.println(statement);
+            System.out.println(statement.toString());
             statement.executeUpdate();
         }catch(SQLException e){
             e.printStackTrace();

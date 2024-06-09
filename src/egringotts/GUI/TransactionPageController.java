@@ -114,7 +114,9 @@ public class TransactionPageController implements Initializable {
     
     @FXML
     private void sortButton(ActionEvent event) throws IOException {
-        int min = 0, max = 0, month = 0;
+        int min = 0;
+        int max = 0;
+        int month = 0;
         String type = null;
         
         if(dateRadio.isSelected()){
@@ -124,10 +126,12 @@ public class TransactionPageController implements Initializable {
             type = typeChoice.getValue();
         }
         if(amountRadio.isSelected()){
-            if(!minField.getText().isBlank())
+            if(!minField.getText().isBlank()){
                 min = Integer.parseInt(minField.getText());
-            if(!maxField.getText().isBlank())
+            }
+            if(!maxField.getText().isBlank()){
                 max = Integer.parseInt(maxField.getText());
+            }
         }
         filtered = FXCollections.observableArrayList(pensive.filter(cust.getKey(), min, max, month, "month", type));
         history.setItems(filtered);

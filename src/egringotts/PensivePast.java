@@ -127,8 +127,10 @@ public class PensivePast {
               if (minAmount != 0 && maxAmount != 0) {
                 ps.setInt(parameterIndex++, minAmount);
                 ps.setInt(parameterIndex++, maxAmount);
-              } else {
+              } else if(minAmount != 0 ){
                 ps.setInt(parameterIndex++, minAmount); // Or maxAmount if applicable
+              } else if(maxAmount != 0){
+                  ps.setInt(parameterIndex++, maxAmount);
               }
             } else if (condition.contains("Date")) {
                 ps.setInt(parameterIndex++, filterDate); // Modify based on your date format
@@ -136,8 +138,6 @@ public class PensivePast {
                 ps.setString(parameterIndex++, filterType);
             }
           }
-          
-            System.out.println(ps.toString());
           ResultSet rs = ps.executeQuery();
           if (rs.next()) {
                 do {
@@ -159,9 +159,5 @@ public class PensivePast {
           e.printStackTrace();
         }
         return filtered;
-    }
-    
-    public static void main(String[] args) {
-        
     }
 }

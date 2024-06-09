@@ -91,7 +91,7 @@ public class AccountPageController implements Initializable {
     private void findFriend(ActionEvent event) {
         vbox.getChildren().clear();
         try (Connection con = DBConnection.openConn();
-               PreparedStatement stmt = con.prepareStatement("SELECT username, PhoneNum_Customer FROM account WHERE PhoneNum_Customer LIKE ? OR username LIKE ?;")) {
+               PreparedStatement stmt = con.prepareStatement("SELECT username, PhoneNum_Customer FROM account WHERE (PhoneNum_Customer LIKE ? OR username LIKE ?) && username != '" + cust.getUsername() + "' ;")) {
 
             stmt.setString(1, findField.getText()+"%"); // Set parameter with prepared statement
             stmt.setString(2, findField.getText()+"%");
