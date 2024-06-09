@@ -14,29 +14,34 @@ import java.util.Random;
 public class SilverSnitch extends User{
     private String accountNum;
     private String tier;
+    private String pin;
     private CurrencyExchange exchange = new CurrencyExchange();
 
-    public SilverSnitch(String accountNum, String tier, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public SilverSnitch(String accountNum, String tier, String pin, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
         this.tier = tier;
+        this.pin = pin;
     }
 
     public SilverSnitch(String username, String password) {
         super(username, password);
     }
 
-    public SilverSnitch(String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public SilverSnitch(String pin, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = generateAccountNum();
         this.tier = setTier();
+        this.pin = pin;
     } 
 
-    public SilverSnitch(String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
+    public SilverSnitch(String pin, String accountNum, String username, String name, String password, String phoneNum, String email, String dob, String address) {
         super(username, name, password, phoneNum, email, dob, address);
         this.accountNum = accountNum;
+        this.pin = pin;
     }
 
+    @Override
     public String getKey() {
         return accountNum;
     }

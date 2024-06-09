@@ -4,6 +4,7 @@ import egringotts.*;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -94,11 +95,12 @@ public class ExchangePageController implements Initializable {
     }
     
     public void getConverted(ActionEvent e){
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
         double amount = Double.valueOf(amountField.getText());
         String from = currencyChoice1.getValue();
         String to = currencyChoice2.getValue();
         
-        convertedField.setText(Double.toString(exchange.exchange(String.valueOf(from.charAt(0)), String.valueOf(to.charAt(0)), amount)));
+        convertedField.setText(decimalFormat.format(exchange.exchange(String.valueOf(from.charAt(0)), String.valueOf(to.charAt(0)), amount)));
     }
     
     public void display(SilverSnitch cust){
